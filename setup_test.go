@@ -239,8 +239,6 @@ func TestSetupCustomTracing(t *testing.T) {
 			if tt.wantErr {
 				if err == nil {
 					t.Error("Expected error but got none")
-				} else if tt.errMsg != "" && err.Error() != "" {
-					// Just check we got an error
 				}
 				if provider != nil {
 					t.Error("Provider should be nil on error")

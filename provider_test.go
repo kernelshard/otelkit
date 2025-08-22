@@ -278,8 +278,6 @@ func TestNewProvider(t *testing.T) {
 			if tt.wantErr {
 				if err == nil {
 					t.Error("Expected error but got none")
-				} else if tt.errMsg != "" && err.Error() != "" {
-					// Just check that we got an error, don't be too strict about the message
 				}
 				return
 			}

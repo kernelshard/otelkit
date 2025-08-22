@@ -193,9 +193,8 @@ func TestTracer_SpanAttributes(t *testing.T) {
 	// The API call worked without errors
 
 	spanContext := span.SpanContext()
-	if !spanContext.IsValid() {
-		// This is acceptable for no-op tracers, so we can skip or log
-	}
+	// For no-op tracers, span context may not be valid, which is acceptable
+	_ = spanContext // Avoid unused variable warning
 	// The real test is that the function call didn't panic,
 	// and we can work with the span object
 }

@@ -36,7 +36,7 @@ func TestHTTPMiddleware_Middleware(t *testing.T) {
 		}
 
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+		_, _ = w.Write([]byte("OK"))
 	})
 
 	// Wrap the handler with middleware
@@ -237,7 +237,7 @@ func TestHTTPMiddleware_MultipleRequests(t *testing.T) {
 			t.Error("Expected span in request context")
 		}
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+		_, _ = w.Write([]byte("OK"))
 	})
 
 	wrappedHandler := middleware.Middleware(testHandler)
