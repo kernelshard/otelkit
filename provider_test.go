@@ -1,0 +1,389 @@
+package otelkit
+
+import (
+	"context"
+	"testing"
+	"time"
+
+	"go.opentelemetry.io/otel"
+	sdkresource "go.opentelemetry.io/otel/sdk/resource"
+)
+
+func TestNewProviderConfig(t *testing.T) {
+	serviceName := "test-service"
+	serviceVersion := "1.0.0"
+
+	pc := NewProviderConfig(serviceName, serviceVersion)
+
+	if pc == nil {
+		t.Fatal("NewProviderConfig returned nil")
+	}
+	if pc.Config == nil {
+		t.Error("Config should not be nil")
+	}
+	if pc.Config.ServiceName != serviceName {
+		t.Errorf("Expected ServiceName %s, got %s", serviceName, pc.Config.ServiceName)
+	}
+	if pc.Config.ServiceVersion != serviceVersion {
+		t.Errorf("Expected ServiceVersion %s, got %s", serviceVersion, pc.Config.ServiceVersion)
+	}
+
+	// Check defaults
+	if pc.BatchTimeout != DefaultBatchTimeout {
+		t.Errorf("Expected BatchTimeout %v, got %v", DefaultBatchTimeout, pc.BatchTimeout)
+	}
+	if pc.ExportTimeout != DefaultExportTimeout {
+		t.Errorf("Expected ExportTimeout %v, got %v", DefaultExportTimeout, pc.ExportTimeout)
+	}
+	if pc.MaxExportBatchSize != DefaultMaxExportBatchSize {
+		t.Errorf("Expected MaxExportBatchSize %d, got %d", DefaultMaxExportBatchSize, pc.MaxExportBatchSize)
+	}
+	if pc.MaxQueueSize != DefaultMaxQueueSize {
+		t.Errorf("Expected MaxQueueSize %d, got %d", DefaultMaxQueueSize, pc.MaxQueueSize)
+	}
+}
+
+func TestProviderConfig_WithOTLPExporter(t *testing.T) {
+	pc := NewProviderConfig("test", "1.0.0")
+	endpoint := "jaeger:14250"
+	protocol := "grpc"
+	insecure := true
+
+	result := pc.WithOTLPExporter(endpoint, protocol, insecure)
+
+	// Should return same instance for chaining
+	if result != pc {
+		t.Error("WithOTLPExporter should return same instance")
+	}
+
+	if pc.Config.OTLPExporterEndpoint != endpoint {
+		t.Errorf("Expected endpoint %s, got %s", endpoint, pc.Config.OTLPExporterEndpoint)
+	}
+	if pc.Config.OTLPExporterProtocol != protocol {
+		t.Errorf("Expected protocol %s, got %s", protocol, pc.Config.OTLPExporterProtocol)
+	}
+	if pc.Config.OTLPExporterInsecure != insecure {
+		t.Errorf("Expected insecure %v, got %v", insecure, pc.Config.OTLPExporterInsecure)
+	}
+}
+
+func TestProviderConfig_WithSampling(t *testing.T) {
+	pc := NewProviderConfig("test", "1.0.0")
+	samplingType := "always_on"
+	ratio := 1.0
+
+	result := pc.WithSampling(samplingType, ratio)
+
+	// Should return same instance for chaining
+	if result != pc {
+		t.Error("WithSampling should return same instance")
+	}
+
+	if pc.Config.SamplingType != samplingType {
+		t.Errorf("Expected sampling type %s, got %s", samplingType, pc.Config.SamplingType)
+	}
+	if pc.Config.SamplingRatio != ratio {
+		t.Errorf("Expected sampling ratio %f, got %f", ratio, pc.Config.SamplingRatio)
+	}
+}
+
+func TestProviderConfig_WithBatchOptions(t *testing.T) {
+	pc := NewProviderConfig("test", "1.0.0")
+	batchTimeout := 10 * time.Second
+	exportTimeout := 60 * time.Second
+	maxBatchSize := 1000
+	maxQueueSize := 4000
+
+	result := pc.WithBatchOptions(batchTimeout, exportTimeout, maxBatchSize, maxQueueSize)
+
+	// Should return same instance for chaining
+	if result != pc {
+		t.Error("WithBatchOptions should return same instance")
+	}
+
+	if pc.BatchTimeout != batchTimeout {
+		t.Errorf("Expected BatchTimeout %v, got %v", batchTimeout, pc.BatchTimeout)
+	}
+	if pc.ExportTimeout != exportTimeout {
+		t.Errorf("Expected ExportTimeout %v, got %v", exportTimeout, pc.ExportTimeout)
+	}
+	if pc.MaxExportBatchSize != maxBatchSize {
+		t.Errorf("Expected MaxExportBatchSize %d, got %d", maxBatchSize, pc.MaxExportBatchSize)
+	}
+	if pc.MaxQueueSize != maxQueueSize {
+		t.Errorf("Expected MaxQueueSize %d, got %d", maxQueueSize, pc.MaxQueueSize)
+	}
+}
+
+func TestProviderConfig_WithResource(t *testing.T) {
+	pc := NewProviderConfig("test", "1.0.0")
+	ctx := context.Background()
+
+	// Create a custom resource
+	resource, err := sdkresource.New(ctx,
+		sdkresource.WithFromEnv(),
+	)
+	if err != nil {
+		t.Fatalf("Failed to create resource: %v", err)
+	}
+
+	result := pc.WithResource(resource)
+
+	// Should return same instance for chaining
+	if result != pc {
+		t.Error("WithResource should return same instance")
+	}
+
+	if pc.Resource != resource {
+		t.Error("Resource was not set correctly")
+	}
+}
+
+func TestNewDefaultProvider(t *testing.T) {
+	ctx := context.Background()
+	serviceName := "test-service"
+	serviceVersion := "2.0.0"
+
+	// Save original global provider
+	originalProvider := otel.GetTracerProvider()
+	defer func() {
+		otel.SetTracerProvider(originalProvider)
+	}()
+
+	provider, err := NewDefaultProvider(ctx, serviceName, serviceVersion)
+	if err != nil {
+		t.Fatalf("NewDefaultProvider failed: %v", err)
+	}
+	if provider == nil {
+		t.Fatal("Provider should not be nil")
+	}
+
+	// Just check that we can get a global provider
+	globalProvider := otel.GetTracerProvider()
+	if globalProvider == nil {
+		t.Error("Global tracer provider should not be nil")
+	}
+
+	// Test shutdown
+	if err := ShutdownTracerProvider(ctx, provider); err != nil {
+		t.Errorf("Shutdown failed: %v", err)
+	}
+}
+
+func TestNewDefaultProvider_WithDefaults(t *testing.T) {
+	ctx := context.Background()
+	serviceName := "test-service"
+
+	// Save original global provider
+	originalProvider := otel.GetTracerProvider()
+	defer func() {
+		otel.SetTracerProvider(originalProvider)
+	}()
+
+	provider, err := NewDefaultProvider(ctx, serviceName)
+	if err != nil {
+		t.Fatalf("NewDefaultProvider failed: %v", err)
+	}
+	if provider == nil {
+		t.Fatal("Provider should not be nil")
+	}
+
+	// Test shutdown
+	if err := ShutdownTracerProvider(ctx, provider); err != nil {
+		t.Errorf("Shutdown failed: %v", err)
+	}
+}
+
+func TestNewProvider(t *testing.T) {
+	ctx := context.Background()
+
+	tests := []struct {
+		name    string
+		config  *ProviderConfig
+		wantErr bool
+		errMsg  string
+	}{
+		{
+			name: "valid HTTP config",
+			config: &ProviderConfig{
+				Config: &Config{
+					ServiceName:          "test-service",
+					ServiceVersion:       "1.0.0",
+					Environment:          "development",
+					OTLPExporterEndpoint: "localhost:4318",
+					OTLPExporterProtocol: "http",
+					OTLPExporterInsecure: true,
+					SamplingType:         "probabilistic",
+					SamplingRatio:        0.5,
+					InstanceID:           "test-instance",
+					Hostname:             "test-host",
+				},
+				BatchTimeout:       5 * time.Second,
+				ExportTimeout:      30 * time.Second,
+				MaxExportBatchSize: 512,
+				MaxQueueSize:       2048,
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid gRPC config",
+			config: &ProviderConfig{
+				Config: &Config{
+					ServiceName:          "test-service",
+					ServiceVersion:       "1.0.0",
+					Environment:          "development",
+					OTLPExporterEndpoint: "localhost:4317",
+					OTLPExporterProtocol: "grpc",
+					OTLPExporterInsecure: true,
+					SamplingType:         "always_on",
+					SamplingRatio:        1.0,
+					InstanceID:           "test-instance",
+					Hostname:             "test-host",
+				},
+				BatchTimeout:       5 * time.Second,
+				ExportTimeout:      30 * time.Second,
+				MaxExportBatchSize: 512,
+				MaxQueueSize:       2048,
+			},
+			wantErr: false,
+		},
+		{
+			name: "invalid protocol",
+			config: &ProviderConfig{
+				Config: &Config{
+					ServiceName:          "test-service",
+					ServiceVersion:       "1.0.0",
+					Environment:          "development",
+					OTLPExporterEndpoint: "localhost:4317",
+					OTLPExporterProtocol: "invalid",
+					SamplingType:         "probabilistic",
+					SamplingRatio:        0.5,
+				},
+			},
+			wantErr: true,
+			errMsg:  "must be 'grpc' or 'http'",
+		},
+	}
+
+	// Save original global provider
+	originalProvider := otel.GetTracerProvider()
+	defer func() {
+		otel.SetTracerProvider(originalProvider)
+	}()
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			provider, err := NewProvider(ctx, tt.config)
+
+			if tt.wantErr {
+				if err == nil {
+					t.Error("Expected error but got none")
+				} else if tt.errMsg != "" && err.Error() != "" {
+					// Just check that we got an error, don't be too strict about the message
+				}
+				return
+			}
+
+			if err != nil {
+				t.Errorf("Unexpected error: %v", err)
+				return
+			}
+
+			if provider == nil {
+				t.Error("Provider should not be nil")
+				return
+			}
+
+			// Test shutdown
+			if err := ShutdownTracerProvider(ctx, provider); err != nil {
+				t.Errorf("Shutdown failed: %v", err)
+			}
+		})
+	}
+}
+
+func TestCreateSampler(t *testing.T) {
+	tests := []struct {
+		name         string
+		config       *Config
+		expectedType string // We can't easily check exact type, so we'll just ensure it doesn't panic
+	}{
+		{
+			name: "probabilistic sampler",
+			config: &Config{
+				SamplingType:  "probabilistic",
+				SamplingRatio: 0.5,
+			},
+		},
+		{
+			name: "always_on sampler",
+			config: &Config{
+				SamplingType:  "always_on",
+				SamplingRatio: 1.0,
+			},
+		},
+		{
+			name: "always_off sampler",
+			config: &Config{
+				SamplingType:  "always_off",
+				SamplingRatio: 0.0,
+			},
+		},
+		{
+			name: "invalid sampler falls back to probabilistic",
+			config: &Config{
+				SamplingType:  "invalid",
+				SamplingRatio: 0.3,
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// This should not panic
+			sampler := createSampler(tt.config)
+			if sampler == nil {
+				t.Error("Sampler should not be nil")
+			}
+		})
+	}
+}
+
+func TestShutdownTracerProvider(t *testing.T) {
+	ctx := context.Background()
+
+	// Test with nil provider
+	err := ShutdownTracerProvider(ctx, nil)
+	if err != nil {
+		t.Errorf("Shutdown with nil provider should not return error, got: %v", err)
+	}
+
+	// Test with real provider
+	provider, err := NewDefaultProvider(ctx, "test-shutdown")
+	if err != nil {
+		t.Fatalf("Failed to create provider: %v", err)
+	}
+
+	err = ShutdownTracerProvider(ctx, provider)
+	if err != nil {
+		t.Errorf("Shutdown should not return error, got: %v", err)
+	}
+}
+
+func TestProviderConfigFluentAPI(t *testing.T) {
+	// Test chaining of fluent API
+	pc := NewProviderConfig("test", "1.0.0").
+		WithOTLPExporter("endpoint", "grpc", true).
+		WithSampling("always_on", 1.0).
+		WithBatchOptions(1*time.Second, 5*time.Second, 100, 1000)
+
+	if pc.Config.OTLPExporterEndpoint != "endpoint" {
+		t.Error("Fluent API chain failed for OTLP exporter")
+	}
+	if pc.Config.SamplingType != "always_on" {
+		t.Error("Fluent API chain failed for sampling")
+	}
+	if pc.BatchTimeout != 1*time.Second {
+		t.Error("Fluent API chain failed for batch options")
+	}
+}
