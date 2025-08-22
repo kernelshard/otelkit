@@ -114,3 +114,9 @@ func (w *responseWriter) WriteHeader(code int) {
 	w.status = code
 	w.ResponseWriter.WriteHeader(code)
 }
+
+// Write passes through to the underlying ResponseWriter's Write method.
+// This allows the responseWriter to fully implement the http.ResponseWriter interface.
+func (w *responseWriter) Write(data []byte) (int, error) {
+	return w.ResponseWriter.Write(data)
+}
