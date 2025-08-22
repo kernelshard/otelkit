@@ -1,0 +1,23 @@
+# This file defines who is responsible for code in the repository
+# Each line is a file pattern followed by one or more owners
+
+# These owners will be the default owners for everything in the repo
+* @samims
+
+# Core library files
+*.go @samims
+
+# Documentation
+/docs/ @samims
+README.md @samims
+CONTRIBUTING.md @samims
+CHANGELOG.md @samims
+
+# GitHub configurations
+.github/ @samims
+
+# Examples
+/examples/ @samims
+
+# Tests
+*_test.go @samims
