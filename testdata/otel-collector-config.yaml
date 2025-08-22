@@ -1,0 +1,134 @@
+receivers:
+  # OTLP receivers for gRPC and HTTP
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - "*"
+
+  # Jaeger receivers (optional)
+  jaeger:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:14250
+      thrift_http:
+        endpoint: 0.0.0.0:14268
+      thrift_compact:
+        endpoint: 0.0.0.0:6831
+      thrift_binary:
+        endpoint: 0.0.0.0:6832
+
+  # Zipkin receiver (optional)
+  zipkin:
+    endpoint: 0.0.0.0:9411
+
+  # Prometheus receiver for metrics (optional)
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: "otel-collector"
+          scrape_interval: 10s
+          static_configs:
+            - targets: ["otel-collector:8889"]
+
+processors:
+  # Batch processor for efficient processing
+  batch:
+    timeout: 1s
+    send_batch_size: 1024
+
+  # Memory limiter to prevent OOM
+  memory_ballast:
+    size_mib: 512
+
+  # Resource detection
+  resource:
+    detectors: [env, system]
+    timeout: 5s
+    override: false
+
+  # Add service name as attribute if missing
+  resource/add_missing_service:
+    attributes:
+      - key: service.name
+        value: "unknown-service"
+        action: upsert
+
+exporters:
+  # Debug exporter for development
+  logging:
+    loglevel: debug
+    sampling_initial: 5
+    sampling_thereafter: 200
+
+  # In-memory exporter for testing (not for production)
+  # This is useful for integration tests
+  debug:
+    verbosity: detailed
+
+  # File exporter for debugging (optional)
+  file:
+    path: ./traces.json
+
+  # Jaeger exporter
+  jaeger:
+    endpoint: jaeger:14250
+    tls:
+      insecure: true
+
+  # Zipkin exporter
+  zipkin:
+    endpoint: http://zipkin:9411/api/v2/spans
+    format: json
+
+  # Prometheus exporter for metrics
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    namespace: otelkit
+    const_labels:
+      environment: "integration-test"
+
+  # OTLP exporter (for forwarding to another collector)
+  otlp:
+    endpoint: "otel-collector:4317"
+    tls:
+      insecure: true
+
+extensions:
+  # Health check extension
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+  # Performance profiling (pprof)
+  pprof:
+    endpoint: 0.0.0.0:1777
+
+  # zPages for debugging
+  zpages:
+    endpoint: 0.0.0.0:55679
+
+service:
+  extensions: [health_check, pprof, zpages]
+  pipelines:
+    # Traces pipeline
+    traces:
+      receivers: [otlp, jaeger, zipkin]
+      processors:
+        [batch, memory_ballast, resource, resource/add_missing_service]
+      exporters: [logging, debug, file, jaeger, zipkin, otlp]
+
+    # Metrics pipeline
+    metrics:
+      receivers: [otlp, prometheus]
+      processors: [batch, memory_ballast, resource]
+      exporters: [logging, debug, prometheus, otlp]
+
+    # Logs pipeline (optional)
+    logs:
+      receivers: [otlp]
+      processors: [batch, memory_ballast, resource]
+      exporters: [logging, debug, file]
