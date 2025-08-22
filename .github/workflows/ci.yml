@@ -80,10 +80,12 @@ jobs:
         cache: true
 
     - name: Install gosec
-      run: go install github.com/securecodewarrior/gosec/v2/cmd/gosec@latest
+      run: |
+        # Use go get instead of go install to avoid authentication issues
+        go get github.com/securecodewarrior/gosec/v2/cmd/gosec@latest
 
     - name: Run gosec
-      run: gosec ./...
+      run: $(go env GOPATH)/bin/gosec ./...
 
   coverage:
     name: Coverage
