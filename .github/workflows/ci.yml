@@ -56,7 +56,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.23.x'
+        go-version: '1.24.x'
         cache: true
 
     - name: Install golangci-lint
@@ -76,7 +76,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.23.x'
+        go-version: '1.24.x'
         cache: true
 
     - name: Install gosec
@@ -95,7 +95,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.23.x'
+        go-version: '1.24.x'
         cache: true
 
     - name: Generate coverage report
