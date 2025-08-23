@@ -8,7 +8,7 @@
 - [x] CHANGELOG.md updated with v0.1.0 release notes
 - [x] README.md contains comprehensive documentation
 - [x] CI/CD workflows configured and fixed
-- [x] Release workflow fixes applied (dist directory clearing, docs generation)
+- [x] Release workflow updated for library builds (no binaries, simplified docs)
 
 ## 🚀 Release Steps
 
@@ -25,13 +25,11 @@ git push origin v0.1.0
 
 ### Step 3: GitHub Actions Will Automatically:
 - [ ] Run all tests
-- [ ] Build binaries for Linux, macOS, and Windows
-- [ ] Create GitHub Release with binaries
-- [ ] Generate and deploy documentation to GitHub Pages
+- [ ] Create GitHub Release with source information
+- [ ] Generate and deploy simplified API documentation to GitHub Pages
 
 ### Step 4: Verify Release
 - [ ] Check GitHub Releases section for v0.1.0
-- [ ] Verify binaries are attached to the release
 - [ ] Confirm documentation is deployed to GitHub Pages
 
 ### Step 5: Address Permission Issues (If Needed)
