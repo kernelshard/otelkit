@@ -65,7 +65,7 @@ jobs:
         version: v2.4.0
 
     - name: Run golangci-lint
-      run: golangci-lint run --timeout=5m
+      run: golangci-lint run
 
   security:
     name: Security Scan
