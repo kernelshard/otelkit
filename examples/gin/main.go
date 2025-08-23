@@ -117,6 +117,8 @@ func main() {
 		})
 	}
 
-	// Start server
-	r.Run(":8080")
+	// Start server with proper error handling
+	if err := r.Run(":8080"); err != nil {
+		panic(err)
+	}
 }

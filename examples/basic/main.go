@@ -98,7 +98,9 @@ func main() {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(response)
+		if err := json.NewEncoder(w).Encode(response); err != nil {
+			log.Printf("Error encoding JSON response: %v", err)
+		}
 	})
 
 	// Error handler demonstrating error recording
@@ -112,25 +114,37 @@ func main() {
 		span.SetAttributes(attribute.Bool("error", true))
 
 		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(map[string]string{
+		if err := json.NewEncoder(w).Encode(map[string]string{
 			"error": err.Error(),
-		})
+		}); err != nil {
+			log.Printf("Error encoding JSON response: %v", err)
+		}
 	})
 
 	// Health check handler
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+		if _, err := w.Write([]byte("OK")); err != nil {
+			log.Printf("Error writing response: %v", err)
+		}
 	})
 
 	// Wrap the mux with tracing middleware
 	handler := middleware.Middleware(mux)
 
-	// Start server
+	// Start server with proper timeout configuration
 	port := getEnv("PORT", "8080")
+	server := &http.Server{
+		Addr:         ":" + port,
+		Handler:      handler,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  30 * time.Second,
+	}
+
 	log.Printf("Starting server on :%s", port)
 	log.Printf("View traces at: http://localhost:16686")
-	log.Fatal(http.ListenAndServe(":"+port, handler))
+	log.Fatal(server.ListenAndServe())
 }
 
 func generateRequestID() string {

@@ -113,8 +113,11 @@ func loadProductionConfig() *otelkit.ProviderConfig {
 	}
 	if samplerArg := os.Getenv("OTEL_TRACES_SAMPLER_ARG"); samplerArg != "" {
 		var ratio float64
-		fmt.Sscanf(samplerArg, "%f", &ratio)
-		config.Config.SamplingRatio = ratio
+		if _, err := fmt.Sscanf(samplerArg, "%f", &ratio); err != nil {
+			log.Printf("Invalid sampling ratio: %v, using default", err)
+		} else {
+			config.Config.SamplingRatio = ratio
+		}
 	}
 
 	// Set production defaults
@@ -244,7 +247,9 @@ func (a *App) handleGetUsers(w http.ResponseWriter, r *http.Request) {
 	span.SetAttributes(attribute.Int("users.count", len(users)))
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(users)
+	if err := json.NewEncoder(w).Encode(users); err != nil {
+		log.Printf("Error encoding JSON response: %v", err)
+	}
 }
 
 // handleGetUser handles GET /api/users/{id}
@@ -264,7 +269,9 @@ func (a *App) handleGetUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(user)
+	if err := json.NewEncoder(w).Encode(user); err != nil {
+		log.Printf("Error encoding JSON response: %v", err)
+	}
 }
 
 // handleHealth handles health check endpoint
@@ -280,17 +287,21 @@ func (a *App) handleHealth(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"status": "healthy"})
+	if err := json.NewEncoder(w).Encode(map[string]string{"status": "healthy"}); err != nil {
+		log.Printf("Error encoding JSON response: %v", err)
+	}
 }
 
 // handleMetrics handles metrics endpoint
 func (a *App) handleMetrics(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]interface{}{
+	if err := json.NewEncoder(w).Encode(map[string]interface{}{
 		"service": "production-service",
 		"version": "1.0.0",
 		"status":  "running",
-	})
+	}); err != nil {
+		log.Printf("Error encoding JSON response: %v", err)
+	}
 }
 
 // getUsers retrieves all users from database
