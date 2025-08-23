@@ -22,7 +22,7 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: ${{ matrix.go-version }}
-        cache: true
+        cache: false
 
     - name: Install dependencies
       run: go mod download
@@ -57,15 +57,15 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: '1.24.x'
-        cache: true
+        cache: false
 
     - name: Install golangci-lint
       uses: golangci/golangci-lint-action@v3
       with:
-        version: v1.55.2
+        version: v1.64.8
 
     - name: Run golangci-lint
-      run: golangci-lint run --timeout=5m
+      run: golangci-lint run --timeout=5m --verbose
 
   security:
     name: Security Scan
@@ -78,7 +78,7 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: '1.24.x'
-        cache: true
+        cache: false
 
     - name: Run gosec security scan
       uses: securego/gosec@master
@@ -96,7 +96,7 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: '1.24.x'
-        cache: true
+        cache: false
 
     - name: Generate coverage report
       run: |
