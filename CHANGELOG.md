@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ForceFlush method calls in integration tests
 - Makefile handling of missing development tools
 
-## [1.0.0] - 2025-01-01
+## [0.1.0] - 2025-01-01
 
 ### Added
 - Initial release of OtelKit OpenTelemetry tracing library
