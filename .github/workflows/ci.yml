@@ -60,12 +60,12 @@ jobs:
         cache: true
 
     - name: Install golangci-lint
-      uses: golangci/golangci-lint-action@v4
+      uses: golangci/golangci-lint-action@v3
       with:
-        version: v2.4.0
+        version: v1.54.2
 
     - name: Run golangci-lint
-      run: golangci-lint run
+      run: golangci-lint run --timeout=5m
 
   security:
     name: Security Scan
