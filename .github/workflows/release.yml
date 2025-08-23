@@ -27,6 +27,7 @@ jobs:
 
     - name: Build binaries
       run: |
+        rm -rf dist
         mkdir -p dist
         GOOS=linux GOARCH=amd64 go build -o dist/otelkit-linux-amd64 ./...
         GOOS=darwin GOARCH=amd64 go build -o dist/otelkit-darwin-amd64 ./...
@@ -63,15 +64,16 @@ jobs:
     - name: Generate godoc
       run: |
         go install golang.org/x/tools/cmd/godoc@latest
+        mkdir -p docs-output
         godoc -http=:6060 &
-        sleep 5
-        wget -r -np -N -E -p -k http://localhost:6060/pkg/github.com/samims/otelkit/ || true
+        sleep 10
+        wget -r -np -N -E -p -k http://localhost:6060/pkg/github.com/samims/otelkit/ -P docs-output/ || true
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./localhost:6060
+        publish_dir: ./docs-output/localhost:6060
         keep_files: true
 
   docker:
