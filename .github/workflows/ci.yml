@@ -82,11 +82,11 @@ jobs:
 
     - name: Install gosec
       run: |
-        # Download pre-built gosec binary to avoid authentication issues
-        curl -sfL https://raw.githubusercontent.com/securecodewarrior/gosec/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.9.0
+        # Install gosec using go install instead of curl to avoid path issues
+        go install github.com/securecodewarrior/gosec/v2/cmd/gosec@v2.9.0
 
     - name: Run gosec
-      run: gosec ./...
+      run: $(go env GOPATH)/bin/gosec ./...
 
   coverage:
     name: Coverage
