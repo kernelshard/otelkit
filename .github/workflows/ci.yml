@@ -80,13 +80,10 @@ jobs:
         go-version: '1.24.x'
         cache: true
 
-    - name: Install gosec
-      run: |
-        # Install gosec using go install instead of curl to avoid path issues
-        go install github.com/securecodewarrior/gosec/v2/cmd/gosec@v2.9.0
-
-    - name: Run gosec
-      run: $(go env GOPATH)/bin/gosec ./...
+    - name: Run gosec security scan
+      uses: securego/gosec@master
+      with:
+        args: ./...
 
   coverage:
     name: Coverage
