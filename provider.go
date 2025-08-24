@@ -180,10 +180,14 @@ func (pc *ProviderConfig) WithResource(resource *sdkresource.Resource) *Provider
 //
 // For production use or advanced configuration, use NewProvider with NewProviderConfig instead.
 func newDefaultProvider(ctx context.Context, serviceName string, serviceVersion ...string) (*sdktrace.TracerProvider, error) {
-	// Set default service version if not provided
-	ver := DefaultServiceVersion
+	// Handle service version - variadic parameter allows optional version
+	// but we only use the first one if provided
+	var ver string
 	if len(serviceVersion) > 0 {
 		ver = serviceVersion[0]
+	}
+	if ver == "" {
+		ver = DefaultServiceVersion
 	}
 
 	// Create configuration with defaults
@@ -222,6 +226,9 @@ func newDefaultProvider(ctx context.Context, serviceName string, serviceVersion 
 //
 // The provider is set as the global OpenTelemetry provider (only once per application).
 // For production use or when you need custom configuration, use NewProvider with NewProviderConfig.
+//
+// Note: This is the function most users will start with. It's designed to "just work"
+// for local development and testing scenarios.
 //
 // Example:
 //
