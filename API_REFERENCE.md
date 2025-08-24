@@ -175,6 +175,9 @@ func NewDefaultProvider(ctx context.Context, serviceName string, serviceVersion 
     application). For production use or when you need custom configuration,
     use NewProvider with NewProviderConfig.
 
+    Note: This is the function most users will start with. It's designed to
+    "just work" for local development and testing scenarios.
+
     Example:
 
         provider, err := tracer.NewDefaultProvider(ctx, "my-service", "v1.0.0")
@@ -668,4 +671,4 @@ func (t *Tracer) StartServerSpan(ctx context.Context, operation string, attrs ..
         )
         defer span.End()
 
-Generated on Sun Aug 24 02:10:18 UTC 2025
+Generated on Sun Aug 24 06:06:11 UTC 2025
