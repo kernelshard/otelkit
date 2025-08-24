@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ForceFlush method calls in integration tests
 - Makefile handling of missing development tools
 
-## [0.1.0] - 2025-01-01
+## [0.1.0] - 2025-01-24
 
 ### Added
 - Initial release of OtelKit OpenTelemetry tracing library
@@ -31,6 +31,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Error recording and span utilities
 - Comprehensive unit test coverage
 - Production-ready examples and documentation
+
+### Improved
+- **Variadic parameter handling**: More robust service version handling in provider functions
+- **Documentation clarity**: Enhanced comments with practical usage context and real-world considerations
+- **Error handling**: Improved validation and error messages for better developer experience
+- **Code readability**: Added human-readable explanations for design decisions
 
 ### Features
 - **Provider Configuration**: Fluent API for configuring tracer providers
@@ -55,3 +61,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integration guides for various frameworks
 - API reference
 - Examples for basic and production usage
+- Release permissions troubleshooting guide
