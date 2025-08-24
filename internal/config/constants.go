@@ -3,7 +3,7 @@
 // This file contains all constants used throughout the library for consistent
 // string management and maintainability.
 
-package otelkit
+package config
 
 import (
 	"net/http"

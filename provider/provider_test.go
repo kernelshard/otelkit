@@ -1,10 +1,11 @@
-package otelkit
+package provider
 
 import (
 	"context"
 	"testing"
 	"time"
 
+	"github.com/samims/otelkit/internal/config"
 	"go.opentelemetry.io/otel"
 	sdkresource "go.opentelemetry.io/otel/sdk/resource"
 )
@@ -29,17 +30,17 @@ func TestNewProviderConfig(t *testing.T) {
 	}
 
 	// Check defaults
-	if pc.BatchTimeout != DefaultBatchTimeout {
-		t.Errorf("Expected BatchTimeout %v, got %v", DefaultBatchTimeout, pc.BatchTimeout)
+	if pc.BatchTimeout != config.DefaultBatchTimeout {
+		t.Errorf("Expected BatchTimeout %v, got %v", config.DefaultBatchTimeout, pc.BatchTimeout)
 	}
-	if pc.ExportTimeout != DefaultExportTimeout {
-		t.Errorf("Expected ExportTimeout %v, got %v", DefaultExportTimeout, pc.ExportTimeout)
+	if pc.ExportTimeout != config.DefaultExportTimeout {
+		t.Errorf("Expected ExportTimeout %v, got %v", config.DefaultExportTimeout, pc.ExportTimeout)
 	}
-	if pc.MaxExportBatchSize != DefaultMaxExportBatchSize {
-		t.Errorf("Expected MaxExportBatchSize %d, got %d", DefaultMaxExportBatchSize, pc.MaxExportBatchSize)
+	if pc.MaxExportBatchSize != config.DefaultMaxExportBatchSize {
+		t.Errorf("Expected MaxExportBatchSize %d, got %d", config.DefaultMaxExportBatchSize, pc.MaxExportBatchSize)
 	}
-	if pc.MaxQueueSize != DefaultMaxQueueSize {
-		t.Errorf("Expected MaxQueueSize %d, got %d", DefaultMaxQueueSize, pc.MaxQueueSize)
+	if pc.MaxQueueSize != config.DefaultMaxQueueSize {
+		t.Errorf("Expected MaxQueueSize %d, got %d", config.DefaultMaxQueueSize, pc.MaxQueueSize)
 	}
 }
 
@@ -206,7 +207,7 @@ func TestNewProvider(t *testing.T) {
 		{
 			name: "valid HTTP config",
 			config: &ProviderConfig{
-				Config: &Config{
+				Config: &config.Config{
 					ServiceName:          "test-service",
 					ServiceVersion:       "1.0.0",
 					Environment:          "development",
@@ -228,7 +229,7 @@ func TestNewProvider(t *testing.T) {
 		{
 			name: "valid gRPC config",
 			config: &ProviderConfig{
-				Config: &Config{
+				Config: &config.Config{
 					ServiceName:          "test-service",
 					ServiceVersion:       "1.0.0",
 					Environment:          "development",
@@ -250,7 +251,7 @@ func TestNewProvider(t *testing.T) {
 		{
 			name: "invalid protocol",
 			config: &ProviderConfig{
-				Config: &Config{
+				Config: &config.Config{
 					ServiceName:          "test-service",
 					ServiceVersion:       "1.0.0",
 					Environment:          "development",
@@ -303,33 +304,33 @@ func TestNewProvider(t *testing.T) {
 func TestCreateSampler(t *testing.T) {
 	tests := []struct {
 		name         string
-		config       *Config
+		config       *config.Config
 		expectedType string // We can't easily check exact type, so we'll just ensure it doesn't panic
 	}{
 		{
 			name: "probabilistic sampler",
-			config: &Config{
+			config: &config.Config{
 				SamplingType:  "probabilistic",
 				SamplingRatio: 0.5,
 			},
 		},
 		{
 			name: "always_on sampler",
-			config: &Config{
+			config: &config.Config{
 				SamplingType:  "always_on",
 				SamplingRatio: 1.0,
 			},
 		},
 		{
 			name: "always_off sampler",
-			config: &Config{
+			config: &config.Config{
 				SamplingType:  "always_off",
 				SamplingRatio: 0.0,
 			},
 		},
 		{
 			name: "invalid sampler falls back to probabilistic",
-			config: &Config{
+			config: &config.Config{
 				SamplingType:  "invalid",
 				SamplingRatio: 0.3,
 			},

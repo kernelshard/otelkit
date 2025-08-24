@@ -53,7 +53,7 @@
 // Note:
 //   Validation must be called after construction to ensure correctness.
 
-package otelkit
+package config
 
 import (
 	"os"

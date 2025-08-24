@@ -1,7 +1,7 @@
 // Package otelkit provides OpenTelemetry tracer provider configuration and initialization.
 // This file contains the core provider setup that configures exporters, sampling,
 // resource identification, and batch processing for the entire tracing system.
-package otelkit
+package provider
 
 import (
 	"context"
@@ -9,11 +9,10 @@ import (
 	"time"
 
 	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
-	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	sdkresource "go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
-	semconv "go.opentelemetry.io/otel/semconv/v1.21.0"
+
+	"github.com/samims/otelkit/internal/config"
 )
 
 // setOnce ensures the global tracer provider is set only once across all
@@ -34,7 +33,7 @@ var setOnce sync.Once
 type ProviderConfig struct {
 	// Config contains the core tracing configuration including service identification,
 	// exporter settings, and sampling strategy.
-	Config *Config
+	Config *config.Config
 
 	// Resource provides custom resource attributes for service identification.
 	// If nil, a default resource will be created using service name, version,
@@ -78,11 +77,11 @@ type ProviderConfig struct {
 //	provider, err := tracer.NewProvider(ctx, config)
 func NewProviderConfig(serviceName, serviceVersion string) *ProviderConfig {
 	return &ProviderConfig{
-		Config:             NewConfig(serviceName, serviceVersion),
-		BatchTimeout:       DefaultBatchTimeout,
-		ExportTimeout:      DefaultExportTimeout,
-		MaxExportBatchSize: DefaultMaxExportBatchSize,
-		MaxQueueSize:       DefaultMaxQueueSize,
+		Config:             config.NewConfig(serviceName, serviceVersion),
+		BatchTimeout:       config.DefaultBatchTimeout,
+		ExportTimeout:      config.DefaultExportTimeout,
+		MaxExportBatchSize: config.DefaultMaxExportBatchSize,
+		MaxQueueSize:       config.DefaultMaxQueueSize,
 	}
 }
 
@@ -187,17 +186,17 @@ func newDefaultProvider(ctx context.Context, serviceName string, serviceVersion 
 		ver = serviceVersion[0]
 	}
 	if ver == "" {
-		ver = DefaultServiceVersion
+		ver = config.DefaultServiceVersion
 	}
 
 	// Create configuration with defaults
-	cfg := NewConfig(serviceName, ver)
+	cfg := config.NewConfig(serviceName, ver)
 	cfg.OTLPExporterProtocol = "http"
 	cfg.OTLPExporterEndpoint = "localhost:4318"
 	cfg.OTLPExporterInsecure = true
-	cfg.SamplingType = DefaultSamplingType
-	cfg.SamplingRatio = DefaultSamplingRatio
-	cfg.Environment = DefaultEnvironment
+	cfg.SamplingType = config.DefaultSamplingType
+	cfg.SamplingRatio = config.DefaultSamplingRatio
+	cfg.Environment = config.DefaultEnvironment
 
 	// Validate configuration
 	if err := cfg.Validate(); err != nil {
@@ -207,10 +206,10 @@ func newDefaultProvider(ctx context.Context, serviceName string, serviceVersion 
 	// Create provider config with defaults
 	providerCfg := &ProviderConfig{
 		Config:             cfg,
-		BatchTimeout:       DefaultBatchTimeout,
-		ExportTimeout:      DefaultExportTimeout,
-		MaxExportBatchSize: DefaultMaxExportBatchSize,
-		MaxQueueSize:       DefaultMaxQueueSize,
+		BatchTimeout:       config.DefaultBatchTimeout,
+		ExportTimeout:      config.DefaultExportTimeout,
+		MaxExportBatchSize: config.DefaultMaxExportBatchSize,
+		MaxQueueSize:       config.DefaultMaxQueueSize,
 	}
 
 	return NewProvider(ctx, providerCfg)
@@ -248,88 +247,6 @@ func NewDefaultProvider(ctx context.Context, serviceName string, serviceVersion 
 	return tp, nil
 }
 
-// newProvider creates a new tracer provider based on the provided configuration.
-// This is the core implementation that handles the complete provider setup including
-// resource creation, exporter initialization, sampler configuration, and batch processor setup.
-//
-// The function performs the following operations:
-//  1. Creates or uses the provided resource with service identification attributes
-//  2. Initializes the appropriate exporter (HTTP or gRPC OTLP)
-//  3. Configures the sampler based on the sampling strategy
-//  4. Sets up the batch span processor with the specified options
-//  5. Creates and returns the configured TracerProvider
-func newProvider(ctx context.Context, cfg *ProviderConfig) (*sdktrace.TracerProvider, error) {
-	// Use provided resource or create a new one
-	var res *sdkresource.Resource
-	var err error
-	if cfg.Resource != nil {
-		res = cfg.Resource
-	} else {
-		res, err = sdkresource.New(ctx,
-			sdkresource.WithAttributes(
-				semconv.ServiceName(cfg.Config.ServiceName),
-				semconv.ServiceVersion(cfg.Config.ServiceVersion),
-				semconv.DeploymentEnvironment(cfg.Config.Environment),
-				semconv.HostName(cfg.Config.Hostname),
-				semconv.ServiceInstanceID(cfg.Config.InstanceID),
-			),
-			sdkresource.WithContainer(),
-			sdkresource.WithHost(),
-			sdkresource.WithOSType(),
-		)
-		if err != nil {
-			return nil, &InitializationError{Component: "resource", Cause: err}
-		}
-	}
-
-	// Create exporter
-	var exporter sdktrace.SpanExporter
-	switch cfg.Config.OTLPExporterProtocol {
-	case "http":
-		exporter, err = createHTTPExporter(ctx, cfg.Config)
-	case "grpc":
-		exporter, err = createGRPCExporter(ctx, cfg.Config)
-	default:
-		return nil, &ConfigError{Field: "OTLPExporterProtocol", Message: "must be 'grpc' or 'http'"}
-	}
-	if err != nil {
-		return nil, &InitializationError{Component: "exporter", Cause: err}
-	}
-
-	// Create sampler
-	sampler := createSampler(cfg.Config)
-
-	// Set defaults for batch processor options if not provided
-	if cfg.BatchTimeout == 0 {
-		cfg.BatchTimeout = DefaultBatchTimeout
-	}
-	if cfg.ExportTimeout == 0 {
-		cfg.ExportTimeout = DefaultExportTimeout
-	}
-	if cfg.MaxExportBatchSize == 0 {
-		cfg.MaxExportBatchSize = DefaultMaxExportBatchSize
-	}
-	if cfg.MaxQueueSize == 0 {
-		cfg.MaxQueueSize = DefaultMaxQueueSize
-	}
-
-	// Batch span processor with configurable options
-	bsp := sdktrace.NewBatchSpanProcessor(exporter,
-		sdktrace.WithBatchTimeout(cfg.BatchTimeout),
-		sdktrace.WithExportTimeout(cfg.ExportTimeout),
-		sdktrace.WithMaxExportBatchSize(cfg.MaxExportBatchSize),
-		sdktrace.WithMaxQueueSize(cfg.MaxQueueSize),
-	)
-
-	tp := sdktrace.NewTracerProvider(
-		sdktrace.WithResource(res),
-		sdktrace.WithSampler(sampler),
-		sdktrace.WithSpanProcessor(bsp),
-	)
-
-	return tp, nil
-}
-
 // NewProvider creates and configures a new TracerProvider using the provided configuration,
 // then sets it as the global OpenTelemetry provider (only once per application lifecycle).
 // This is the recommended way to initialize tracing when you need custom configuration.
@@ -359,60 +276,6 @@ func NewProvider(ctx context.Context, cfg *ProviderConfig) (*sdktrace.TracerProv
 	})
 
 	return tp, nil
-}
-
-// createGRPCExporter creates an OTLP gRPC exporter configured with the provided settings.
-// gRPC exporters are typically more efficient than HTTP for high-throughput scenarios
-// but require gRPC infrastructure. The exporter handles the binary OTLP protocol over gRPC.
-func createGRPCExporter(ctx context.Context, cfg *Config) (sdktrace.SpanExporter, error) {
-	opts := []otlptracegrpc.Option{
-		otlptracegrpc.WithEndpoint(cfg.OTLPExporterEndpoint),
-	}
-	if cfg.OTLPExporterInsecure {
-		opts = append(opts, otlptracegrpc.WithInsecure())
-	}
-	return otlptracegrpc.New(ctx, opts...)
-}
-
-// createHTTPExporter creates an OTLP HTTP exporter configured with the provided settings.
-// HTTP exporters are more widely compatible and easier to set up than gRPC, making them
-// suitable for most use cases. The exporter uses HTTP/2 when available for better performance.
-func createHTTPExporter(ctx context.Context, cfg *Config) (sdktrace.SpanExporter, error) {
-	opts := []otlptracehttp.Option{
-		otlptracehttp.WithEndpoint(cfg.OTLPExporterEndpoint),
-	}
-	if cfg.OTLPExporterInsecure {
-		opts = append(opts, otlptracehttp.WithInsecure())
-	}
-	return otlptracehttp.New(ctx, opts...)
-}
-
-// createSampler creates a sampler instance based on the provided configuration.
-// The sampler determines which traces should be collected and exported, which is crucial
-// for controlling overhead in high-traffic applications.
-//
-// Supported sampling strategies:
-//   - "probabilistic": Samples traces based on a probability ratio (0.0 to 1.0)
-//   - "always_on": Samples all traces (100% sampling)
-//   - "always_off": Samples no traces (0% sampling)
-//
-// The probabilistic sampler uses parent-based sampling, which means if a parent
-// span was sampled, all child spans will also be sampled to maintain trace integrity.
-func createSampler(cfg *Config) sdktrace.Sampler {
-	var sampler sdktrace.Sampler
-
-	switch cfg.SamplingType {
-	case "probabilistic":
-		sampler = sdktrace.ParentBased(sdktrace.TraceIDRatioBased(cfg.SamplingRatio))
-	case "always_on":
-		sampler = sdktrace.AlwaysSample()
-	case "always_off":
-		sampler = sdktrace.NeverSample()
-	default:
-		// Fallback to probabilistic sampling
-		sampler = sdktrace.ParentBased(sdktrace.TraceIDRatioBased(DefaultSamplingRatio))
-	}
-	return sampler
 }
 
 // ShutdownTracerProvider gracefully shuts down the tracer provider, ensuring all pending spans

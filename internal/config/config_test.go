@@ -1,4 +1,4 @@
-package otelkit
+package config
 
 import (
 	"os"
