@@ -15,8 +15,8 @@
 - [x] All version references updated to v0.2.0
 
 ## Release Steps
-1. [ ] Create Git tag: `git tag v0.2.0`
-2. [ ] Push tag to repository: `git push origin v0.2.0`
+1. [x] Create Git tag: `git tag v0.2.0`
+2. [x] Push tag to repository: `git push origin v0.2.0`
 3. [ ] Verify CI/CD pipeline runs successfully on tag push
 4. [ ] Create GitHub Release with release notes from CHANGELOG.md
 5. [ ] Update documentation links if needed
