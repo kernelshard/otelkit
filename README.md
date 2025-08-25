@@ -1,8 +1,19 @@
 # OtelKit
 
+# otelkit
+
+# otelkit
+
+[![CI](https://github.com/samims/otelkit/actions/workflows/ci.yml/badge.svg)](https://github.com/samims/otelkit/actions/workflows/ci.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/samims/otelkit.svg)](https://pkg.go.dev/github.com/samims/otelkit)
 [![Go Report Card](https://goreportcard.com/badge/github.com/samims/otelkit)](https://goreportcard.com/report/github.com/samims/otelkit)
-[![GoDoc](https://godoc.org/github.com/samims/otelkit?status.svg)](https://godoc.org/github.com/samims/otelkit)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Release](https://img.shields.io/github/v/release/samims/otelkit.svg)](https://github.com/samims/otelkit/releases)
+[![License](https://img.shields.io/github/license/samims/otelkit)](https://github.com/samims/otelkit/blob/main/LICENSE)
+[![Used by](https://img.shields.io/badge/Used%20by-Click%20to%20see-informational?style=flat-square)](https://github.com/samims/otelkit/network/dependents)
+[![Contributors](https://img.shields.io/github/contributors/samims/otelkit)](https://github.com/samims/otelkit/graphs/contributors)
+[![Last Commit](https://img.shields.io/github/last-commit/samims/otelkit.svg)](https://github.com/samims/otelkit/commits/main)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/samims/otelkit/issues)
+[![Codecov](https://codecov.io/gh/samims/otelkit/branch/main/graph/badge.svg)](https://codecov.io/gh/samims/otelkit)
 
 A simplified, opinionated wrapper around OpenTelemetry tracing for Go applications. OtelKit provides an easy-to-use API for creating and managing distributed traces while hiding the complexity of the underlying OpenTelemetry SDK.
 
