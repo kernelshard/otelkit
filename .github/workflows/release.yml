@@ -26,10 +26,31 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
-          files: |
-            ./coverage.html
+          generate_release_notes: true
+          body: |
+            ## What's Changed in v0.2.0
+            
+            ### Added
+            - Comprehensive integration test suite
+            - Enhanced project structure with proper internal packages
+            - Improved error handling and validation
+            - Better documentation with practical examples
+            
+            ### Fixed
+            - Resource creation function to use proper OpenTelemetry SDK API
+            - ForceFlush method calls in integration tests
+            - Makefile handling of missing development tools
+            
+            ### Improved
+            - **Project Structure**: Reorganized into proper internal packages (config, provider, tracer, middleware)
+            - **Documentation clarity**: Enhanced comments with practical usage context
+            - **Error handling**: Improved validation and error messages
+            - **Code readability**: Added human-readable explanations for design decisions
+            - **Testing**: Comprehensive test coverage and integration testing
+            
+            For full details, see the [CHANGELOG.md](https://github.com/samims/otelkit/blob/main/CHANGELOG.md)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Notify Release
-        run: echo "Release created for version ${{ github.ref }}"
+        run: echo "Release created for version ${{ github.ref_name }}"
