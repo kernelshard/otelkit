@@ -1,9 +1,12 @@
-package otelkit
+package tracer
 
 import (
 	"context"
 
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
+
+	"github.com/samims/otelkit/internal/config"
+	"github.com/samims/otelkit/provider"
 )
 
 // SetupTracing initializes OpenTelemetry tracing with sensible defaults.
@@ -30,33 +33,33 @@ func SetupTracing(ctx context.Context, serviceName string, serviceVersion ...str
 	}
 
 	// Create configuration from environment variables
-	cfg := NewConfigFromEnv()
+	cfg := config.NewConfigFromEnv()
 	cfg.ServiceName = serviceName
 	cfg.ServiceVersion = version
 
 	// Validate configuration
 	if err := cfg.Validate(); err != nil {
-		return nil, &InitializationError{Component: "configuration", Cause: err}
+		return nil, &config.InitializationError{Component: "configuration", Cause: err}
 	}
 
 	// Create provider configuration
-	providerCfg := &ProviderConfig{
+	providerCfg := &provider.ProviderConfig{
 		Config:             cfg,
-		BatchTimeout:       DefaultBatchTimeout,
-		ExportTimeout:      DefaultExportTimeout,
-		MaxExportBatchSize: DefaultMaxExportBatchSize,
-		MaxQueueSize:       DefaultMaxQueueSize,
+		BatchTimeout:       config.DefaultBatchTimeout,
+		ExportTimeout:      config.DefaultExportTimeout,
+		MaxExportBatchSize: config.DefaultMaxExportBatchSize,
+		MaxQueueSize:       config.DefaultMaxQueueSize,
 	}
 
 	// Create and set the tracer provider
-	tp, err := NewProvider(ctx, providerCfg)
+	tp, err := provider.NewProvider(ctx, providerCfg)
 	if err != nil {
 		return nil, err
 	}
 
 	// Return shutdown function
 	shutdown := func(ctx context.Context) error {
-		return ShutdownTracerProvider(ctx, tp)
+		return provider.ShutdownTracerProvider(ctx, tp)
 	}
 
 	return shutdown, nil
@@ -70,14 +73,14 @@ func SetupTracing(ctx context.Context, serviceName string, serviceVersion ...str
 // - Probabilistic sampling at 20%
 // - Standard batch processing settings
 func SetupTracingWithDefaults(ctx context.Context, serviceName, serviceVersion string) (func(context.Context) error, error) {
-	tp, err := NewDefaultProvider(ctx, serviceName, serviceVersion)
+	tp, err := provider.NewDefaultProvider(ctx, serviceName, serviceVersion)
 	if err != nil {
 		return nil, err
 	}
 
 	// Return shutdown function
 	shutdown := func(ctx context.Context) error {
-		return ShutdownTracerProvider(ctx, tp)
+		return provider.ShutdownTracerProvider(ctx, tp)
 	}
 
 	return shutdown, nil
@@ -95,18 +98,18 @@ func MustSetupTracing(ctx context.Context, serviceName string, serviceVersion ..
 
 // SetupCustomTracing provides full control over the tracing setup.
 // Use this when you need custom configuration that goes beyond environment variables.
-func SetupCustomTracing(ctx context.Context, cfg *ProviderConfig) (*sdktrace.TracerProvider, error) {
+func SetupCustomTracing(ctx context.Context, cfg *provider.ProviderConfig) (*sdktrace.TracerProvider, error) {
 	// Validate configuration
 	if cfg == nil {
-		return nil, &ConfigError{Field: "config", Message: "provider config cannot be nil"}
+		return nil, &config.ConfigError{Field: "config", Message: "provider config cannot be nil"}
 	}
 	if cfg.Config == nil {
-		return nil, &ConfigError{Field: "config.Config", Message: "tracer config cannot be nil"}
+		return nil, &config.ConfigError{Field: "config.Config", Message: "tracer config cannot be nil"}
 	}
 
 	if err := cfg.Config.Validate(); err != nil {
-		return nil, &InitializationError{Component: "configuration", Cause: err}
+		return nil, &config.InitializationError{Component: "configuration", Cause: err}
 	}
 
-	return NewProvider(ctx, cfg)
+	return provider.NewProvider(ctx, cfg)
 }

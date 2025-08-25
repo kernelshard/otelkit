@@ -1,15 +1,16 @@
-package otelkit
+package middleware
 
 import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/samims/otelkit/tracer"
 	"go.opentelemetry.io/otel/trace"
 )
 
 func TestNewHttpMiddleware(t *testing.T) {
-	tracer := New("test-tracer")
+	tracer := tracer.New("test-tracer")
 	middleware := NewHttpMiddleware(tracer)
 
 	if middleware == nil {
@@ -24,7 +25,7 @@ func TestNewHttpMiddleware(t *testing.T) {
 }
 
 func TestHTTPMiddleware_Middleware(t *testing.T) {
-	tracer := New("test-tracer")
+	tracer := tracer.New("test-tracer")
 	middleware := NewHttpMiddleware(tracer)
 
 	// Create a test handler
@@ -60,7 +61,7 @@ func TestHTTPMiddleware_Middleware(t *testing.T) {
 }
 
 func TestHTTPMiddleware_DifferentMethods(t *testing.T) {
-	tracer := New("test-tracer")
+	tracer := tracer.New("test-tracer")
 	middleware := NewHttpMiddleware(tracer)
 
 	methods := []string{"GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"}
@@ -91,7 +92,7 @@ func TestHTTPMiddleware_DifferentMethods(t *testing.T) {
 }
 
 func TestHTTPMiddleware_DifferentStatusCodes(t *testing.T) {
-	tracer := New("test-tracer")
+	tracer := tracer.New("test-tracer")
 	middleware := NewHttpMiddleware(tracer)
 
 	statusCodes := []int{200, 201, 400, 404, 500}
@@ -117,7 +118,7 @@ func TestHTTPMiddleware_DifferentStatusCodes(t *testing.T) {
 }
 
 func TestHTTPMiddleware_WithHeaders(t *testing.T) {
-	tracer := New("test-tracer")
+	tracer := tracer.New("test-tracer")
 	middleware := NewHttpMiddleware(tracer)
 
 	testHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -144,7 +145,7 @@ func TestHTTPMiddleware_WithHeaders(t *testing.T) {
 }
 
 func TestHTTPMiddleware_ContextPropagation(t *testing.T) {
-	tracer := New("test-tracer")
+	tracer := tracer.New("test-tracer")
 	middleware := NewHttpMiddleware(tracer)
 
 	testHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -226,7 +227,7 @@ func TestResponseWriter_Write(t *testing.T) {
 }
 
 func TestHTTPMiddleware_MultipleRequests(t *testing.T) {
-	tracer := New("test-tracer")
+	tracer := tracer.New("test-tracer")
 	middleware := NewHttpMiddleware(tracer)
 
 	requestCount := 0
@@ -259,7 +260,7 @@ func TestHTTPMiddleware_MultipleRequests(t *testing.T) {
 }
 
 func TestHTTPMiddleware_PanicRecovery(t *testing.T) {
-	tracer := New("test-tracer")
+	tracer := tracer.New("test-tracer")
 	middleware := NewHttpMiddleware(tracer)
 
 	testHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

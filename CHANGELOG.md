@@ -8,35 +8,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Comprehensive integration test suite
 - GitHub Actions CI/CD workflow
-- Open source documentation and contribution guidelines
 - Issue templates for bugs and feature requests
+
+## [0.2.0] - 2025-01-24
+
+### Added
+- Comprehensive integration test suite
+- Open source documentation and contribution guidelines
+- Enhanced project structure with proper internal packages
+- Improved error handling and validation
+- Better documentation with practical examples
 
 ### Fixed
 - Resource creation function to use proper OpenTelemetry SDK API
 - ForceFlush method calls in integration tests
 - Makefile handling of missing development tools
-
-## [0.1.0] - 2025-01-24
-
-### Added
-- Initial release of OtelKit OpenTelemetry tracing library
-- Zero-configuration setup with sensible defaults
-- Support for HTTP and gRPC OTLP exporters
-- Multiple sampling strategies (probabilistic, always_on, always_off)
-- Automatic resource management with service metadata
-- HTTP middleware for automatic request tracing
-- Context propagation for distributed tracing
-- Error recording and span utilities
-- Comprehensive unit test coverage
-- Production-ready examples and documentation
+- Variadic parameter handling for service version
 
 ### Improved
-- **Variadic parameter handling**: More robust service version handling in provider functions
+- **Project Structure**: Reorganized into proper internal packages (config, provider, tracer, middleware)
 - **Documentation clarity**: Enhanced comments with practical usage context and real-world considerations
 - **Error handling**: Improved validation and error messages for better developer experience
 - **Code readability**: Added human-readable explanations for design decisions
+- **Testing**: Comprehensive test coverage and integration testing
 
 ### Features
 - **Provider Configuration**: Fluent API for configuring tracer providers
@@ -48,7 +43,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Supported Exporters
 - OTLP HTTP exporter
 - OTLP gRPC exporter
-- In-memory exporter (for testing)
 
 ### Supported Sampling Strategies
 - Always On (sample all traces)
@@ -62,3 +56,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API reference
 - Examples for basic and production usage
 - Release permissions troubleshooting guide
+- Comprehensive CHANGELOG and release checklist
+
+## [0.1.0] - 2025-01-01
+
+### Added
+- Initial release of OtelKit OpenTelemetry tracing library
+- Zero-configuration setup with sensible defaults
+- Support for HTTP and gRPC OTLP exporters
+- Multiple sampling strategies (probabilistic, always_on, always_off)
+- Automatic resource management with service metadata
+- HTTP middleware for automatic request tracing
+- Context propagation for distributed tracing
+- Error recording and span utilities
+- Basic unit test coverage
+- Production-ready examples and documentation

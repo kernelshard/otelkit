@@ -1,4 +1,4 @@
-package otelkit
+package tracer
 
 import (
 	"context"
@@ -6,6 +6,9 @@ import (
 	"testing"
 
 	"go.opentelemetry.io/otel"
+
+	"github.com/samims/otelkit/internal/config"
+	"github.com/samims/otelkit/provider"
 )
 
 func TestSetupTracing(t *testing.T) {
@@ -177,14 +180,14 @@ func TestSetupCustomTracing(t *testing.T) {
 
 	tests := []struct {
 		name    string
-		config  *ProviderConfig
+		config  *provider.ProviderConfig
 		wantErr bool
 		errMsg  string
 	}{
 		{
 			name: "valid config",
-			config: &ProviderConfig{
-				Config: &Config{
+			config: &provider.ProviderConfig{
+				Config: &config.Config{
 					ServiceName:          "test-custom",
 					ServiceVersion:       "1.0.0",
 					Environment:          "development",
@@ -207,7 +210,7 @@ func TestSetupCustomTracing(t *testing.T) {
 		},
 		{
 			name: "nil inner config",
-			config: &ProviderConfig{
+			config: &provider.ProviderConfig{
 				Config: nil,
 			},
 			wantErr: true,
@@ -215,8 +218,8 @@ func TestSetupCustomTracing(t *testing.T) {
 		},
 		{
 			name: "invalid inner config",
-			config: &ProviderConfig{
-				Config: &Config{
+			config: &provider.ProviderConfig{
+				Config: &config.Config{
 					ServiceName:    "", // Invalid
 					ServiceVersion: "1.0.0",
 					Environment:    "development",
@@ -234,13 +237,13 @@ func TestSetupCustomTracing(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			provider, err := SetupCustomTracing(ctx, tt.config)
+			tp, err := SetupCustomTracing(ctx, tt.config)
 
 			if tt.wantErr {
 				if err == nil {
 					t.Error("Expected error but got none")
 				}
-				if provider != nil {
+				if tp != nil {
 					t.Error("Provider should be nil on error")
 				}
 				return
@@ -251,13 +254,13 @@ func TestSetupCustomTracing(t *testing.T) {
 				return
 			}
 
-			if provider == nil {
+			if tp == nil {
 				t.Error("Provider should not be nil")
 				return
 			}
 
 			// Test shutdown
-			if err := ShutdownTracerProvider(ctx, provider); err != nil {
+			if err := provider.ShutdownTracerProvider(ctx, tp); err != nil {
 				t.Errorf("Shutdown failed: %v", err)
 			}
 		})

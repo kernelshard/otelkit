@@ -1,4 +1,4 @@
-// Package otelkit provides OpenTelemetry tracer provider configuration and initialization.
+// Package provider provides OpenTelemetry tracer provider configuration and initialization.
 // This file contains the core provider setup that configures exporters, sampling,
 // resource identification, and batch processing for the entire tracing system.
 package provider

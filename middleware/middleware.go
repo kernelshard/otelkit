@@ -1,7 +1,7 @@
-// Package otelkit provides HTTP middleware for automatic request tracing.
+// Package middleware provides HTTP middleware for automatic request tracing.
 // The middleware integrates seamlessly with any HTTP framework that supports
 // the standard http.Handler interface, including gorilla/mux, chi, gin, echo, and others.
-package otelkit
+package middleware
 
 import (
 	"net/http"
@@ -10,6 +10,16 @@ import (
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/trace"
+
+	"github.com/samims/otelkit/tracer"
+)
+
+// HTTP attribute constants
+const (
+	AttrHTTPMethod     = "http.method"
+	AttrHTTPURL        = "http.url"
+	AttrHTTPUserAgent  = "http.user_agent"
+	AttrHTTPStatusCode = "http.status_code"
 )
 
 // HTTPMiddleware provides HTTP middleware for automatic request tracing.
@@ -21,7 +31,7 @@ import (
 // The middleware is compatible with any HTTP framework that uses the standard
 // http.Handler interface.
 type HTTPMiddleware struct {
-	tracer *Tracer
+	tracer *tracer.Tracer
 }
 
 // NewHttpMiddleware creates a new HTTPMiddleware instance using the provided Tracer.
@@ -29,8 +39,8 @@ type HTTPMiddleware struct {
 //
 // Example:
 //
-//	tracer := otelkit.New("http-service")
-//	middleware := tracer.NewHttpMiddleware(tracer)
+//	tracer := tracer.New("http-service")
+//	middleware := NewHttpMiddleware(tracer)
 //
 //	// With gorilla/mux
 //	r := mux.NewRouter()
@@ -43,7 +53,7 @@ type HTTPMiddleware struct {
 //	// With standard http.ServeMux
 //	mux := http.NewServeMux()
 //	handler := middleware.Middleware(mux)
-func NewHttpMiddleware(tracer *Tracer) *HTTPMiddleware {
+func NewHttpMiddleware(tracer *tracer.Tracer) *HTTPMiddleware {
 	return &HTTPMiddleware{
 		tracer: tracer,
 	}
@@ -61,7 +71,7 @@ func NewHttpMiddleware(tracer *Tracer) *HTTPMiddleware {
 //
 // Example usage:
 //
-//	middleware := tracer.NewHttpMiddleware(tracer)
+//	middleware := NewHttpMiddleware(tracer)
 //
 //	http.Handle("/api/", middleware.Middleware(apiHandler))
 //

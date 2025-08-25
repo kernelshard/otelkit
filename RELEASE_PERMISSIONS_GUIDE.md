@@ -1,76 +1,84 @@
-# GitHub Release Permissions Guide
+# Release Permissions Guide - v0.2.0
 
-## Fixing 403 Permission Errors
+## Version Compatibility
 
-The GitHub Actions workflow is encountering 403 permission errors when trying to create releases. Here's how to fix this:
+### Backward Compatibility
+- **API Stability**: This is the second release (v0.2.0), so no backward compatibility guarantees yet
+- **Breaking Changes**: Expected in future 0.x releases as the API stabilizes
+- **Stable API**: Will be guaranteed starting from v1.0.0
 
-### Step 1: Check Repository Settings
+### Go Version Support
+- **Minimum**: Go 1.24.4
+- **Recommended**: Latest Go 1.24.x or 1.25.x
+- **Compatibility**: Follows Go's compatibility promise for modules
 
-1. Go to your GitHub repository: https://github.com/samims/otelkit
-2. Navigate to **Settings → Actions → General**
-3. Under **Workflow permissions**, ensure:
-   - ✅ **Read and write permissions** is selected
-   - ✅ **Allow GitHub Actions to create and approve pull requests** is checked
+## Usage Permissions
 
-### Step 2: Alternative Solution - Personal Access Token
+### Production Use
+- ✅ **Allowed**: Production use is permitted
+- ⚠️ **Caution**: Be prepared for potential breaking changes in 0.x releases
+- 🔄 **Upgrade Path**: Check CHANGELOG.md before upgrading minor versions
 
-If the above doesn't work, create a personal access token:
-
-1. Go to GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
-2. Click "Generate new token" → "Generate new token (classic)"
-3. Set these permissions:
-   - `repo` (full control of private repositories)
-   - `workflow`
-4. Copy the generated token
-5. Go to your repository Settings → Secrets and variables → Actions
-6. Add a new secret:
-   - Name: `PERSONAL_ACCESS_TOKEN`
-   - Value: [paste your token here]
-
-### Step 3: Update Workflow (If Using PAT)
-
-If you create a personal access token, update the workflow to use it:
-
-```yaml
-- name: Create release
-  uses: softprops/action-gh-release@v1
-  with:
-    files: |
-      dist/README.txt
-    generate_release_notes: true
-  env:
-    GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-```
-
-### Step 4: Enable GitHub Pages
-
-For documentation deployment:
-
-1. Go to repository Settings → Pages
-2. Under **Build and deployment**, select:
-   - **Source**: GitHub Actions
-3. Save the settings
-
-## Current Workflow Status
-
-The workflow has been updated to:
-- ✅ Remove binary building (since this is a library)
-- ✅ Simplify documentation generation
-- ✅ Remove Docker build (not needed for library)
-- ✅ Use proper file patterns for releases
-
-Once permissions are fixed, the workflow should successfully:
-1. Run all tests
-2. Create a GitHub Release
-3. Generate and deploy API documentation
-
-## Testing the Fix
-
-After updating permissions, you can trigger the workflow by:
+### Dependency Management
 ```bash
-git tag -d v0.1.0
-git tag v0.1.0
-git push origin --force v0.1.0
+# Recommended: Pin to specific version
+go get github.com/samims/otelkit@v0.2.0
+
+# Alternative: Use latest 0.2.x (when available)
+go get github.com/samims/otelkit@v0.2
 ```
 
-Check the Actions tab in your repository to monitor progress.
+### License Compliance
+- **License**: MIT License
+- **Permissions**: Free to use, modify, distribute
+- **Attribution**: Required in derivative works
+- **Warranty**: No warranty provided
+
+## Support Levels
+
+### Community Support
+- 📚 **Documentation**: Comprehensive guides and examples
+- 🐛 **Bug Reports**: Welcome via GitHub Issues
+- 💡 **Feature Requests**: Considered for future releases
+- ⏰ **Response Time**: Best effort, no SLA
+
+### Enterprise Support
+- 🏢 **Commercial Support**: Not available in v0.2.0
+- 🔧 **Custom Development**: Contact maintainer for inquiries
+- 🚨 **Critical Issues**: Prioritized based on severity
+
+## Security Considerations
+
+### Vulnerability Reporting
+- 🔒 **Disclosure**: Responsible disclosure preferred
+- ⚡ **Response**: Prompt investigation of security reports
+- 📋 **Process**: Report via GitHub Security Advisories
+
+### Dependencies
+- ✅ **Audited**: All dependencies are widely used OpenTelemetry components
+- 🔄 **Updated**: Regular dependency updates as part of release cycle
+- 📊 **Transparency**: Dependencies listed in go.mod
+
+## Upgrade Policy
+
+### Version 0.x Series
+- ⚠️ **Breaking Changes**: Possible in any 0.x release
+- 📋 **Migration**: Check CHANGELOG.md for changes
+- 🔄 **Frequency**: Regular releases as features stabilize
+
+### Version 1.0.0+  
+- ✅ **Stability**: API stability guaranteed
+- 🔄 **Backward Compatibility**: Maintained within major version
+- 📅 **LTS**: Long-term support considerations
+
+## Contributing
+
+### Code Contributions
+- 🤝 **Welcome**: Community contributions encouraged
+- ✅ **Process**: Follow CONTRIBUTING.md guidelines
+- 🔍 **Review**: All contributions undergo code review
+
+### Documentation
+- 📖 **Improvements**: Documentation updates welcome
+- 🌐 **Translations**: Community translations accepted
+- 🎯 **Examples**: Additional examples encouraged

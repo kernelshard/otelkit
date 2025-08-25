@@ -1,59 +1,48 @@
-# OtelKit v0.1.0 Release Checklist
+# Release Checklist - v0.2.0
 
-## ✅ Pre-Release Verification
-
-- [x] All unit tests pass (`go test ./...`)
-- [x] Library builds successfully (`go build ./...`)
+## Pre-Release Checks
+- [x] All tests pass (`go test ./...`)
+- [x] Build succeeds (`go build ./...`)
 - [x] Examples build successfully (`cd examples && go build ./...`)
-- [x] CHANGELOG.md updated with v0.1.0 release notes
-- [x] README.md contains comprehensive documentation
-- [x] CI/CD workflows configured and fixed
-- [x] Release workflow updated for library builds (no binaries, simplified docs)
+- [x] Documentation is up to date (README.md, CHANGELOG.md)
+- [x] CI/CD pipeline is configured (.github/workflows/ci.yml)
+- [x] Release workflow configured (.github/workflows/release.yml)
+- [x] Version number updated in CHANGELOG.md (v0.2.0)
+- [x] Root package created for backward compatibility (otelkit.go)
+- [x] Project structure reorganized with proper internal packages
+- [x] Comprehensive integration testing added
+- [x] Enhanced error handling and validation
+- [x] All version references updated to v0.2.0
 
-## 🚀 Release Steps
+## Release Steps
+1. [ ] Create Git tag: `git tag v0.2.0`
+2. [ ] Push tag to repository: `git push origin v0.2.0`
+3. [ ] Verify CI/CD pipeline runs successfully on tag push
+4. [ ] Create GitHub Release with release notes from CHANGELOG.md
+5. [ ] Update documentation links if needed
 
-### Step 1: Push Main Branch
-```bash
-git push origin main
-```
+## Post-Release
+- [ ] Verify the library can be imported: `go get github.com/samims/otelkit@v0.2.0`
+- [ ] Test installation in a fresh project
+- [ ] Update any dependent projects if needed
 
-### Step 2: Create and Push Release Tag
-```bash
-git tag v0.1.0
-git push origin v0.1.0
-```
+## Version Information
+- **Version**: 0.2.0
+- **Release Date**: 2025-01-24
+- **Go Version**: 1.24.4+
+- **OpenTelemetry Version**: 1.37.0
 
-### Step 3: GitHub Actions Will Automatically:
-- [ ] Run all tests
-- [ ] Create GitHub Release with source information
-- [ ] Generate and deploy simplified API documentation to GitHub Pages
-
-### Step 4: Verify Release
-- [ ] Check GitHub Releases section for v0.1.0
-- [ ] Confirm documentation is deployed to GitHub Pages
-
-### Step 5: Address Permission Issues (If Needed)
-If you get 403 permission errors:
-1. Go to GitHub repository Settings → Actions → General
-2. Under "Workflow permissions", ensure "Read and write permissions" is selected
-3. Or create a personal access token with repo permissions
-
-## 📋 Version Information
-
-- **Version**: 0.1.0
-- **Go Version**: 1.24.4
-- **OpenTelemetry Dependencies**: v1.37.0
-- **Release Date**: 2025-01-01
-
-## 🔧 Key Features Included
-
+## Features Included
+- ✅ Enhanced project structure with proper internal packages
+- ✅ Comprehensive integration test suite
+- ✅ Improved error handling and validation
+- ✅ Better documentation with practical examples
 - ✅ Zero-configuration setup with sensible defaults
-- ✅ Support for HTTP and gRPC OTLP exporters  
-- ✅ Multiple sampling strategies
+- ✅ Support for HTTP and gRPC OTLP exporters
+- ✅ Multiple sampling strategies (probabilistic, always_on, always_off)
+- ✅ Automatic resource management with service metadata
 - ✅ HTTP middleware for automatic request tracing
 - ✅ Context propagation for distributed tracing
 - ✅ Error recording and span utilities
 - ✅ Comprehensive unit test coverage
 - ✅ Production-ready examples and documentation
-
-The library is ready for its first official release as v0.1.0!

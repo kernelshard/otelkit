@@ -1,4 +1,4 @@
-package otelkit
+package tracer
 
 import (
 	"net/http"

@@ -305,25 +305,36 @@ func TestIntegration_InMemoryExporter(t *testing.T) {
 	// Use in-memory exporter for testing without external dependencies
 	exporter := tracetest.NewInMemoryExporter()
 
-	// Create a custom provider config that uses our in-memory exporter
-	config := &ProviderConfig{
-		Config: &Config{
-			ServiceName:    serviceName,
-			ServiceVersion: "1.0.0",
-			Environment:    "test",
-			SamplingType:   "always_on",
-			SamplingRatio:  1.0,
-		},
+	// Create a custom provider config using the public API
+	config := NewProviderConfig(serviceName, "1.0.0").
+		WithSampling("always_on", 1.0)
+
+	// Create resource using the same approach as the provider
+	attrs := []attribute.KeyValue{
+		attribute.String("service.name", serviceName),
+		attribute.String("service.version", "1.0.0"),
+		attribute.String("deployment.environment", "test"),
 	}
 
-	// Create resource
-	resource, err := createTestResource(config.Config)
+	resource, err := sdkresource.New(ctx,
+		sdkresource.WithAttributes(attrs...),
+	)
 	if err != nil {
 		t.Fatalf("Failed to create resource: %v", err)
 	}
 
-	// Create sampler
-	sampler := createSampler(config.Config)
+	// Create sampler based on configuration
+	var sampler sdktrace.Sampler
+	switch config.Config.SamplingType {
+	case "always_on":
+		sampler = sdktrace.AlwaysSample()
+	case "always_off":
+		sampler = sdktrace.NeverSample()
+	case "probabilistic":
+		sampler = sdktrace.TraceIDRatioBased(config.Config.SamplingRatio)
+	default:
+		sampler = sdktrace.AlwaysSample()
+	}
 
 	// Create batch processor with in-memory exporter
 	bsp := sdktrace.NewBatchSpanProcessor(exporter,
@@ -377,21 +388,4 @@ func isPortOpen(address string) bool {
 	}
 	conn.Close()
 	return true
-}
-
-// Helper function to create test resource
-func createTestResource(cfg *Config) (*sdkresource.Resource, error) {
-	// Use the same logic as in provider.go but simplified for testing
-	ctx := context.Background()
-	attrs := []attribute.KeyValue{
-		attribute.String("service.name", cfg.ServiceName),
-		attribute.String("service.version", cfg.ServiceVersion),
-		attribute.String("deployment.environment", cfg.Environment),
-		attribute.String("service.instance.id", cfg.InstanceID),
-		attribute.String("host.name", cfg.Hostname),
-	}
-
-	return sdkresource.New(ctx,
-		sdkresource.WithAttributes(attrs...),
-	)
 }

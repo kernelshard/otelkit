@@ -1,7 +1,7 @@
 // Package tracer provides span utility functions for OpenTelemetry tracing.
 // These utilities offer safe, convenient methods for common span operations
 // with built-in nil checks and error handling.
-package otelkit
+package tracer
 
 import (
 	"time"

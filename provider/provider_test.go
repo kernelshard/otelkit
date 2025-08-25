@@ -5,9 +5,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/samims/otelkit/internal/config"
 	"go.opentelemetry.io/otel"
 	sdkresource "go.opentelemetry.io/otel/sdk/resource"
+
+	"github.com/samims/otelkit/internal/config"
 )
 
 func TestNewProviderConfig(t *testing.T) {
