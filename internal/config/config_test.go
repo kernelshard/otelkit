@@ -94,16 +94,9 @@ func TestNewConfigFromEnv(t *testing.T) {
 		validate func(*testing.T, *Config)
 	}{
 		{
-			name:    "default config from empty env",
-			envVars: map[string]string{},
-			validate: func(t *testing.T, cfg *Config) {
-				if cfg.ServiceName != DefaultServiceName {
-					t.Errorf("Expected ServiceName %v, got %v", DefaultServiceName, cfg.ServiceName)
-				}
-				if cfg.Environment != DefaultEnvironment {
-					t.Errorf("Expected Environment %v, got %v", DefaultEnvironment, cfg.Environment)
-				}
-			},
+			name:     "default config from empty env",
+			envVars:  map[string]string{},
+			validate: validateDefaultConfig,
 		},
 		{
 			name: "custom config from env",
@@ -116,26 +109,7 @@ func TestNewConfigFromEnv(t *testing.T) {
 				"OTEL_TRACES_SAMPLER":         "always_on",
 				"OTEL_TRACES_SAMPLER_ARG":     "1.0",
 			},
-			validate: func(t *testing.T, cfg *Config) {
-				if cfg.ServiceName != "custom-service" {
-					t.Errorf("Expected ServiceName custom-service, got %v", cfg.ServiceName)
-				}
-				if cfg.Environment != "production" {
-					t.Errorf("Expected Environment production, got %v", cfg.Environment)
-				}
-				if cfg.OTLPExporterEndpoint != "jaeger:14250" {
-					t.Errorf("Expected OTLPExporterEndpoint jaeger:14250, got %v", cfg.OTLPExporterEndpoint)
-				}
-				if !cfg.OTLPExporterInsecure {
-					t.Error("Expected OTLPExporterInsecure to be true")
-				}
-				if cfg.SamplingType != "always_on" {
-					t.Errorf("Expected SamplingType always_on, got %v", cfg.SamplingType)
-				}
-				if cfg.SamplingRatio != 1.0 {
-					t.Errorf("Expected SamplingRatio 1.0, got %v", cfg.SamplingRatio)
-				}
-			},
+			validate: validateCustomConfig,
 		},
 	}
 
@@ -154,6 +128,36 @@ func TestNewConfigFromEnv(t *testing.T) {
 				os.Unsetenv(key)
 			}
 		})
+	}
+}
+
+func validateDefaultConfig(t *testing.T, cfg *Config) {
+	if cfg.ServiceName != DefaultServiceName {
+		t.Errorf("Expected ServiceName %v, got %v", DefaultServiceName, cfg.ServiceName)
+	}
+	if cfg.Environment != DefaultEnvironment {
+		t.Errorf("Expected Environment %v, got %v", DefaultEnvironment, cfg.Environment)
+	}
+}
+
+func validateCustomConfig(t *testing.T, cfg *Config) {
+	if cfg.ServiceName != "custom-service" {
+		t.Errorf("Expected ServiceName custom-service, got %v", cfg.ServiceName)
+	}
+	if cfg.Environment != "production" {
+		t.Errorf("Expected Environment production, got %v", cfg.Environment)
+	}
+	if cfg.OTLPExporterEndpoint != "jaeger:14250" {
+		t.Errorf("Expected OTLPExporterEndpoint jaeger:14250, got %v", cfg.OTLPExporterEndpoint)
+	}
+	if !cfg.OTLPExporterInsecure {
+		t.Error("Expected OTLPExporterInsecure to be true")
+	}
+	if cfg.SamplingType != "always_on" {
+		t.Errorf("Expected SamplingType always_on, got %v", cfg.SamplingType)
+	}
+	if cfg.SamplingRatio != 1.0 {
+		t.Errorf("Expected SamplingRatio 1.0, got %v", cfg.SamplingRatio)
 	}
 }
 

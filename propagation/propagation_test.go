@@ -23,7 +23,11 @@ func TestInjectTraceContext(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create provider: %v", err)
 	}
-	defer otelkit.ShutdownTracerProvider(ctx, provider)
+	defer func() {
+		if err := otelkit.ShutdownTracerProvider(ctx, provider); err != nil {
+			t.Errorf("ShutdownTracerProvider failed: %v", err)
+		}
+	}()
 
 	// Create a span to have trace context to inject
 	tracer := otelkit.New("test-service")
@@ -53,7 +57,11 @@ func TestExtractTraceContext(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create provider: %v", err)
 	}
-	defer otelkit.ShutdownTracerProvider(ctx, provider)
+	defer func() {
+		if err := otelkit.ShutdownTracerProvider(ctx, provider); err != nil {
+			t.Errorf("ShutdownTracerProvider failed: %v", err)
+		}
+	}()
 
 	InjectTraceContext(ctx, req)
 

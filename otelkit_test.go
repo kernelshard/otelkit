@@ -9,8 +9,11 @@ import (
 )
 
 func TestNewTracer(t *testing.T) {
-	// Remove the ineffectual assignment
-	_ = New("test-service")
+	tracer := New("test-service")
+	if tracer == nil {
+		t.Error("New() returned nil tracer")
+	}
+	t.Logf("Created tracer: %v", tracer)
 }
 
 func TestNewProviderConfig(t *testing.T) {
@@ -70,10 +73,14 @@ func TestSpanUtilities(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create provider: %v", err)
 	}
-	defer ShutdownTracerProvider(ctx, provider)
+	defer func() {
+		if err := ShutdownTracerProvider(ctx, provider); err != nil {
+			t.Errorf("ShutdownTracerProvider failed: %v", err)
+		}
+	}()
 
 	tracer := New("test-service")
-	ctx, span := tracer.Start(ctx, "test-span")
+	_, span := tracer.Start(ctx, "test-span")
 
 	// Test AddAttributes
 	AddAttributes(span, attribute.String("test.key", "test.value"))
@@ -118,7 +125,9 @@ func TestSetGlobalTracerProvider(t *testing.T) {
 		t.Error("Provider should not be nil")
 	}
 
-	ShutdownTracerProvider(ctx, provider)
+	if err := ShutdownTracerProvider(ctx, provider); err != nil {
+		t.Errorf("ShutdownTracerProvider failed: %v", err)
+	}
 }
 
 func TestTypeAliases(t *testing.T) {
