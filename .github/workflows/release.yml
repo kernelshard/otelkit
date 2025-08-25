@@ -50,7 +50,7 @@ jobs:
             
             For full details, see the [CHANGELOG.md](https://github.com/samims/otelkit/blob/main/CHANGELOG.md)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       - name: Notify Release
         run: echo "Release created for version ${{ github.ref_name }}"
