@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.0] - 2025-01-24
 
+### Changed
+- **API Simplification**: Reduced the number of entry points for easier usage and clarity.
+- **Deprecated Functions**: Marked several functions as deprecated to guide users towards preferred usage patterns.
+- **Documentation Improvements**: Enhanced README and API reference to provide clearer guidance on usage.
+
 ### Added
 - Comprehensive integration test suite
 - Open source documentation and contribution guidelines

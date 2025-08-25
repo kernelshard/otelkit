@@ -4,7 +4,9 @@
 // the complexity of the underlying OpenTelemetry SDK. It provides zero-configuration setup with
 // sensible defaults, while still allowing full customization when needed.
 //
-// Basic usage:
+// # Quick Start (Recommended)
+//
+// For most use cases, start with SetupTracing:
 //
 //	ctx := context.Background()
 //	shutdown, err := otelkit.SetupTracing(ctx, "my-service")
@@ -12,6 +14,31 @@
 //	    log.Fatal(err)
 //	}
 //	defer shutdown(ctx)
+//
+//	tracer := otelkit.New("my-service")
+//	ctx, span := tracer.Start(ctx, "operation-name")
+//	defer span.End()
+//
+// # Advanced Configuration
+//
+// For custom configuration, use NewProviderConfig with NewProvider:
+//
+//	config := otelkit.NewProviderConfig("my-service", "v1.0.0").
+//	    WithOTLPExporter("https://api.honeycomb.io", "http", false).
+//	    WithSampling("probabilistic", 0.05)
+//	provider, err := otelkit.NewProvider(ctx, config)
+//	if err != nil {
+//	    log.Fatal(err)
+//	}
+//	defer provider.Shutdown(ctx)
+//
+// # HTTP Middleware
+//
+// For HTTP request tracing:
+//
+//	tracer := otelkit.New("web-service")
+//	middleware := otelkit.NewHttpMiddleware(tracer)
+//	r.Use(middleware.Middleware)
 //
 // The package handles:
 // - OTLP exporter configuration (HTTP/gRPC)
@@ -115,18 +142,25 @@ func SetupTracing(ctx context.Context, serviceName string, serviceVersion ...str
 
 // SetupTracingWithDefaults initializes tracing with hardcoded defaults.
 // This is useful for quick setup without environment variables.
+//
+// Deprecated: Use SetupTracing instead. This function will be removed in v1.0.0.
 func SetupTracingWithDefaults(ctx context.Context, serviceName, serviceVersion string) (func(context.Context) error, error) {
 	return tracer.SetupTracingWithDefaults(ctx, serviceName, serviceVersion)
 }
 
 // MustSetupTracing is like SetupTracing but panics on error.
 // Use this for simple programs where you want to fail fast.
+//
+// Deprecated: Handle errors explicitly instead. This function will be removed in v1.0.0.
 func MustSetupTracing(ctx context.Context, serviceName string, serviceVersion ...string) func(context.Context) error {
 	return tracer.MustSetupTracing(ctx, serviceName, serviceVersion...)
 }
 
 // SetupCustomTracing provides full control over the tracing setup.
 // Use this when you need custom configuration that goes beyond environment variables.
+//
+// Deprecated: Use NewProviderConfig() with NewProvider() for advanced configuration.
+// This function will be removed in v1.0.0.
 func SetupCustomTracing(ctx context.Context, cfg *provider.ProviderConfig) (*sdktrace.TracerProvider, error) {
 	return tracer.SetupCustomTracing(ctx, cfg)
 }

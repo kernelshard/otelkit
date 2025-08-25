@@ -23,7 +23,9 @@ A simplified, opinionated wrapper around OpenTelemetry tracing for Go applicatio
 go get github.com/samims/otelkit
 ```
 
-### Basic Usage
+### Basic Usage (Recommended)
+
+For most applications, use the simplified `SetupTracing` approach:
 
 ```go
 package main
@@ -37,7 +39,52 @@ import (
 )
 
 func main() {
-    // Initialize with default configuration
+    // Initialize tracing with sensible defaults
+    shutdown, err := otelkit.SetupTracing(context.Background(), "my-service", "v1.0.0")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer shutdown(context.Background())
+
+    // Create a tracer
+    tracer := otelkit.New("my-service")
+    
+    // Create a span
+    ctx, span := tracer.Start(context.Background(), "do-work")
+    defer span.End()
+    
+    // Add attributes
+    otelkit.AddAttributes(span,
+        attribute.String("user.id", "12345"),
+        attribute.String("operation", "process-payment"),
+    )
+    
+    // Your business logic here
+    doWork(ctx)
+}
+
+func doWork(ctx context.Context) {
+    // Work happens here...
+}
+```
+
+### Alternative: Provider-based Setup
+
+For more control, use the provider-based approach:
+
+```go
+package main
+
+import (
+    "context"
+    "log"
+    
+    "github.com/samims/otelkit"
+    "go.opentelemetry.io/otel/attribute"
+)
+
+func main() {
+    // Initialize with provider configuration
     provider, err := otelkit.NewDefaultProvider(context.Background(), "my-service", "v1.0.0")
     if err != nil {
         log.Fatal(err)
@@ -174,12 +221,16 @@ config.WithBatchOptions(
 - **`ProviderConfig`** - Configuration for tracer provider
 - **`HTTPMiddleware`** - HTTP middleware for automatic request tracing
 
-### Key Functions
+### Recommended Functions
 
-- **`New(name)`** - Create new tracer instance
-- **`NewDefaultProvider()`** - Quick setup with sensible defaults
-- **`NewProvider(config)`** - Advanced setup with custom configuration
-- **`NewHttpMiddleware(tracer)`** - Create HTTP middleware
+#### For Most Use Cases:
+- **`SetupTracing(ctx, serviceName, serviceVersion...)`** - ✅ **Recommended**: Simplest setup with sensible defaults
+- **`New(name)`** - Create tracer instance for span creation
+- **`NewHttpMiddleware(tracer)`** - Create HTTP middleware for request tracing
+
+#### For Advanced Configuration:
+- **`NewProviderConfig(serviceName, serviceVersion)`** - Create provider configuration
+- **`NewProvider(ctx, config)`** - Create provider with custom configuration
 
 ### Utility Functions
 
@@ -187,6 +238,42 @@ config.WithBatchOptions(
 - **`AddEvent(span, name, ...attrs)`** - Add timestamped event to span
 - **`RecordError(span, err)`** - Record error and set span status
 - **`EndSpan(span)`** - Safely end span
+
+### Deprecated Functions (Avoid for new code)
+
+The following functions are deprecated and will be removed in v1.0.0:
+- `SetupTracingWithDefaults()` - Use `SetupTracing()` instead
+- `MustSetupTracing()` - Handle errors explicitly instead
+- `SetupCustomTracing()` - Use `NewProviderConfig()` with `NewProvider()` instead
+
+## Usage Recommendations
+
+### 🟢 Recommended Approach (90% of use cases)
+```go
+// Simple setup with environment variables
+shutdown, err := otelkit.SetupTracing(ctx, "my-service")
+defer shutdown(ctx)
+tracer := otelkit.New("my-service")
+```
+
+### 🟡 Advanced Approach (When you need custom config)
+```go
+// Custom configuration
+config := otelkit.NewProviderConfig("my-service", "v1.0.0").
+    WithOTLPExporter("https://api.honeycomb.io", "http", false).
+    WithSampling("probabilistic", 0.05)
+provider, err := otelkit.NewProvider(ctx, config)
+defer provider.Shutdown(ctx)
+tracer := otelkit.New("my-service")
+```
+
+### 🔴 Avoid (Deprecated)
+```go
+// These will be removed in v1.0.0
+otelkit.SetupTracingWithDefaults(ctx, "service", "v1")
+otelkit.MustSetupTracing(ctx, "service")
+otelkit.SetupCustomTracing(ctx, config)
+```
 
 ## Examples
 

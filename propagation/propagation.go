@@ -1,4 +1,4 @@
-package otelkit
+package propagation
 
 import (
 	"context"

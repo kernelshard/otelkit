@@ -1,19 +1,14 @@
-version: '3.8'
-
 services:
   # OpenTelemetry Collector for integration testing
   otel-collector:
-    image: otel/opentelemetry-collector-contrib:0.96.0
+    image: otel/opentelemetry-collector:0.96.0
     command: ["--config=/etc/otel-collector-config.yaml"]
     volumes:
       - ./testdata/otel-collector-config.yaml:/etc/otel-collector-config.yaml
     ports:
       - "4317:4317"   # OTLP gRPC
       - "4318:4318"   # OTLP HTTP
-      - "8888:8888"   # Metrics
-      - "8889:8889"   # Metrics (prometheus)
       - "13133:13133" # Health check
-      - "55679:55679" # zPages
     environment:
       - OTEL_RESOURCE_ATTRIBUTES=service.name=otel-collector,deployment.environment=integration-test
     healthcheck:
@@ -22,63 +17,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
-
-  # Jaeger UI for visualizing traces (optional)
-  jaeger:
-    image: jaegertracing/all-in-one:1.55
-    ports:
-      - "16686:16686" # Jaeger UI
-      - "14250:14250" # Jaeger gRPC
-      - "14268:14268" # Jaeger HTTP
-      - "9411:9411"   # Zipkin
-    environment:
-      - COLLECTOR_OTLP_ENABLED=true
-    depends_on:
-      otel-collector:
-        condition: service_healthy
-
-  # Zipkin for alternative trace visualization (optional)
-  zipkin:
-    image: openzipkin/zipkin:2.24
-    ports:
-      - "9411:9411" # Zipkin UI
-    environment:
-      - STORAGE_TYPE=mem
-    depends_on:
-      otel-collector:
-        condition: service_healthy
-
-  # Prometheus for metrics (optional)
-  prometheus:
-    image: prom/prometheus:latest
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./testdata/prometheus.yml:/etc/prometheus/prometheus.yml
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--web.enable-lifecycle'
-    depends_on:
-      otel-collector:
-        condition: service_healthy
-
-  # Grafana for metrics visualization (optional)
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_USERS_ALLOW_SIGN_UP=false
-    volumes:
-      - ./testdata/grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
-      - ./testdata/grafana-dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
-      - ./testdata/dashboards:/var/lib/grafana/dashboards
-    depends_on:
-      - prometheus
 
 networks:
   default:
