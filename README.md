@@ -1,9 +1,5 @@
 # OtelKit
 
-# otelkit
-
-# otelkit
-
 [![CI](https://github.com/samims/otelkit/actions/workflows/ci.yml/badge.svg)](https://github.com/samims/otelkit/actions/workflows/ci.yml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/samims/otelkit.svg)](https://pkg.go.dev/github.com/samims/otelkit)
 [![Go Report Card](https://goreportcard.com/badge/github.com/samims/otelkit)](https://goreportcard.com/report/github.com/samims/otelkit)
