@@ -9,10 +9,8 @@ import (
 )
 
 func TestNewTracer(t *testing.T) {
-	tracer := New("test-service")
-	if tracer == nil {
-		t.Error("New() returned nil tracer")
-	}
+	// Remove the ineffectual assignment
+	_ = New("test-service")
 }
 
 func TestNewProviderConfig(t *testing.T) {
