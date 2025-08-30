@@ -109,3 +109,25 @@ func IsRecording(span trace.Span) bool {
 	}
 	return span.SpanContext().IsValid()
 }
+
+// ErrorCodeExternalService is a constant for external service errors.
+const ErrorCodeExternalService = "external_service_error"
+
+// RecordErrorWithCode safely records an error on the span with a custom error code and message.
+// This function handles nil checks for both span and error. When an error is recorded,
+// the span status is set to codes.Error with the provided message, and the error code is added as an attribute.
+//
+// Example:
+//
+//	if err := callExternalService(); err != nil {
+//	    RecordErrorWithCode(span, err, ErrorCodeExternalService, "External service call failed")
+//	    return err
+//	}
+func RecordErrorWithCode(span trace.Span, err error, code string, message string) {
+	if span == nil || err == nil {
+		return
+	}
+	span.RecordError(err)
+	span.SetStatus(codes.Error, message)
+	span.SetAttributes(attribute.String("error.code", code))
+}
