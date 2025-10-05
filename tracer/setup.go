@@ -9,6 +9,35 @@ import (
 	"github.com/samims/otelkit/provider"
 )
 
+// createTracingConfig creates a tracing configuration from environment variables and parameters.
+func createTracingConfig(serviceName string, serviceVersion string) (*config.Config, error) {
+	cfg := config.NewConfigFromEnv()
+	cfg.ServiceName = serviceName
+	cfg.ServiceVersion = serviceVersion
+
+	if err := cfg.Validate(); err != nil {
+		return nil, &config.InitializationError{Component: "configuration", Cause: err}
+	}
+	return cfg, nil
+}
+
+// createTracingProvider creates a tracer provider from the given configuration.
+func createTracingProvider(ctx context.Context, cfg *config.Config) (*provider.ProviderConfig, *sdktrace.TracerProvider, error) {
+	providerCfg := &provider.ProviderConfig{
+		Config:             cfg,
+		BatchTimeout:       config.DefaultBatchTimeout,
+		ExportTimeout:      config.DefaultExportTimeout,
+		MaxExportBatchSize: config.DefaultMaxExportBatchSize,
+		MaxQueueSize:       config.DefaultMaxQueueSize,
+	}
+
+	tp, err := provider.NewProvider(ctx, providerCfg)
+	if err != nil {
+		return nil, nil, err
+	}
+	return providerCfg, tp, nil
+}
+
 // SetupTracing initializes OpenTelemetry tracing with sensible defaults.
 // This is the simplest way to get started with tracing.
 //
@@ -19,45 +48,22 @@ import (
 //	    log.Fatal(err)
 //	}
 //	defer shutdown(ctx)
-//
-// The function reads configuration from environment variables and sets up:
-// - OTLP exporter (HTTP by default, localhost:4318)
-// - Probabilistic sampling (20% by default)
-// - Batch span processor with sensible defaults
-// - Resource with service information
 func SetupTracing(ctx context.Context, serviceName string, serviceVersion ...string) (func(context.Context) error, error) {
-	// Use provided version or default
 	version := "1.0.0"
 	if len(serviceVersion) > 0 {
 		version = serviceVersion[0]
 	}
 
-	// Create configuration from environment variables
-	cfg := config.NewConfigFromEnv()
-	cfg.ServiceName = serviceName
-	cfg.ServiceVersion = version
-
-	// Validate configuration
-	if err := cfg.Validate(); err != nil {
-		return nil, &config.InitializationError{Component: "configuration", Cause: err}
-	}
-
-	// Create provider configuration
-	providerCfg := &provider.ProviderConfig{
-		Config:             cfg,
-		BatchTimeout:       config.DefaultBatchTimeout,
-		ExportTimeout:      config.DefaultExportTimeout,
-		MaxExportBatchSize: config.DefaultMaxExportBatchSize,
-		MaxQueueSize:       config.DefaultMaxQueueSize,
-	}
-
-	// Create and set the tracer provider
-	tp, err := provider.NewProvider(ctx, providerCfg)
+	cfg, err := createTracingConfig(serviceName, version)
 	if err != nil {
 		return nil, err
 	}
 
-	// Return shutdown function
+	_, tp, err := createTracingProvider(ctx, cfg)
+	if err != nil {
+		return nil, err
+	}
+
 	shutdown := func(ctx context.Context) error {
 		return provider.ShutdownTracerProvider(ctx, tp)
 	}

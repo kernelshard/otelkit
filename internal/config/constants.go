@@ -10,15 +10,41 @@ import (
 	"time"
 )
 
+// SamplingType represents the type of sampling strategy to use.
+// This custom type provides type safety and prevents runtime errors from typos.
+type SamplingType string
+
+// Defined sampling types for type safety
+const (
+	SamplingProbabilistic SamplingType = "probabilistic"
+	SamplingAlwaysOn      SamplingType = "always_on"
+	SamplingAlwaysOff     SamplingType = "always_off"
+)
+
+// String returns the string representation of the sampling type
+func (s SamplingType) String() string {
+	return string(s)
+}
+
+// IsValid checks if the sampling type is one of the defined constants
+func (s SamplingType) IsValid() bool {
+	switch s {
+	case SamplingProbabilistic, SamplingAlwaysOn, SamplingAlwaysOff:
+		return true
+	default:
+		return false
+	}
+}
+
 // Service configuration constants
 const (
 	DefaultServiceName          = "unknown-service"
 	DefaultServiceVersion       = "1.0.0"
 	DefaultEnvironment          = "development"
-	DefaultOTLPExporterEndpoint = "localhost:4317"
+	DefaultOTLPExporterEndpoint = "localhost:4318"
 	DefaultSamplingRatio        = 0.2
-	DefaultSamplingType         = "probabilistic"
-	DefaultOTLPExporterProtocol = "grpc"
+	DefaultSamplingType         = SamplingProbabilistic
+	DefaultOTLPExporterProtocol = "http"
 	DefaultBatchTimeout         = 5 * time.Second
 	DefaultExportTimeout        = 30 * time.Second
 	DefaultMaxExportBatchSize   = 512
@@ -31,7 +57,7 @@ var (
 	ValidSamplingTypes = []string{"probabilistic", "always_on", "always_off"}
 	ValidHTTPMethods   = []string{
 		http.MethodHead, http.MethodPost, http.MethodPut,
-		http.MethodDelete, http.MethodPatch, http.MethodHead, http.MethodOptions,
+		http.MethodDelete, http.MethodPatch, http.MethodOptions,
 	}
 	ValidOTLPProtocols = []string{"grpc", "http"}
 )

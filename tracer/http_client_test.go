@@ -33,7 +33,9 @@ func TestNewTracedHTTPClient(t *testing.T) {
 func TestTracedHTTPClient_Do_Success(t *testing.T) {
 	exporter := tracetest.NewInMemoryExporter()
 	tp := sdktrace.NewTracerProvider(sdktrace.WithSyncer(exporter))
-	defer tp.Shutdown(context.Background())
+	defer func() {
+		_ = tp.Shutdown(context.Background())
+	}()
 
 	tracer := New("test-tracer")
 	SetGlobalTracerProvider(tp)
@@ -41,7 +43,7 @@ func TestTracedHTTPClient_Do_Success(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"success": true}`))
+		_, _ = w.Write([]byte(`{"success": true}`))
 	}))
 	defer server.Close()
 
@@ -111,7 +113,9 @@ func TestTracedHTTPClient_Do_Success(t *testing.T) {
 func TestTracedHTTPClient_Get(t *testing.T) {
 	exporter := tracetest.NewInMemoryExporter()
 	tp := sdktrace.NewTracerProvider(sdktrace.WithSyncer(exporter))
-	defer tp.Shutdown(context.Background())
+	defer func() {
+		_ = tp.Shutdown(context.Background())
+	}()
 
 	SetGlobalTracerProvider(tp)
 	tracer := New("test-tracer")
@@ -143,7 +147,9 @@ func TestTracedHTTPClient_Get(t *testing.T) {
 func TestTracedHTTPClient_Post(t *testing.T) {
 	exporter := tracetest.NewInMemoryExporter()
 	tp := sdktrace.NewTracerProvider(sdktrace.WithSyncer(exporter))
-	defer tp.Shutdown(context.Background())
+	defer func() {
+		_ = tp.Shutdown(context.Background())
+	}()
 
 	SetGlobalTracerProvider(tp)
 	tracer := New("test-tracer")
@@ -191,7 +197,9 @@ func TestTracedHTTPClient_Post(t *testing.T) {
 func TestTracedHTTPClient_Do_Error(t *testing.T) {
 	exporter := tracetest.NewInMemoryExporter()
 	tp := sdktrace.NewTracerProvider(sdktrace.WithSyncer(exporter))
-	defer tp.Shutdown(context.Background())
+	defer func() {
+		_ = tp.Shutdown(context.Background())
+	}()
 
 	SetGlobalTracerProvider(tp)
 	tracer := New("test-tracer")
