@@ -72,3 +72,21 @@ func TestExtractTraceContext(t *testing.T) {
 		t.Error("Expected extracted context to be non-nil")
 	}
 }
+
+func TestInjectTraceContext_NilRequest(t *testing.T) {
+	// Test that InjectTraceContext handles nil request gracefully
+	ctx := context.Background()
+
+	// Should not panic
+	InjectTraceContext(ctx, nil)
+}
+
+func TestExtractTraceContext_NilRequest(t *testing.T) {
+	// Test that ExtractTraceContext handles nil request gracefully
+
+	// Should not panic and return background context
+	ctx := ExtractTraceContext(nil)
+	if ctx == nil {
+		t.Error("Expected non-nil context")
+	}
+}

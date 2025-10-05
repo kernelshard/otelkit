@@ -54,6 +54,7 @@ package otelkit
 
 import (
 	"context"
+	"net/http"
 	"time"
 
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
@@ -256,3 +257,19 @@ type ConfigError = config.ConfigError
 
 // InitializationError represents an error during tracer provider initialization.
 type InitializationError = config.InitializationError
+
+// TracedHTTPClient is an alias for the traced HTTP client type.
+type TracedHTTPClient = tracer.TracedHTTPClient
+
+// NewTracedHTTPClient creates a new traced HTTP client.
+func NewTracedHTTPClient(client *http.Client, tr *Tracer, service string) *TracedHTTPClient {
+	return tracer.NewTracedHTTPClient(client, (*tracer.Tracer)(tr), service)
+}
+
+// RecordErrorWithCode safely records an error on the span with a custom error code and message.
+func RecordErrorWithCode(span trace.Span, err error, code string, message string) {
+	tracer.RecordErrorWithCode(span, err, code, message)
+}
+
+// ErrorCodeExternalService is a constant for external service errors.
+const ErrorCodeExternalService = tracer.ErrorCodeExternalService

@@ -1,57 +1,58 @@
-// Package tracer provides a simple, production-ready OpenTelemetry tracing library for Go.
+// Package config provides a robust and production-ready OpenTelemetry tracing configuration
+// system for Go applications.
 //
-// This package offers zero-configuration setup with sensible defaults,
-// while still providing full customization when needed.
+// It supports zero-config defaults with the ability to override behavior via environment
+// variables or fluent-style helper methods.
 //
 // Basic usage:
-//   ctx := context.Background()
-//   shutdown, err := tracer.SetupTracing(ctx, "my-service")
-//   if err != nil {
-//       log.Fatal(err)
-//   }
-//   defer shutdown(ctx)
 //
-// The package handles:
-// - OTLP exporter configuration (HTTP/gRPC)
-// - Sampling strategies (probabilistic, always_on, always_off)
-// - Resource management with service metadata
-// - Context propagation for distributed tracing
-// - HTTP and gRPC instrumentation
+//	ctx := context.Background()
+//	shutdown, err := tracer.SetupTracing(ctx, "my-service")
+//	if err != nil {
+//	    log.Fatal(err)
+//	}
+//	defer shutdown(ctx)
+//
+// Features:
+// - OTLP exporter configuration (HTTP/gRPC, secure/insecure modes)
+// - Sampling strategies: probabilistic, always_on, always_off
+// - Service metadata (name, version, environment, instance ID)
+// - Context propagation and resource attribution
+// - HTTP and gRPC instrumentation compatibility
 // - Error recording and span utilities
 //
-// Configuration can be done via environment variables or programmatically.
-// See the README for comprehensive examples and configuration options.
+// Configuration Sources:
+// - Environment variables (preferred for 12-factor apps)
+// - Programmatic configuration using fluent API
 //
-// This file defines the Config struct, default values, environment-based
-// configuration loading, validation logic, and fluent helper methods.
+// Example (programmatic):
 //
-// Usage:
-//   cfg := tracer.NewConfigFromEnv()
-//   if err := cfg.Validate(); err != nil {
-//       log.Fatalf("invalid config: %v", err)
-//   }
+//	cfg := tracer.NewConfig("auth-service", "1.0.0").
+//	    WithEnvironment("production").
+//	    WithOTLPExporter("localhost:4317", true, "grpc").
+//	    WithSampling(SamplingProbabilistic, 0.5)
 //
-// Environment Variables Supported:
-//   - OTEL_SERVICE_NAME                         (e.g., "user-service")
-//   - OTEL_SERVICE_VERSION                      (e.g., "1.2.3")
-//   - OTEL_ENVIRONMENT                          ("development", "staging", "production")
-//   - OTEL_EXPORTER_OTLP_ENDPOINT               (e.g., "localhost:4317")
-//   - OTEL_EXPORTER_OTLP_INSECURE               (true/false)
-//   - OTEL_EXPORTER_OTLP_PROTOCOL               ("grpc" or "http")
-//   - OTEL_BSP_TIMEOUT                          (e.g., "5s")
-//   - OTEL_EXPORTER_TIMEOUT                     (e.g., "30s")
-//   - OTEL_BSP_MAX_EXPORT_BATCH_SIZE            (e.g., "512")
-//   - OTEL_BSP_MAX_QUEUE_SIZE                   (e.g., "2048")
-//   - OTEL_TRACES_SAMPLER                       ("probabilistic", "always_on", "always_off")
-//   - OTEL_TRACES_SAMPLER_ARG                   (e.g., "0.25")
-//   - OTEL_RESOURCE_ATTRIBUTES_SERVICE_INSTANCE_ID (optional unique instance ID)
+//	if err := cfg.Validate(); err != nil {
+//	    log.Fatalf("invalid config: %v", err)
+//	}
 //
-// Customization:
-//   Use fluent-style helper methods like `WithEnvironment`, `WithSampling`, etc.,
-//   or rely on environment variables.
+// Supported Environment Variables:
+// - OTEL_SERVICE_NAME                          (e.g., "user-service")
+// - OTEL_SERVICE_VERSION                       (e.g., "1.2.3")
+// - OTEL_ENVIRONMENT                           (e.g., "production")
+// - OTEL_EXPORTER_OTLP_ENDPOINT                (e.g., "localhost:4317")
+// - OTEL_EXPORTER_OTLP_INSECURE                (true/false)
+// - OTEL_EXPORTER_OTLP_PROTOCOL                ("grpc" or "http")
+// - OTEL_BSP_TIMEOUT                           (e.g., "5s")
+// - OTEL_EXPORTER_TIMEOUT                      (e.g., "30s")
+// - OTEL_BSP_MAX_EXPORT_BATCH_SIZE             (e.g., "512")
+// - OTEL_BSP_MAX_QUEUE_SIZE                    (e.g., "2048")
+// - OTEL_TRACES_SAMPLER                        ("probabilistic", "always_on", "always_off")
+// - OTEL_TRACES_SAMPLER_ARG                    (e.g., "0.25")
+// - OTEL_RESOURCE_ATTRIBUTES_SERVICE_INSTANCE_ID (optional unique instance ID)
 //
 // Note:
-//   Validation must be called after construction to ensure correctness.
+// Validation must be explicitly called after config construction to ensure correctness.
 
 package config
 
@@ -85,8 +86,8 @@ type Config struct {
 	MaxQueueSize       int           // Maximum queue size for spans (default: 2048)
 
 	// Sampling configuration
-	SamplingRatio float64 // Ratio of traces to sample (0.0 - 1.0)
-	SamplingType  string  // Sampling strategy
+	SamplingRatio float64      // Ratio of traces to sample (0.0 - 1.0)
+	SamplingType  SamplingType // Sampling strategy (type-safe)
 
 	// Resource attributes
 	InstanceID string // Unique instance identifier
@@ -129,7 +130,7 @@ func NewConfigFromEnv() *Config {
 	cfg.OTLPExporterEndpoint = getEnv(EnvOTLPExporterEndpoint, DefaultOTLPExporterEndpoint)
 	cfg.OTLPExporterInsecure = getEnvBool(EnvOTLPExporterInsecure, false)
 	cfg.SamplingRatio = getEnvFloat(EnvSamplingRatio, DefaultSamplingRatio)
-	cfg.SamplingType = getEnv(EnvSamplingType, DefaultSamplingType)
+	cfg.SamplingType = ParseSamplingType(getEnv(EnvSamplingType, string(DefaultSamplingType)))
 	cfg.InstanceID = getEnv(EnvInstanceID, cfg.InstanceID)
 
 	return cfg
@@ -152,7 +153,7 @@ func (c *Config) Validate() error {
 	if c.SamplingRatio < 0 || c.SamplingRatio > 1 {
 		return &ConfigError{Field: "SamplingRatio", Message: ErrInvalidSamplingRatio}
 	}
-	if !contains(ValidSamplingTypes, c.SamplingType) {
+	if !c.SamplingType.IsValid() {
 		return &ConfigError{Field: "SamplingType", Message: ErrInvalidSamplingType}
 	}
 	if !contains(ValidOTLPProtocols, c.OTLPExporterProtocol) {
@@ -177,7 +178,7 @@ func (c *Config) WithOTLPExporter(endpoint string, insecure bool, protocol strin
 }
 
 // WithSampling configures the sampling strategy
-func (c *Config) WithSampling(samplingType string, ratio float64) *Config {
+func (c *Config) WithSampling(samplingType SamplingType, ratio float64) *Config {
 	c.SamplingType = samplingType
 	c.SamplingRatio = ratio
 	return c
@@ -237,4 +238,18 @@ func contains(slice []string, value string) bool {
 
 func generateInstanceID() string {
 	return uuid.NewString()
+}
+
+// ParseSamplingType converts a string to SamplingType with validation
+func ParseSamplingType(s string) SamplingType {
+	switch SamplingType(s) {
+	case SamplingProbabilistic:
+		return SamplingProbabilistic
+	case SamplingAlwaysOn:
+		return SamplingAlwaysOn
+	case SamplingAlwaysOff:
+		return SamplingAlwaysOff
+	default:
+		return DefaultSamplingType
+	}
 }

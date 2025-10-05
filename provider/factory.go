@@ -1,4 +1,36 @@
-// Package provider provides OpenTelemetry tracer provider configuration and initialization.
+/*
+Package provider implements the factory and builder patterns for creating and configuring
+OpenTelemetry tracer providers. It encapsulates the complexity of resource creation,
+exporter setup, batch processing, and sampler configuration.
+
+The package provides a clean, modular API for constructing tracer providers with
+sensible defaults and extensible configuration options.
+
+Key components:
+- InitializationError: Custom error type for initialization failures
+- createResource: Creates or returns an OpenTelemetry resource for service identification
+- createExporter: Factory method for OTLP exporters (HTTP or gRPC)
+- createBatchProcessor: Configures batch span processor with performance tuning options
+- newProvider: Orchestrates creation of the tracer provider from components
+- createSampler: Strategy pattern for sampler selection based on config
+
+Usage example:
+
+	ctx := context.Background()
+	cfg := NewProviderConfig("my-service", "v1.0.0")
+	provider, err := newProvider(ctx, cfg)
+	if err != nil {
+	    log.Fatal(err)
+	}
+
+Design patterns:
+- Factory Method: createExporter, createResource, createBatchProcessor
+- Builder: ProviderConfig fluent API
+- Strategy: createSampler selects sampling strategy
+
+This package follows SOLID principles and Go best practices for maintainable,
+testable, and extensible code.
+*/
 package provider
 
 import (
@@ -29,33 +61,33 @@ func (e *InitializationError) Unwrap() error {
 	return e.Cause
 }
 
-// newProvider creates a new tracer provider based on the provided configuration.
-func newProvider(ctx context.Context, cfg *ProviderConfig) (*sdktrace.TracerProvider, error) {
-	// Use provided resource or create a new one
-	var res *sdkresource.Resource
-	var err error
+// createResource creates an OpenTelemetry resource based on the provided configuration or returns the existing one.
+func createResource(ctx context.Context, cfg *ProviderConfig) (*sdkresource.Resource, error) {
 	if cfg.Resource != nil {
-		res = cfg.Resource
-	} else {
-		res, err = sdkresource.New(ctx,
-			sdkresource.WithAttributes(
-				semconv.ServiceName(cfg.Config.ServiceName),
-				semconv.ServiceVersion(cfg.Config.ServiceVersion),
-				semconv.DeploymentEnvironment(cfg.Config.Environment),
-				semconv.HostName(cfg.Config.Hostname),
-				semconv.ServiceInstanceID(cfg.Config.InstanceID),
-			),
-			sdkresource.WithContainer(),
-			sdkresource.WithHost(),
-			sdkresource.WithOSType(),
-		)
-		if err != nil {
-			return nil, &InitializationError{Component: "resource", Cause: err}
-		}
+		return cfg.Resource, nil
 	}
+	res, err := sdkresource.New(ctx,
+		sdkresource.WithAttributes(
+			semconv.ServiceName(cfg.Config.ServiceName),
+			semconv.ServiceVersion(cfg.Config.ServiceVersion),
+			semconv.DeploymentEnvironment(cfg.Config.Environment),
+			semconv.HostName(cfg.Config.Hostname),
+			semconv.ServiceInstanceID(cfg.Config.InstanceID),
+		),
+		sdkresource.WithContainer(),
+		sdkresource.WithHost(),
+		sdkresource.WithOSType(),
+	)
+	if err != nil {
+		return nil, &InitializationError{Component: "resource", Cause: err}
+	}
+	return res, nil
+}
 
-	// Create exporter
+// createExporter creates an OTLP exporter based on the configuration.
+func createExporter(ctx context.Context, cfg *ProviderConfig) (sdktrace.SpanExporter, error) {
 	var exporter sdktrace.SpanExporter
+	var err error
 	switch cfg.Config.OTLPExporterProtocol {
 	case "http":
 		exporter, err = createHTTPExporter(ctx, cfg.Config)
@@ -67,10 +99,11 @@ func newProvider(ctx context.Context, cfg *ProviderConfig) (*sdktrace.TracerProv
 	if err != nil {
 		return nil, &InitializationError{Component: "exporter", Cause: err}
 	}
+	return exporter, nil
+}
 
-	// Create sampler
-	sampler := createSampler(cfg.Config)
-
+// createBatchProcessor creates a batch span processor with the given exporter and configuration.
+func createBatchProcessor(exporter sdktrace.SpanExporter, cfg *ProviderConfig) sdktrace.SpanProcessor {
 	// Set defaults for batch processor options if not provided
 	if cfg.BatchTimeout == 0 {
 		cfg.BatchTimeout = config.DefaultBatchTimeout
@@ -85,13 +118,29 @@ func newProvider(ctx context.Context, cfg *ProviderConfig) (*sdktrace.TracerProv
 		cfg.MaxQueueSize = config.DefaultMaxQueueSize
 	}
 
-	// Batch span processor with configurable options
-	bsp := sdktrace.NewBatchSpanProcessor(exporter,
+	return sdktrace.NewBatchSpanProcessor(exporter,
 		sdktrace.WithBatchTimeout(cfg.BatchTimeout),
 		sdktrace.WithExportTimeout(cfg.ExportTimeout),
 		sdktrace.WithMaxExportBatchSize(cfg.MaxExportBatchSize),
 		sdktrace.WithMaxQueueSize(cfg.MaxQueueSize),
 	)
+}
+
+// newProvider creates a new tracer provider based on the provided configuration.
+func newProvider(ctx context.Context, cfg *ProviderConfig) (*sdktrace.TracerProvider, error) {
+	res, err := createResource(ctx, cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	exporter, err := createExporter(ctx, cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	sampler := createSampler(cfg.Config)
+
+	bsp := createBatchProcessor(exporter, cfg)
 
 	tp := sdktrace.NewTracerProvider(
 		sdktrace.WithResource(res),
@@ -124,20 +173,49 @@ func createHTTPExporter(ctx context.Context, cfg *config.Config) (sdktrace.SpanE
 	return otlptracehttp.New(ctx, opts...)
 }
 
-// createSampler creates a sampler instance based on the provided configuration.
-func createSampler(cfg *config.Config) sdktrace.Sampler {
-	var sampler sdktrace.Sampler
+// SamplerFactory defines the interface for creating samplers.
+// This allows for extensible sampler creation without modifying existing code.
+type SamplerFactory interface {
+	CreateSampler(cfg *config.Config) sdktrace.Sampler
+}
 
-	switch cfg.SamplingType {
-	case "probabilistic":
-		sampler = sdktrace.ParentBased(sdktrace.TraceIDRatioBased(cfg.SamplingRatio))
-	case "always_on":
-		sampler = sdktrace.AlwaysSample()
-	case "always_off":
-		sampler = sdktrace.NeverSample()
-	default:
-		// Fallback to probabilistic sampling
-		sampler = sdktrace.ParentBased(sdktrace.TraceIDRatioBased(config.DefaultSamplingRatio))
+// ProbabilisticSamplerFactory creates probabilistic samplers
+type ProbabilisticSamplerFactory struct{}
+
+func (f *ProbabilisticSamplerFactory) CreateSampler(cfg *config.Config) sdktrace.Sampler {
+	return sdktrace.ParentBased(sdktrace.TraceIDRatioBased(cfg.SamplingRatio))
+}
+
+// AlwaysOnSamplerFactory creates always-on samplers
+type AlwaysOnSamplerFactory struct{}
+
+func (f *AlwaysOnSamplerFactory) CreateSampler(cfg *config.Config) sdktrace.Sampler {
+	return sdktrace.AlwaysSample()
+}
+
+// AlwaysOffSamplerFactory creates always-off samplers
+type AlwaysOffSamplerFactory struct{}
+
+func (f *AlwaysOffSamplerFactory) CreateSampler(cfg *config.Config) sdktrace.Sampler {
+	return sdktrace.NeverSample()
+}
+
+// samplerFactories holds the mapping of sampler types to their factories
+var samplerFactories = map[config.SamplingType]SamplerFactory{
+	config.SamplingProbabilistic: &ProbabilisticSamplerFactory{},
+	config.SamplingAlwaysOn:      &AlwaysOnSamplerFactory{},
+	config.SamplingAlwaysOff:     &AlwaysOffSamplerFactory{},
+}
+
+// createSampler creates a sampler instance based on the provided configuration.
+// This implementation follows the Open-Closed Principle by using the Strategy pattern
+// with factory interfaces, allowing new sampler types to be added without modifying
+// this function.
+func createSampler(cfg *config.Config) sdktrace.Sampler {
+	if factory, exists := samplerFactories[cfg.SamplingType]; exists {
+		return factory.CreateSampler(cfg)
 	}
-	return sampler
+
+	// Fallback to probabilistic sampling for unknown types
+	return samplerFactories["probabilistic"].CreateSampler(cfg)
 }

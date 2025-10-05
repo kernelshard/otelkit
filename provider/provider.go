@@ -110,16 +110,16 @@ func (pc *ProviderConfig) WithOTLPExporter(endpoint, protocol string, insecure b
 // for managing overhead in high-traffic applications.
 //
 // Parameters:
-//   - samplingType: "probabilistic" (ratio-based), "always_on" (100%), or "always_off" (0%)
+//   - samplingType: SamplingProbabilistic (ratio-based), SamplingAlwaysOn (100%), or SamplingAlwaysOff (0%)
 //   - ratio: For probabilistic sampling, the ratio of traces to sample (0.0 to 1.0)
 //     Ignored for "always_on" and "always_off" strategies
 //
 // Example:
 //
-//	config.WithSampling("probabilistic", 0.01)  // 1% sampling for production
-//	config.WithSampling("always_on", 0)        // 100% sampling for development
-//	config.WithSampling("always_off", 0)       // Disable tracing
-func (pc *ProviderConfig) WithSampling(samplingType string, ratio float64) *ProviderConfig {
+//	config.WithSampling(config.SamplingProbabilistic, 0.01)  // 1% sampling for production
+//	config.WithSampling(config.SamplingAlwaysOn, 0)         // 100% sampling for development
+//	config.WithSampling(config.SamplingAlwaysOff, 0)        // Disable tracing
+func (pc *ProviderConfig) WithSampling(samplingType config.SamplingType, ratio float64) *ProviderConfig {
 	pc.Config.SamplingType = samplingType
 	pc.Config.SamplingRatio = ratio
 	return pc

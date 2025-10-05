@@ -40,6 +40,7 @@ import (
 	"time"
 
 	"github.com/samims/otelkit"
+	"github.com/samims/otelkit/internal/config"
 	"go.opentelemetry.io/otel/attribute"
 )
 
@@ -96,47 +97,62 @@ func main() {
 // loadProductionConfig loads production-ready configuration
 func loadProductionConfig() *otelkit.ProviderConfig {
 	// Create base configuration
-	config := otelkit.NewProviderConfig("production-service", "1.0.0")
+	providerCfg := otelkit.NewProviderConfig("production-service", "1.0.0")
 
 	// Override with environment variables
 	if serviceName := os.Getenv("OTEL_SERVICE_NAME"); serviceName != "" {
-		config.Config.ServiceName = serviceName
+		providerCfg.Config.ServiceName = serviceName
 	}
 	if serviceVersion := os.Getenv("OTEL_SERVICE_VERSION"); serviceVersion != "" {
-		config.Config.ServiceVersion = serviceVersion
+		providerCfg.Config.ServiceVersion = serviceVersion
 	}
 	if endpoint := os.Getenv("OTEL_EXPORTER_OTLP_ENDPOINT"); endpoint != "" {
-		config.Config.OTLPExporterEndpoint = endpoint
+		providerCfg.Config.OTLPExporterEndpoint = endpoint
 	}
 	if sampler := os.Getenv("OTEL_TRACES_SAMPLER"); sampler != "" {
-		config.Config.SamplingType = sampler
+		// Parse sampling type from environment variable
+		switch sampler {
+		case "probabilistic":
+			providerCfg.Config.SamplingType = config.SamplingProbabilistic
+		case "always_on":
+			providerCfg.Config.SamplingType = config.SamplingAlwaysOn
+		case "always_off":
+			providerCfg.Config.SamplingType = config.SamplingAlwaysOff
+		default:
+			log.Printf("Unknown sampling type: %s, using default", sampler)
+		}
 	}
 	if samplerArg := os.Getenv("OTEL_TRACES_SAMPLER_ARG"); samplerArg != "" {
 		var ratio float64
 		if _, err := fmt.Sscanf(samplerArg, "%f", &ratio); err != nil {
 			log.Printf("Invalid sampling ratio: %v, using default", err)
 		} else {
-			config.Config.SamplingRatio = ratio
+			providerCfg.Config.SamplingRatio = ratio
 		}
 	}
 
 	// Set production defaults
-	config.WithSampling("probabilistic", 0.1) // 10% sampling for production
-	config.WithBatchOptions(
+	providerCfg.WithSampling(config.SamplingProbabilistic, 0.1) // 10% sampling for production
+	providerCfg.WithBatchOptions(
 		2*time.Second,  // batch timeout
 		30*time.Second, // export timeout
 		512,            // max batch size
 		2048,           // max queue size
 	)
 
-	return config
+	return providerCfg
 }
 
 // initDatabase initializes database with connection pooling
+// Note: This example uses PostgreSQL. For a simpler setup, you could use SQLite:
+//
+//	import _ "github.com/mattn/go-sqlite3"
+//	db, err := sql.Open("sqlite3", ":memory:")
 func initDatabase(cfg *otelkit.ProviderConfig) (*sql.DB, error) {
 	// In production, use environment variables for database connection
-	dsn := os.Getenv("DATABASE_URL")
+	dsn := getEnv("DATABASE_URL", "")
 	if dsn == "" {
+		// For local development
 		dsn = "postgres://user:password@localhost:5432/production?sslmode=disable"
 	}
 
@@ -163,12 +179,21 @@ func initDatabase(cfg *otelkit.ProviderConfig) (*sql.DB, error) {
 // initTracerProvider initializes the tracer provider with production settings
 func initTracerProvider(ctx context.Context, cfg *otelkit.ProviderConfig) (*otelkit.ProviderConfig, error) {
 	// The config is already properly configured in loadProductionConfig
+	// Create and initialize the provider
+	_, err := otelkit.NewProvider(ctx, cfg)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create tracer provider: %w", err)
+	}
+
 	return cfg, nil
 }
 
 // shutdownTracerProvider gracefully shuts down the tracer provider
 func shutdownTracerProvider(ctx context.Context, cfg *otelkit.ProviderConfig) {
-	// This would be called during graceful shutdown
+	// Note: In a real application, you would store the provider instance
+	// and call provider.Shutdown(shutdownCtx) here
+	// The shutdown is handled by the global provider set in initTracerProvider
+	log.Println("Tracer provider shutdown complete")
 }
 
 // setupHTTPServer configures the HTTP server with all routes
