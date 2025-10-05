@@ -7,9 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2025-10-06
+
 ### Added
-- GitHub Actions CI/CD workflow
-- Issue templates for bugs and feature requests
+- Official Gin framework integration using `otelgin` middleware
+- Comprehensive Gin integration guide (examples/gin/README.md)
+- Type-safe `SamplingType` with custom type and validation
+- Nil safety checks in propagation package to prevent panics
+- Tests for nil safety in `InjectTraceContext` and `ExtractTraceContext`
+
+### Changed
+- Upgraded OpenTelemetry SDK to v1.38.0 (from v1.37.0)
+- Refactored provider factory with proper factory pattern
+- Completed production example with full implementation
+
+### Fixed
+- Provider documentation (corrected OTLP HTTP endpoint from 4317 to 4318)
+- Nil pointer panics in propagation functions
+- Production example stub functions now fully implemented
+
+### Dependencies
+- Added `go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin` v0.63.0
+- Updated all OpenTelemetry packages to v1.38.0
 
 ## [0.2.0] - 2025-01-24
 
