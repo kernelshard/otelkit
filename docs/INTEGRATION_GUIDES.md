@@ -14,7 +14,7 @@ import (
     "net/http"
     "time"
 
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func main() {
@@ -70,7 +70,7 @@ import (
     "time"
 
     "github.com/gin-gonic/gin"
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func main() {
@@ -109,7 +109,7 @@ import (
     "net/http"
 
     "github.com/gin-gonic/gin"
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
     "go.opentelemetry.io/otel/attribute"
 )
 
@@ -167,7 +167,7 @@ import (
     "time"
 
     "github.com/go-chi/chi/v5"
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func main() {
@@ -203,7 +203,7 @@ import (
     "net/http"
 
     "github.com/go-chi/chi/v5"
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func OtelKitMiddleware(tracer *otelkit.Tracer) func(http.Handler) http.Handler {
@@ -246,7 +246,7 @@ import (
     "time"
 
     "github.com/labstack/echo/v4"
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func main() {
@@ -289,7 +289,7 @@ import (
     "net/http"
 
     "github.com/labstack/echo/v4"
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func OtelKitMiddleware(tracer *otelkit.Tracer) echo.MiddlewareFunc {
@@ -344,7 +344,7 @@ import (
     "time"
 
     "github.com/gorilla/mux"
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func main() {
@@ -385,7 +385,7 @@ import (
     "database/sql"
     "time"
 
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
     _ "github.com/lib/pq"
     "go.opentelemetry.io/otel/attribute"
 )
@@ -432,7 +432,7 @@ import (
     "context"
     "testing"
 
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
     "github.com/stretchr/testify/assert"
     "go.opentelemetry.io/otel/sdk/trace/tracetest"
 )

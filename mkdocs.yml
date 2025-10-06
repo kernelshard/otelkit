@@ -1,5 +1,6 @@
-site_name: otelkit
-site_description: HTTP middleware for automatic request tracing with OpenTelemetry
+
+site_name: otelkit - OpenTelemetry Tracing for Go
+site_description: Zero boilerplate OpenTelemetry distributed tracing for Go applications. Works with Gin, Echo, Chi, Gorilla Mux, Fiber, and any http.Handler. Production-ready with flexible sampling and multiple exporters.
 site_author: kernelshard
 site_url: https://kernelshard.github.io/otelkit/
 
@@ -9,21 +10,30 @@ repo_url: https://github.com/kernelshard/otelkit
 docs_dir: docs
 theme:
   name: material
+  logo: assets/images/favicon.png
+  favicon: assets/images/favicon.png
   palette:
-    primary: blue
-    accent: blue
-  font:
-    text: Roboto
-    code: Roboto Mono
+    - scheme: default
+      primary: indigo
+      accent: indigo
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
   features:
     - navigation.tabs
+    - navigation.top
+    - navigation.instant
+    - navigation.expand
     - navigation.sections
-    - toc.integrate
-    - search.suggest
     - search.highlight
+    - search.suggest
+    - toc.integrate
+    - content.code.annotate
     - content.tabs.link
     - content.code.copy
-    - content.code.annotate
   icon:
     repo: fontawesome/brands/github
 
@@ -33,17 +43,30 @@ plugins:
 nav:
   - Home: index.md
   - Getting Started: GETTING_STARTED.md
+  - Guides:
+      - guides.md
+      - Getting Started: GETTING_STARTED.md
+      - Integration Guides: INTEGRATION_GUIDES.md
+      - Advanced Usage: ADVANCED_USAGE.md
+      - Integration Testing: INTEGRATION_TESTING.md
+      - Migration Guide: MIGRATION_GUIDE.md
+      - Troubleshooting: TROUBLESHOOTING.md
   - API Reference: API_REFERENCE.md
-  - Advanced Usage: ADVANCED_USAGE.md
-  - Integration Guides: INTEGRATION_GUIDES.md
-  - Integration Testing: INTEGRATION_TESTING.md
-  - Migration Guide: MIGRATION_GUIDE.md
-  - Troubleshooting: TROUBLESHOOTING.md
+  - Examples:
+      - examples/index.md
+      - Basic: examples/basic.md
+      - Gin: examples/gin.md
+      - Production: examples/production.md
+      - Traced HTTP Client: examples/traced_http_client.md
 
 extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/kernelshard/otelkit
+
+extra_css:
+  - stylesheets/custom.css
+
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -52,21 +75,16 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.superfences
   - pymdownx.details
   - pymdownx.tabbed:
       alternate_style: true
       combine_header_slug: true
-      slugify: !!python/object/apply:pymdownx.slugs.slugify
-        kwds:
-          case: lower
   - admonition
+  - toc:
+      permalink: true
+  - attr_list
+  - md_in_html
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
-  - toc:
-      permalink: true
