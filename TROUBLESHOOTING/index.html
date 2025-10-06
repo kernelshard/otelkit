@@ -1,0 +1,1046 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Troubleshooting Guide - otelkit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#troubleshooting-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="otelkit" class="md-header__button md-logo" aria-label="otelkit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            otelkit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Troubleshooting Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="otelkit" class="md-nav__button md-logo" aria-label="otelkit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    otelkit
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common-issues-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues and Solutions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Issues and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-no-traces-appearing" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. No Traces Appearing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. No Traces Appearing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-collector-connectivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check Collector Connectivity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check Sampling
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-high-memory-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. High Memory Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. High Memory Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reduce-batch-sizes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reduce Batch Sizes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#increase-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Increase Sampling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitor-span-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitor Span Creation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-performance-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Performance Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Performance Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tune-batch-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tune Batch Processing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-probabilistic-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Probabilistic Sampling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async-span-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Async Span Creation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-configuration-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Configuration Errors
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Configuration Errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validate-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validate Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check Environment Variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debug-configuration-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debug Configuration Loading
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-collector-connection-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Collector Connection Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Collector Connection Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-connectivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Connectivity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-tls-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check TLS Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-context-propagation-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Context Propagation Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Context Propagation Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-context-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify Context Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-middleware-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check Middleware Order
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debugging Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Debugging Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-enable-debug-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Enable Debug Logging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-in-memory-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. In-Memory Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-health-check-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Health Check Endpoint
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-specific-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment-Specific Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Environment-Specific Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetes-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kubernetes Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-provider-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloud Provider Issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Monitoring
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memory-profiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Profiling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#span-count-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Span Count Monitoring
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-error-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Error Messages
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Error Messages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-refused" class="md-nav__link">
+    <span class="md-ellipsis">
+      "connection refused"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#certificate-verify-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      "certificate verify failed"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-deadline-exceeded" class="md-nav__link">
+    <span class="md-ellipsis">
+      "context deadline exceeded"
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Help
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debug-information-to-collect" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debug Information to Collect
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Support Channels
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-debug-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Debug Script
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="troubleshooting-guide">Troubleshooting Guide</h1>
+<p>This guide helps you resolve common issues when using OtelKit.</p>
+<h2 id="common-issues-and-solutions">Common Issues and Solutions</h2>
+<h3 id="1-no-traces-appearing">1. No Traces Appearing</h3>
+<p><strong>Symptoms:</strong>
+- No traces visible in your collector UI
+- Empty trace list in Jaeger/Zipkin</p>
+<p><strong>Solutions:</strong></p>
+<h4 id="check-collector-connectivity">Check Collector Connectivity</h4>
+<pre><code class="language-bash"># Test connectivity to collector
+curl -v http://localhost:4318/v1/traces
+# or for gRPC
+grpcurl -plaintext localhost:4317 list
+</code></pre>
+<h4 id="verify-configuration">Verify Configuration</h4>
+<pre><code class="language-go">// Add debug logging
+config := otelkit.NewProviderConfig(&quot;service&quot;, &quot;v1.0.0&quot;)
+fmt.Printf(&quot;Config: %+v\n&quot;, config)
+</code></pre>
+<h4 id="check-sampling">Check Sampling</h4>
+<pre><code class="language-go">// Ensure sampling is enabled
+config.WithSampling(&quot;always_on&quot;, 1.0) // For debugging
+</code></pre>
+<h3 id="2-high-memory-usage">2. High Memory Usage</h3>
+<p><strong>Symptoms:</strong>
+- Application memory usage increases over time
+- Out of memory errors</p>
+<p><strong>Solutions:</strong></p>
+<h4 id="reduce-batch-sizes">Reduce Batch Sizes</h4>
+<pre><code class="language-go">config.WithBatchOptions(
+    5*time.Second,
+    30*time.Second,
+    256,  // Reduced batch size
+    1024, // Reduced queue size
+)
+</code></pre>
+<h4 id="increase-sampling">Increase Sampling</h4>
+<pre><code class="language-go">config.WithSampling(&quot;probabilistic&quot;, 0.1) // Increase sampling ratio
+</code></pre>
+<h4 id="monitor-span-creation">Monitor Span Creation</h4>
+<pre><code class="language-go">// Add span count monitoring
+spanCounter := 0
+go func() {
+    for {
+        time.Sleep(10 * time.Second)
+        fmt.Printf(&quot;Spans created: %d\n&quot;, spanCounter)
+    }
+}()
+</code></pre>
+<h3 id="3-performance-issues">3. Performance Issues</h3>
+<p><strong>Symptoms:</strong>
+- High CPU usage
+- Slow request processing</p>
+<p><strong>Solutions:</strong></p>
+<h4 id="tune-batch-processing">Tune Batch Processing</h4>
+<pre><code class="language-go">config.WithBatchOptions(
+    10*time.Second,  // Longer batch timeout
+    60*time.Second,  // Longer export timeout
+    1024,           // Larger batch size
+    4096,           // Larger queue size
+)
+</code></pre>
+<h4 id="use-probabilistic-sampling">Use Probabilistic Sampling</h4>
+<pre><code class="language-go">config.WithSampling(&quot;probabilistic&quot;, 0.01) // 1% sampling
+</code></pre>
+<h4 id="async-span-creation">Async Span Creation</h4>
+<pre><code class="language-go">// Use goroutines for expensive operations
+go func() {
+    ctx, span := tracer.Start(ctx, &quot;background-work&quot;)
+    defer span.End()
+    // Your background work
+}()
+</code></pre>
+<h3 id="4-configuration-errors">4. Configuration Errors</h3>
+<p><strong>Symptoms:</strong>
+- Application fails to start
+- Configuration validation errors</p>
+<p><strong>Solutions:</strong></p>
+<h4 id="validate-configuration">Validate Configuration</h4>
+<pre><code class="language-go">if err := config.Validate(); err != nil {
+    fmt.Printf(&quot;Configuration error: %v\n&quot;, err)
+    // Handle error appropriately
+}
+</code></pre>
+<h4 id="check-environment-variables">Check Environment Variables</h4>
+<pre><code class="language-bash"># Print all OTEL environment variables
+env | grep OTEL
+</code></pre>
+<h4 id="debug-configuration-loading">Debug Configuration Loading</h4>
+<pre><code class="language-go">cfg := otelkit.NewConfigFromEnv()
+fmt.Printf(&quot;Loaded config: %+v\n&quot;, cfg)
+</code></pre>
+<h3 id="5-collector-connection-issues">5. Collector Connection Issues</h3>
+<p><strong>Symptoms:</strong>
+- Connection refused errors
+- TLS certificate issues</p>
+<p><strong>Solutions:</strong></p>
+<h4 id="test-connectivity">Test Connectivity</h4>
+<pre><code class="language-bash"># Test HTTP endpoint
+curl -X POST http://localhost:4318/v1/traces \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;resourceSpans&quot;:[]}'
+</code></pre>
+<h4 id="check-tls-configuration">Check TLS Configuration</h4>
+<pre><code class="language-go">// For insecure connections (development)
+config.WithOTLPExporter(&quot;localhost:4317&quot;, &quot;grpc&quot;, true)
+
+// For secure connections (production)
+config.WithOTLPExporter(&quot;collector.example.com:4317&quot;, &quot;grpc&quot;, false)
+</code></pre>
+<h3 id="6-context-propagation-issues">6. Context Propagation Issues</h3>
+<p><strong>Symptoms:</strong>
+- Broken trace chains
+- Missing parent spans</p>
+<p><strong>Solutions:</strong></p>
+<h4 id="verify-context-usage">Verify Context Usage</h4>
+<pre><code class="language-go">// Always pass context
+func processRequest(ctx context.Context, data string) error {
+    ctx, span := tracer.Start(ctx, &quot;process-request&quot;)
+    defer span.End()
+
+    // Pass context to downstream calls
+    return downstreamService.Process(ctx, data)
+}
+</code></pre>
+<h4 id="check-middleware-order">Check Middleware Order</h4>
+<pre><code class="language-go">// Ensure middleware is applied correctly
+r := chi.NewRouter()
+r.Use(otelkitMiddleware) // Applied before routes
+r.Get(&quot;/api&quot;, handler)
+</code></pre>
+<h2 id="debugging-tools">Debugging Tools</h2>
+<h3 id="1-enable-debug-logging">1. Enable Debug Logging</h3>
+<pre><code class="language-go">import &quot;go.opentelemetry.io/otel/sdk/trace&quot;
+
+// Enable debug logging
+logger := log.New(os.Stdout, &quot;OTEL: &quot;, log.LstdFlags)
+tp := sdktrace.NewTracerProvider(
+    sdktrace.WithSyncer(exporter),
+    sdktrace.WithResource(res),
+)
+</code></pre>
+<h3 id="2-in-memory-testing">2. In-Memory Testing</h3>
+<pre><code class="language-go">import &quot;go.opentelemetry.io/otel/sdk/trace/tracetest&quot;
+
+// Use in-memory exporter for testing
+exporter := tracetest.NewInMemoryExporter()
+provider := sdktrace.NewTracerProvider(
+    sdktrace.WithSyncer(exporter),
+)
+
+// After operations
+spans := exporter.GetSpans()
+fmt.Printf(&quot;Captured %d spans\n&quot;, len(spans))
+</code></pre>
+<h3 id="3-health-check-endpoint">3. Health Check Endpoint</h3>
+<pre><code class="language-go">func healthCheck(w http.ResponseWriter, r *http.Request) {
+    ctx, span := tracer.Start(r.Context(), &quot;health-check&quot;)
+    defer span.End()
+
+    // Perform health check
+    if err := checkCollectorHealth(ctx); err != nil {
+        span.SetStatus(codes.Error, err.Error())
+        http.Error(w, &quot;Unhealthy&quot;, http.StatusServiceUnavailable)
+        return
+    }
+
+    w.WriteHeader(http.StatusOK)
+    w.Write([]byte(&quot;OK&quot;))
+}
+</code></pre>
+<h2 id="environment-specific-issues">Environment-Specific Issues</h2>
+<h3 id="docker-issues">Docker Issues</h3>
+<pre><code class="language-dockerfile"># Ensure proper networking
+FROM golang:1.22-alpine
+WORKDIR /app
+COPY . .
+RUN go build -o app .
+
+# Use host network for local development
+docker run --network host my-app
+</code></pre>
+<h3 id="kubernetes-issues">Kubernetes Issues</h3>
+<pre><code class="language-yaml"># Ensure proper service discovery
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector
+spec:
+  selector:
+    app: otel-collector
+  ports:
+  - port: 4317
+    targetPort: 4317
+</code></pre>
+<h3 id="cloud-provider-issues">Cloud Provider Issues</h3>
+<pre><code class="language-go">// AWS ECS
+config := otelkit.NewProviderConfig(&quot;service&quot;, &quot;v1.0.0&quot;).
+    WithOTLPExporter(&quot;otel-collector.local:4317&quot;, &quot;grpc&quot;, false)
+
+// GCP Cloud Run
+config := otelkit.NewProviderConfig(&quot;service&quot;, &quot;v1.0.0&quot;).
+    WithOTLPExporter(&quot;otel-collector:4317&quot;, &quot;grpc&quot;, false)
+</code></pre>
+<h2 id="performance-monitoring">Performance Monitoring</h2>
+<h3 id="memory-profiling">Memory Profiling</h3>
+<pre><code class="language-go">import &quot;runtime&quot;
+
+// Monitor memory usage
+var m runtime.MemStats
+runtime.ReadMemStats(&amp;m)
+fmt.Printf(&quot;Memory usage: %d MB\n&quot;, m.Alloc/1024/1024)
+</code></pre>
+<h3 id="span-count-monitoring">Span Count Monitoring</h3>
+<pre><code class="language-go">// Monitor span creation rate
+spanCounter := 0
+go func() {
+    for {
+        time.Sleep(10 * time.Second)
+        fmt.Printf(&quot;Spans per second: %d\n&quot;, spanCounter/10)
+        spanCounter = 0
+    }
+}()
+</code></pre>
+<h2 id="common-error-messages">Common Error Messages</h2>
+<h3 id="connection-refused">"connection refused"</h3>
+<ul>
+<li>Check if collector is running</li>
+<li>Verify endpoint configuration</li>
+<li>Check firewall settings</li>
+</ul>
+<h3 id="certificate-verify-failed">"certificate verify failed"</h3>
+<ul>
+<li>Use insecure mode for development</li>
+<li>Install proper certificates for production</li>
+<li>Check certificate validity</li>
+</ul>
+<h3 id="context-deadline-exceeded">"context deadline exceeded"</h3>
+<ul>
+<li>Increase timeout values</li>
+<li>Check network connectivity</li>
+<li>Verify collector availability</li>
+</ul>
+<h2 id="getting-help">Getting Help</h2>
+<h3 id="debug-information-to-collect">Debug Information to Collect</h3>
+<ol>
+<li>Configuration values (sanitized)</li>
+<li>Environment variables</li>
+<li>Collector logs</li>
+<li>Application logs</li>
+<li>Network connectivity tests</li>
+</ol>
+<h3 id="support-channels">Support Channels</h3>
+<ol>
+<li>Check GitHub issues</li>
+<li>Review documentation</li>
+<li>Test with minimal reproduction</li>
+<li>Provide debug information</li>
+</ol>
+<h3 id="example-debug-script">Example Debug Script</h3>
+<p>```bash</p>
+<h1 id="binbash">!/bin/bash</h1>
+<p>echo "=== OtelKit Debug Information ==="
+echo "Go version: $(go version)"
+echo "OtelKit version: $(go list -m github.com/samims/otelkit)"
+echo "Environment variables:"
+env | grep OTEL
+echo "=== Collector Health Check ==="
+curl -v http://localhost:4318/v1/traces || echo "Collector not accessible"</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
