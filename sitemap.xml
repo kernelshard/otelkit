@@ -32,4 +32,28 @@
          <loc>https://kernelshard.github.io/otelkit/TROUBLESHOOTING/</loc>
          <lastmod>2025-10-06</lastmod>
     </url>
+    <url>
+         <loc>https://kernelshard.github.io/otelkit/guides/</loc>
+         <lastmod>2025-10-06</lastmod>
+    </url>
+    <url>
+         <loc>https://kernelshard.github.io/otelkit/examples/</loc>
+         <lastmod>2025-10-06</lastmod>
+    </url>
+    <url>
+         <loc>https://kernelshard.github.io/otelkit/examples/basic/</loc>
+         <lastmod>2025-10-06</lastmod>
+    </url>
+    <url>
+         <loc>https://kernelshard.github.io/otelkit/examples/gin/</loc>
+         <lastmod>2025-10-06</lastmod>
+    </url>
+    <url>
+         <loc>https://kernelshard.github.io/otelkit/examples/production/</loc>
+         <lastmod>2025-10-06</lastmod>
+    </url>
+    <url>
+         <loc>https://kernelshard.github.io/otelkit/examples/traced_http_client/</loc>
+         <lastmod>2025-10-06</lastmod>
+    </url>
 </urlset>
