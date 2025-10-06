@@ -11,13 +11,14 @@ A simple HTTP server with OpenTelemetry integration showing:
 - Manual span creation
 - Attribute setting
 - Context propagation
-- Error handling
+- **Enhanced error handling** with automatic classification and stack traces
 
 **Quick Start:**
 ```bash
 cd basic
 go run main.go
 curl http://localhost:8080/hello
+curl "http://localhost:8080/error?type=validation"
 ```
 
 ### 2. Gin Framework (`gin/`)
