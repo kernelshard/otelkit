@@ -52,3 +52,18 @@ Dockerfile
 # Temporary files
 tmp/
 temp/
+
+# MkDocs
+site/
+.cache/
+
+# Python (for MkDocs)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
