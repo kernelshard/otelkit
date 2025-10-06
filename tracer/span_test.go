@@ -80,6 +80,32 @@ func TestRecordError(t *testing.T) {
 	RecordError(nil, nil)
 }
 
+func TestRecordErrorEnhanced(t *testing.T) {
+	tr := New("test-tracer")
+	ctx := context.Background()
+	_, span := tr.Start(ctx, "test-span")
+	defer span.End()
+
+	testError := errors.New("something went wrong")
+
+	// Test basic enhanced error recording - should default to custom type
+	RecordErrorEnhanced(span, testError)
+
+	// Test with nil span - should not panic
+	RecordErrorEnhanced(nil, testError)
+
+	// Test with nil error - should not panic
+	RecordErrorEnhanced(span, nil)
+
+	// Test with explicit error type
+	RecordErrorEnhanced(span, testError,
+		WithErrorType(ErrorTypeValidation),
+		WithStackTrace(false),
+		WithErrorCode("TEST_ERROR"),
+		WithErrorAttributes(attribute.String("test", "value")),
+	)
+}
+
 func TestEndSpan(t *testing.T) {
 	tr := New("test-tracer")
 	ctx := context.Background()
