@@ -1,0 +1,39 @@
+/* Minimal, clean design following Air documentation style */
+
+/* Keep default Material theme, minimal customization */
+
+.md-typeset h1 {
+    font-weight: 700;
+    margin-bottom: 0.5em;
+}
+
+.md-typeset h1 + p {
+    font-size: 1.1em;
+    margin-bottom: 1.5em;
+}
+
+.md-typeset h2 {
+    margin-top: 2em;
+    margin-bottom: 0.8em;
+}
+
+/* Code blocks */
+.md-typeset .highlight {
+    margin: 1em 0;
+}
+
+/* Admonitions */
+.md-typeset .admonition {
+    margin: 1.5em 0;
+}
+
+/* Lists */
+.md-typeset ul {
+    margin: 1em 0;
+}
+
+.md-typeset ul li {
+    margin: 0.5em 0;
+}
+
+
