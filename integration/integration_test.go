@@ -1,6 +1,6 @@
 //go:build integration
 
-package otelkit
+package integration
 
 import (
 	"context"
@@ -8,6 +8,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/kernelshard/otelkit"
+	"github.com/kernelshard/otelkit/internal/config"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	sdkresource "go.opentelemetry.io/otel/sdk/resource"
@@ -28,18 +30,18 @@ func TestIntegration_HTTPExporter(t *testing.T) {
 	serviceVersion := "1.0.0"
 
 	// Create provider with HTTP exporter
-	config := NewProviderConfig(serviceName, serviceVersion).
+	config := otelkit.NewProviderConfig(serviceName, serviceVersion).
 		WithOTLPExporter("localhost:4318", "http", true).
 		WithSampling("always_on", 1.0)
 
-	provider, err := NewProvider(ctx, config)
+	provider, err := otelkit.NewProvider(ctx, config)
 	if err != nil {
 		t.Fatalf("Failed to create provider: %v", err)
 	}
-	defer ShutdownTracerProvider(ctx, provider)
+	defer otelkit.ShutdownTracerProvider(ctx, provider)
 
 	// Create tracer and test spans
-	tracer := New("integration-test")
+	tracer := otelkit.New("integration-test")
 	_, span := tracer.Start(ctx, "integration-test-span")
 	span.SetAttributes(attribute.String("test.attribute", "integration-value"))
 	span.End()
@@ -76,18 +78,18 @@ func TestIntegration_GRPCExporter(t *testing.T) {
 	serviceVersion := "1.0.0"
 
 	// Create provider with gRPC exporter
-	config := NewProviderConfig(serviceName, serviceVersion).
+	config := otelkit.NewProviderConfig(serviceName, serviceVersion).
 		WithOTLPExporter("localhost:4317", "grpc", true).
 		WithSampling("always_on", 1.0)
 
-	provider, err := NewProvider(ctx, config)
+	provider, err := otelkit.NewProvider(ctx, config)
 	if err != nil {
 		t.Fatalf("Failed to create provider: %v", err)
 	}
-	defer ShutdownTracerProvider(ctx, provider)
+	defer otelkit.ShutdownTracerProvider(ctx, provider)
 
 	// Test different sampling strategies
-	tracer := New("integration-grpc-test")
+	tracer := otelkit.New("integration-grpc-test")
 
 	// Test probabilistic sampling
 	_, span := tracer.Start(ctx, "probabilistic-test")
@@ -122,18 +124,18 @@ func TestIntegration_BatchProcessing(t *testing.T) {
 	serviceName := "batch-test-service"
 
 	// Configure with short batch timeout for testing
-	config := NewProviderConfig(serviceName, "1.0.0").
+	config := otelkit.NewProviderConfig(serviceName, "1.0.0").
 		WithOTLPExporter("localhost:4318", "http", true).
 		WithSampling("always_on", 1.0).
 		WithBatchOptions(100*time.Millisecond, 5*time.Second, 10, 100)
 
-	provider, err := NewProvider(ctx, config)
+	provider, err := otelkit.NewProvider(ctx, config)
 	if err != nil {
 		t.Fatalf("Failed to create provider: %v", err)
 	}
-	defer ShutdownTracerProvider(ctx, provider)
+	defer otelkit.ShutdownTracerProvider(ctx, provider)
 
-	tracer := New("batch-test")
+	tracer := otelkit.New("batch-test")
 
 	// Create spans that should be batched
 	start := time.Now()
@@ -168,29 +170,29 @@ func TestIntegration_SamplingStrategies(t *testing.T) {
 
 	testCases := []struct {
 		name        string
-		sampling    string
+		sampling    config.SamplingType
 		ratio       float64
 		description string
 	}{
-		{"always_on", "always_on", 1.0, "Sample all traces"},
-		{"always_off", "always_off", 0.0, "Sample no traces"},
-		{"probabilistic_low", "probabilistic", 0.1, "Sample 10% of traces"},
-		{"probabilistic_high", "probabilistic", 0.9, "Sample 90% of traces"},
+		{"always_on", config.SamplingAlwaysOn, 1.0, "Sample all traces"},
+		{"always_off", config.SamplingAlwaysOff, 0.0, "Sample no traces"},
+		{"probabilistic_low", config.SamplingProbabilistic, 0.1, "Sample 10% of traces"},
+		{"probabilistic_high", config.SamplingProbabilistic, 0.9, "Sample 90% of traces"},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			config := NewProviderConfig(serviceName, "1.0.0").
+			config := otelkit.NewProviderConfig(serviceName, "1.0.0").
 				WithOTLPExporter("localhost:4318", "http", true).
 				WithSampling(tc.sampling, tc.ratio)
 
-			provider, err := NewProvider(ctx, config)
+			provider, err := otelkit.NewProvider(ctx, config)
 			if err != nil {
 				t.Fatalf("Failed to create provider for %s: %v", tc.name, err)
 			}
-			defer ShutdownTracerProvider(ctx, provider)
+			defer otelkit.ShutdownTracerProvider(ctx, provider)
 
-			tracer := New("sampling-test")
+			tracer := otelkit.New("sampling-test")
 
 			// Create test spans
 			for i := 0; i < 10; i++ {
@@ -221,7 +223,7 @@ func TestIntegration_ResourceAttributes(t *testing.T) {
 	serviceName := "resource-test-service"
 	serviceVersion := "2.3.4"
 
-	config := NewProviderConfig(serviceName, serviceVersion).
+	config := otelkit.NewProviderConfig(serviceName, serviceVersion).
 		WithOTLPExporter("localhost:4318", "http", true).
 		WithSampling("always_on", 1.0)
 
@@ -229,13 +231,13 @@ func TestIntegration_ResourceAttributes(t *testing.T) {
 	config.Config.Environment = "integration-test"
 	config.Config.InstanceID = "test-instance-123"
 
-	provider, err := NewProvider(ctx, config)
+	provider, err := otelkit.NewProvider(ctx, config)
 	if err != nil {
 		t.Fatalf("Failed to create provider: %v", err)
 	}
-	defer ShutdownTracerProvider(ctx, provider)
+	defer otelkit.ShutdownTracerProvider(ctx, provider)
 
-	tracer := New("resource-test")
+	tracer := otelkit.New("resource-test")
 
 	// Create spans that should include resource attributes
 	_, span := tracer.Start(ctx, "resource-test-span")
@@ -259,24 +261,24 @@ func TestIntegration_MultipleProviders(t *testing.T) {
 	ctx := context.Background()
 
 	// Create first provider
-	provider1, err := NewProvider(ctx, NewProviderConfig("service-1", "1.0.0").
+	provider1, err := otelkit.NewProvider(ctx, otelkit.NewProviderConfig("service-1", "1.0.0").
 		WithOTLPExporter("localhost:4318", "http", true))
 	if err != nil {
 		t.Fatalf("Failed to create first provider: %v", err)
 	}
-	defer ShutdownTracerProvider(ctx, provider1)
+	defer otelkit.ShutdownTracerProvider(ctx, provider1)
 
 	// Create second provider with different configuration
-	provider2, err := NewProvider(ctx, NewProviderConfig("service-2", "2.0.0").
+	provider2, err := otelkit.NewProvider(ctx, otelkit.NewProviderConfig("service-2", "2.0.0").
 		WithOTLPExporter("localhost:4318", "http", true).
 		WithSampling("probabilistic", 0.5))
 	if err != nil {
 		t.Fatalf("Failed to create second provider: %v", err)
 	}
-	defer ShutdownTracerProvider(ctx, provider2)
+	defer otelkit.ShutdownTracerProvider(ctx, provider2)
 
-	tracer1 := New("multi-provider-1")
-	tracer2 := New("multi-provider-2")
+	tracer1 := otelkit.New("multi-provider-1")
+	tracer2 := otelkit.New("multi-provider-2")
 
 	// Create spans from both providers
 	_, span1 := tracer1.Start(ctx, "provider-1-span")
@@ -306,7 +308,7 @@ func TestIntegration_InMemoryExporter(t *testing.T) {
 	exporter := tracetest.NewInMemoryExporter()
 
 	// Create a custom provider config using the public API
-	config := NewProviderConfig(serviceName, "1.0.0").
+	config := otelkit.NewProviderConfig(serviceName, "1.0.0").
 		WithSampling("always_on", 1.0)
 
 	// Create resource using the same approach as the provider
@@ -354,7 +356,7 @@ func TestIntegration_InMemoryExporter(t *testing.T) {
 
 	// Set as global provider
 	otel.SetTracerProvider(tp)
-	tracer := New("in-memory-test")
+	tracer := otelkit.New("in-memory-test")
 
 	// Test span creation and export
 	_, span := tracer.Start(ctx, "in-memory-test-span")
