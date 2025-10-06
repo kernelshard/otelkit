@@ -7,8 +7,8 @@ import (
 
 	"go.opentelemetry.io/otel"
 
-	"github.com/samims/otelkit/internal/config"
-	"github.com/samims/otelkit/provider"
+	"github.com/kernelshard/otelkit/internal/config"
+	"github.com/kernelshard/otelkit/provider"
 )
 
 func TestSetupTracing(t *testing.T) {

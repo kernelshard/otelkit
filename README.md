@@ -1,15 +1,15 @@
 # OtelKit
 
-[![CI](https://github.com/samims/otelkit/actions/workflows/ci.yml/badge.svg)](https://github.com/samims/otelkit/actions/workflows/ci.yml)
-[![Go Reference](https://pkg.go.dev/badge/github.com/samims/otelkit.svg)](https://pkg.go.dev/github.com/samims/otelkit)
-[![Go Report Card](https://goreportcard.com/badge/github.com/samims/otelkit)](https://goreportcard.com/report/github.com/samims/otelkit)
-[![Release](https://img.shields.io/github/v/release/samims/otelkit.svg)](https://github.com/samims/otelkit/releases)
-[![License](https://img.shields.io/github/license/samims/otelkit)](https://github.com/samims/otelkit/blob/main/LICENSE)
-[![Used by](https://img.shields.io/badge/Used%20by-Click%20to%20see-informational?style=flat-square)](https://github.com/samims/otelkit/network/dependents)
-[![Contributors](https://img.shields.io/github/contributors/samims/otelkit)](https://github.com/samims/otelkit/graphs/contributors)
-[![Last Commit](https://img.shields.io/github/last-commit/samims/otelkit.svg)](https://github.com/samims/otelkit/commits/main)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/samims/otelkit/issues)
-[![Codecov](https://codecov.io/gh/samims/otelkit/branch/main/graph/badge.svg)](https://codecov.io/gh/samims/otelkit)
+[![CI](https://github.com/kernelshard/otelkit/actions/workflows/ci.yml/badge.svg)](https://github.com/kernelshard/otelkit/actions/workflows/ci.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/kernelshard/otelkit.svg)](https://pkg.go.dev/github.com/kernelshard/otelkit)
+[![Go Report Card](https://goreportcard.com/badge/github.com/kernelshard/otelkit)](https://goreportcard.com/report/github.com/kernelshard/otelkit)
+[![Release](https://img.shields.io/github/v/release/kernelshard/otelkit.svg)](https://github.com/kernelshard/otelkit/releases)
+[![License](https://img.shields.io/github/license/kernelshard/otelkit)](https://github.com/kernelshard/otelkit/blob/main/LICENSE)
+[![Used by](https://img.shields.io/badge/Used%20by-Click%20to%20see-informational?style=flat-square)](https://github.com/kernelshard/otelkit/network/dependents)
+[![Contributors](https://img.shields.io/github/contributors/kernelshard/otelkit)](https://github.com/kernelshard/otelkit/graphs/contributors)
+[![Last Commit](https://img.shields.io/github/last-commit/kernelshard/otelkit.svg)](https://github.com/kernelshard/otelkit/commits/main)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/kernelshard/otelkit/issues)
+[![Codecov](https://codecov.io/gh/kernelshard/otelkit/branch/main/graph/badge.svg)](https://codecov.io/gh/kernelshard/otelkit)
 
 A simplified, opinionated wrapper around OpenTelemetry tracing for Go applications. OtelKit provides an easy-to-use API for creating and managing distributed traces while hiding the complexity of the underlying OpenTelemetry SDK.
 
@@ -27,7 +27,7 @@ A simplified, opinionated wrapper around OpenTelemetry tracing for Go applicatio
 ### Installation
 
 ```bash
-go get github.com/samims/otelkit
+go get github.com/kernelshard/otelkit
 ```
 
 ### Basic Usage (Recommended)
@@ -41,7 +41,7 @@ import (
     "context"
     "log"
     
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
     "go.opentelemetry.io/otel/attribute"
 )
 
@@ -86,7 +86,7 @@ import (
     "context"
     "log"
     
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
     "go.opentelemetry.io/otel/attribute"
 )
 
@@ -130,7 +130,7 @@ import (
     "net/http"
     
     "github.com/gorilla/mux"
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func main() {
@@ -167,7 +167,7 @@ import (
     "context"
     "time"
     
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func main() {

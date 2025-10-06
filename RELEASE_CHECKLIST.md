@@ -22,7 +22,7 @@
 5. [ ] Update documentation links if needed
 
 ## Post-Release
-- [x] Verify the library can be imported: `go get github.com/samims/otelkit@v0.2.0` (Successfully verified)
+- [x] Verify the library can be imported: `go get github.com/kernelshard/otelkit@v0.2.0` (Successfully verified)
 - [ ] Test installation in a fresh project
 - [ ] Update any dependent projects if needed
 

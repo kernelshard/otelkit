@@ -39,8 +39,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/samims/otelkit"
-	"github.com/samims/otelkit/internal/config"
+	"github.com/kernelshard/otelkit"
+	"github.com/kernelshard/otelkit/internal/config"
 	"go.opentelemetry.io/otel/attribute"
 )
 

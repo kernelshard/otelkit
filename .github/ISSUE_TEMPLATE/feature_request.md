@@ -35,7 +35,7 @@ package main
 
 import (
     "context"
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func main() {

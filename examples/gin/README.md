@@ -22,7 +22,7 @@ This example demonstrates how to integrate OpenTelemetry tracing with the [Gin](
 # Install dependencies
 go get github.com/gin-gonic/gin
 go get go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin
-go get github.com/samims/otelkit
+go get github.com/kernelshard/otelkit
 ```
 
 ## Quick Start
@@ -324,7 +324,7 @@ ctx, span := tracer.Start(ctx, "operation")  // Use it for span creation
 
 ## References
 
-- [OtelKit Documentation](https://github.com/samims/otelkit)
+- [OtelKit Documentation](https://github.com/kernelshard/otelkit)
 - [Gin Framework](https://gin-gonic.com/)
 - [otelgin Middleware](https://github.com/open-telemetry/opentelemetry-go-contrib/tree/main/instrumentation/github.com/gin-gonic/gin/otelgin)
 - [OpenTelemetry Go](https://opentelemetry.io/docs/languages/go/)

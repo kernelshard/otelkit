@@ -5,8 +5,8 @@ import (
 
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 
-	"github.com/samims/otelkit/internal/config"
-	"github.com/samims/otelkit/provider"
+	"github.com/kernelshard/otelkit/internal/config"
+	"github.com/kernelshard/otelkit/provider"
 )
 
 // createTracingConfig creates a tracing configuration from environment variables and parameters.

@@ -62,10 +62,10 @@ import (
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/samims/otelkit/internal/config"
-	"github.com/samims/otelkit/middleware"
-	"github.com/samims/otelkit/provider"
-	"github.com/samims/otelkit/tracer"
+	"github.com/kernelshard/otelkit/internal/config"
+	"github.com/kernelshard/otelkit/middleware"
+	"github.com/kernelshard/otelkit/provider"
+	"github.com/kernelshard/otelkit/tracer"
 )
 
 // New creates a new tracer instance with the given name.

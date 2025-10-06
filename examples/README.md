@@ -257,7 +257,7 @@ curl http://localhost:8080/metrics
 
 ## Additional Resources
 
-- [OtelKit Documentation](https://github.com/samims/otelkit)
+- [OtelKit Documentation](https://github.com/kernelshard/otelkit)
 - [OpenTelemetry Go](https://opentelemetry.io/docs/languages/go/)
 - [Jaeger Documentation](https://www.jaegertracing.io/docs/)
 - [Integration Tests Guide](../INTEGRATION_TESTS.md)

@@ -13,7 +13,7 @@ This guide will help you get up and running with OtelKit in just a few minutes.
 ### 1. Install OtelKit
 
 ```bash
-go get github.com/samims/otelkit
+go get github.com/kernelshard/otelkit
 ```
 
 ### 2. Basic Setup
@@ -29,7 +29,7 @@ import (
     "net/http"
     "time"
 
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func main() {

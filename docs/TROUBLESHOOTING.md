@@ -331,7 +331,7 @@ go func() {
 #!/bin/bash
 echo "=== OtelKit Debug Information ==="
 echo "Go version: $(go version)"
-echo "OtelKit version: $(go list -m github.com/samims/otelkit)"
+echo "OtelKit version: $(go list -m github.com/kernelshard/otelkit)"
 echo "Environment variables:"
 env | grep OTEL
 echo "=== Collector Health Check ==="

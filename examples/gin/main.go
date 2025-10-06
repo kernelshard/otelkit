@@ -33,7 +33,7 @@ import (
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/samims/otelkit"
+	"github.com/kernelshard/otelkit"
 )
 
 // User represents a user entity

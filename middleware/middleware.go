@@ -11,7 +11,7 @@ import (
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/samims/otelkit/tracer"
+	"github.com/kernelshard/otelkit/tracer"
 )
 
 // HTTP attribute constants

@@ -7,7 +7,7 @@ import (
 
 	"go.opentelemetry.io/otel/attribute"
 
-	"github.com/samims/otelkit"
+	"github.com/kernelshard/otelkit"
 )
 
 // Storage simulates a data storage layer

@@ -64,7 +64,7 @@ package main
 
 import (
     "context"
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func setupTracing(ctx context.Context) (*sdktrace.TracerProvider, error) {
@@ -120,7 +120,7 @@ package main
 
 import (
     "context"
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func setupTracing(ctx context.Context) {
@@ -165,7 +165,7 @@ package main
 
 import (
     "context"
-    "github.com/samims/otelkit"
+    "github.com/kernelshard/otelkit"
 )
 
 func setupTracing(ctx context.Context) {
@@ -240,7 +240,7 @@ export OTEL_SERVICE_NAME=my-service
 #### Migration Steps
 No breaking changes. Simply update your import:
 ```bash
-go get github.com/samims/otelkit@latest
+go get github.com/kernelshard/otelkit@latest
 ```
 
 ## Common Migration Patterns
@@ -360,6 +360,6 @@ func setupTracing(ctx context.Context) error {
 
 For migration assistance:
 1. Check the [troubleshooting guide](TROUBLESHOOTING.md)
-2. Review [GitHub issues](https://github.com/samims/otelkit/issues)
+2. Review [GitHub issues](https://github.com/kernelshard/otelkit/issues)
 3. Create a minimal reproduction case
 4. Provide debug information as outlined in troubleshooting

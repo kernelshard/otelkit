@@ -25,7 +25,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/samims/otelkit"
+	"github.com/kernelshard/otelkit"
 	"go.opentelemetry.io/otel/attribute"
 )
 

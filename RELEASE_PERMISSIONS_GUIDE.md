@@ -22,10 +22,10 @@
 ### Dependency Management
 ```bash
 # Recommended: Pin to specific version
-go get github.com/samims/otelkit@v0.2.0
+go get github.com/kernelshard/otelkit@v0.2.0
 
 # Alternative: Use latest 0.2.x (when available)
-go get github.com/samims/otelkit@v0.2
+go get github.com/kernelshard/otelkit@v0.2
 ```
 
 ### License Compliance

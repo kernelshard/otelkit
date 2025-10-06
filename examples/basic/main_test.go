@@ -15,7 +15,7 @@ import (
 	"go.opentelemetry.io/otel/sdk/trace"
 	"go.opentelemetry.io/otel/sdk/trace/tracetest"
 
-	"github.com/samims/otelkit"
+	"github.com/kernelshard/otelkit"
 )
 
 const (

@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/samims/otelkit"
+	"github.com/kernelshard/otelkit"
 )
 
 func main() {

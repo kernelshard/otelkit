@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/samims/otelkit/tracer"
+	"github.com/kernelshard/otelkit/tracer"
 	"go.opentelemetry.io/otel/trace"
 )
 

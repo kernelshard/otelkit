@@ -9,7 +9,7 @@ import (
 	sdkresource "go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 
-	"github.com/samims/otelkit/internal/config"
+	"github.com/kernelshard/otelkit/internal/config"
 )
 
 func TestNewProviderConfig(t *testing.T) {
