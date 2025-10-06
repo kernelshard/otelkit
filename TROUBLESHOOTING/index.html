@@ -9,6 +9,8 @@
       
       
       
+        <link rel="prev" href="../MIGRATION_GUIDE/">
+      
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -16,7 +18,7 @@
     
     
       
-        <title>Troubleshooting Guide - otelkit</title>
+        <title>Troubleshooting - otelkit</title>
       
     
     
@@ -94,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Troubleshooting Guide
+              Troubleshooting
             
           </span>
         </div>
@@ -212,6 +214,28 @@
   
   
     <li class="md-nav__item">
+      <a href="../GETTING_STARTED/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../API_REFERENCE/" class="md-nav__link">
         
   
@@ -223,6 +247,608 @@
   
 
       </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ADVANCED_USAGE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../INTEGRATION_GUIDES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Integration Guides
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../INTEGRATION_TESTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Integration Testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MIGRATION_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Migration Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common-issues-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues and Solutions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Issues and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-no-traces-appearing" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. No Traces Appearing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. No Traces Appearing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-collector-connectivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check Collector Connectivity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check Sampling
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-high-memory-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. High Memory Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. High Memory Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reduce-batch-sizes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reduce Batch Sizes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#increase-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Increase Sampling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitor-span-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitor Span Creation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-performance-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Performance Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Performance Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tune-batch-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tune Batch Processing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-probabilistic-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Probabilistic Sampling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async-span-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Async Span Creation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-configuration-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Configuration Errors
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Configuration Errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validate-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validate Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check Environment Variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debug-configuration-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debug Configuration Loading
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-collector-connection-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Collector Connection Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Collector Connection Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-connectivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Connectivity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-tls-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check TLS Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-context-propagation-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Context Propagation Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Context Propagation Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-context-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify Context Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-middleware-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check Middleware Order
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debugging Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Debugging Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-enable-debug-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Enable Debug Logging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-in-memory-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. In-Memory Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-health-check-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Health Check Endpoint
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-specific-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment-Specific Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Environment-Specific Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetes-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kubernetes Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-provider-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloud Provider Issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Monitoring
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memory-profiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Profiling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#span-count-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Span Count Monitoring
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-error-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Error Messages
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Error Messages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-refused" class="md-nav__link">
+    <span class="md-ellipsis">
+      "connection refused"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#certificate-verify-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      "certificate verify failed"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-deadline-exceeded" class="md-nav__link">
+    <span class="md-ellipsis">
+      "context deadline exceeded"
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Help
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debug-information-to-collect" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debug Information to Collect
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Support Channels
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-debug-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Debug Script
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 

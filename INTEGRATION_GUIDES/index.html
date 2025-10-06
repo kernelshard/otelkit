@@ -9,6 +9,10 @@
       
       
       
+        <link rel="prev" href="../ADVANCED_USAGE/">
+      
+      
+        <link rel="next" href="../INTEGRATION_TESTING/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -212,12 +216,468 @@
   
   
     <li class="md-nav__item">
+      <a href="../GETTING_STARTED/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../API_REFERENCE/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     API Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ADVANCED_USAGE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Integration Guides
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Integration Guides
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#standard-library-nethttp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Standard Library (net/http)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Standard Library (net/http)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Integration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-custom-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      With Custom Handlers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gin-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gin Framework
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gin Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gin-middleware-wrapper" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gin Middleware Wrapper
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chi-router" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chi Router
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chi Router">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-setup_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chi-middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chi Middleware
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#echo-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      Echo Framework
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Echo Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-setup_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#echo-middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      Echo Middleware
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gorilla-mux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gorilla Mux
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gorilla Mux">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-setup_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Setup
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sql-database-tracing" class="md-nav__link">
+    <span class="md-ellipsis">
+      SQL Database Tracing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unit-tests-with-mock-tracer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unit Tests with Mock Tracer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Staging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Production
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../INTEGRATION_TESTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Integration Testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MIGRATION_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Migration Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TROUBLESHOOTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
     
   </span>
   
