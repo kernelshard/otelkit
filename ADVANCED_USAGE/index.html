@@ -935,186 +935,186 @@
   
 
 
-<h1 id="advanced-usage-guide">Advanced Usage Guide</h1>
+<h1 id="advanced-usage-guide">Advanced Usage Guide<a class="headerlink" href="#advanced-usage-guide" title="Permanent link">&para;</a></h1>
 <p>This guide covers advanced configuration and production-ready usage patterns.</p>
-<h2 id="production-configuration">Production Configuration</h2>
-<h3 id="high-performance-setup">High-Performance Setup</h3>
-<div class="highlight"><pre><span></span><code><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;payment-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v2.1.0&quot;</span><span class="p">).</span>
-<span class="w">    </span><span class="nx">WithEnvironment</span><span class="p">(</span><span class="s">&quot;production&quot;</span><span class="p">).</span>
-<span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;otel-collector:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">).</span>
-<span class="w">    </span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01</span><span class="p">).</span><span class="w"> </span><span class="c1">// 1% sampling</span>
-<span class="w">    </span><span class="nx">WithBatchOptions</span><span class="p">(</span>
-<span class="w">        </span><span class="mi">2</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">   </span><span class="c1">// batch timeout</span>
-<span class="w">        </span><span class="mi">30</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">  </span><span class="c1">// export timeout</span>
-<span class="w">        </span><span class="mi">1024</span><span class="p">,</span><span class="w">           </span><span class="c1">// max batch size</span>
-<span class="w">        </span><span class="mi">4096</span><span class="p">,</span><span class="w">           </span><span class="c1">// max queue size</span>
-<span class="w">    </span><span class="p">)</span>
-
-<span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="custom-resource-attributes">Custom Resource Attributes</h3>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="s">&quot;go.opentelemetry.io/otel/sdk/resource&quot;</span>
-<span class="w">    </span><span class="nx">semconv</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/semconv/v1.21.0&quot;</span>
-<span class="p">)</span>
-
-<span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resource</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">resource</span><span class="p">.</span><span class="nx">WithAttributes</span><span class="p">(</span>
-<span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">ServiceName</span><span class="p">(</span><span class="s">&quot;payment-service&quot;</span><span class="p">),</span>
-<span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">ServiceVersion</span><span class="p">(</span><span class="s">&quot;v2.1.0&quot;</span><span class="p">),</span>
-<span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">DeploymentEnvironment</span><span class="p">(</span><span class="s">&quot;production&quot;</span><span class="p">),</span>
-<span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">HostName</span><span class="p">(</span><span class="s">&quot;payment-01&quot;</span><span class="p">),</span>
-<span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">ServiceInstanceID</span><span class="p">(</span><span class="s">&quot;instance-123&quot;</span><span class="p">),</span>
-<span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;cloud.provider&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;aws&quot;</span><span class="p">),</span>
-<span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;cloud.region&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;us-west-2&quot;</span><span class="p">),</span>
-<span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;k8s.cluster.name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;production-cluster&quot;</span><span class="p">),</span>
-<span class="w">    </span><span class="p">),</span>
-<span class="p">)</span>
-
-<span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;payment-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v2.1.0&quot;</span><span class="p">).</span>
-<span class="w">    </span><span class="nx">WithResource</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="sampling-strategies">Sampling Strategies</h2>
-<h3 id="probabilistic-sampling">Probabilistic Sampling</h3>
-<div class="highlight"><pre><span></span><code><span class="c1">// 1% sampling for production</span>
-<span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="always-on-development">Always On (Development)</h3>
-<div class="highlight"><pre><span></span><code><span class="c1">// 100% sampling for development</span>
-<span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;always_on&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="always-off-testing">Always Off (Testing)</h3>
-<div class="highlight"><pre><span></span><code><span class="c1">// Disable tracing for tests</span>
-<span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;always_off&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="batch-processing-configuration">Batch Processing Configuration</h2>
-<h3 id="low-latency">Low Latency</h3>
-<div class="highlight"><pre><span></span><code><span class="nx">config</span><span class="p">.</span><span class="nx">WithBatchOptions</span><span class="p">(</span>
-<span class="w">    </span><span class="mi">500</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">,</span><span class="w"> </span><span class="c1">// Fast batching</span>
-<span class="w">    </span><span class="mi">10</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">       </span><span class="c1">// Quick export timeout</span>
-<span class="w">    </span><span class="mi">256</span><span class="p">,</span><span class="w">                  </span><span class="c1">// Small batches</span>
-<span class="w">    </span><span class="mi">1024</span><span class="p">,</span><span class="w">                 </span><span class="c1">// Limited queue</span>
-<span class="p">)</span>
-</code></pre></div>
-<h3 id="high-throughput">High Throughput</h3>
-<div class="highlight"><pre><span></span><code><span class="nx">config</span><span class="p">.</span><span class="nx">WithBatchOptions</span><span class="p">(</span>
-<span class="w">    </span><span class="mi">10</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">       </span><span class="c1">// Longer batching</span>
-<span class="w">    </span><span class="mi">60</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">       </span><span class="c1">// Longer export timeout</span>
-<span class="w">    </span><span class="mi">2048</span><span class="p">,</span><span class="w">                 </span><span class="c1">// Large batches</span>
-<span class="w">    </span><span class="mi">8192</span><span class="p">,</span><span class="w">                 </span><span class="c1">// Large queue</span>
-<span class="p">)</span>
-</code></pre></div>
-<h2 id="error-handling-and-recovery">Error Handling and Recovery</h2>
-<h3 id="graceful-degradation">Graceful Degradation</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">initTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">TracerProvider</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">)</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Failed to initialize tracing: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
-<span class="w">        </span><span class="c1">// Return noop provider for graceful degradation</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">NewTracerProvider</span><span class="p">()</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">provider</span>
-<span class="p">}</span>
-</code></pre></div>
-<h3 id="health-checks">Health Checks</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">tracingHealthCheck</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// Create a test span to verify tracing is working</span>
-<span class="w">    </span><span class="nx">tracer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;health-check&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;health-check&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">span</span><span class="p">.</span><span class="nx">End</span><span class="p">()</span>
-
-<span class="w">    </span><span class="c1">// Add health check attributes</span>
-<span class="w">    </span><span class="nx">span</span><span class="p">.</span><span class="nx">SetAttributes</span><span class="p">(</span>
-<span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;check.type&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tracing&quot;</span><span class="p">),</span>
-<span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">Bool</span><span class="p">(</span><span class="s">&quot;check.passed&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">),</span>
-<span class="w">    </span><span class="p">)</span>
-
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
-<span class="p">}</span>
-</code></pre></div>
-<h2 id="performance-monitoring">Performance Monitoring</h2>
-<h3 id="memory-usage">Memory Usage</h3>
-<div class="highlight"><pre><span></span><code><span class="c1">// Monitor span queue size</span>
-<span class="nx">config</span><span class="p">.</span><span class="nx">WithBatchOptions</span><span class="p">(</span>
-<span class="w">    </span><span class="mi">5</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
-<span class="w">    </span><span class="mi">30</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
-<span class="w">    </span><span class="mi">512</span><span class="p">,</span>
-<span class="w">    </span><span class="mi">2048</span><span class="p">,</span><span class="w"> </span><span class="c1">// Monitor this value</span>
-<span class="p">)</span>
-</code></pre></div>
-<h3 id="export-metrics">Export Metrics</h3>
-<div class="highlight"><pre><span></span><code><span class="c1">// Add custom metrics for tracing</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/metric&quot;</span>
-
-<span class="nx">meter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">global</span><span class="p">.</span><span class="nx">Meter</span><span class="p">(</span><span class="s">&quot;otelkit&quot;</span><span class="p">)</span>
-<span class="nx">spanCounter</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">meter</span><span class="p">.</span><span class="nx">Int64Counter</span><span class="p">(</span><span class="s">&quot;spans_exported&quot;</span><span class="p">)</span>
-<span class="nx">errorCounter</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">meter</span><span class="p">.</span><span class="nx">Int64Counter</span><span class="p">(</span><span class="s">&quot;export_errors&quot;</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="security-considerations">Security Considerations</h2>
-<h3 id="tls-configuration">TLS Configuration</h3>
-<div class="highlight"><pre><span></span><code><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">).</span>
-<span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;collector.example.com:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="c1">// TLS enabled</span>
-</code></pre></div>
-<h3 id="header-authentication">Header Authentication</h3>
-<div class="highlight"><pre><span></span><code><span class="c1">// For custom authentication headers</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp&quot;</span>
-
-<span class="nx">exporter</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otlptracehttp</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">otlptracehttp</span><span class="p">.</span><span class="nx">WithEndpoint</span><span class="p">(</span><span class="s">&quot;collector.example.com&quot;</span><span class="p">),</span>
-<span class="w">    </span><span class="nx">otlptracehttp</span><span class="p">.</span><span class="nx">WithHeaders</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
-<span class="w">        </span><span class="s">&quot;Authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Bearer &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">token</span><span class="p">,</span>
-<span class="w">    </span><span class="p">}),</span>
-<span class="p">)</span>
-</code></pre></div>
-<h2 id="multi-service-setup">Multi-Service Setup</h2>
-<h3 id="service-mesh-integration">Service Mesh Integration</h3>
-<div class="highlight"><pre><span></span><code><span class="c1">// Configure for service mesh environments</span>
-<span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">).</span>
-<span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;otel-collector.mesh.local:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">).</span>
-<span class="w">    </span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="kubernetes-configuration">Kubernetes Configuration</h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># Deployment configuration</span>
-<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-service</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app</span>
-<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OTEL_SERVICE_NAME</span>
-<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OTEL_SERVICE_VERSION</span>
-<span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">fieldRef</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">fieldPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">metadata.labels[&#39;version&#39;]</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OTEL_RESOURCE_ATTRIBUTES</span>
-<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;k8s.namespace.name=$(NAMESPACE),k8s.pod.name=$(POD_NAME)&quot;</span>
-</code></pre></div>
-<h2 id="troubleshooting">Troubleshooting</h2>
-<h3 id="common-issues">Common Issues</h3>
-<h4 id="1-no-traces-appearing">1. No Traces Appearing</h4>
+<h2 id="production-configuration">Production Configuration<a class="headerlink" href="#production-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="high-performance-setup">High-Performance Setup<a class="headerlink" href="#high-performance-setup" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;payment-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v2.1.0&quot;</span><span class="p">).</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nx">WithEnvironment</span><span class="p">(</span><span class="s">&quot;production&quot;</span><span class="p">).</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;otel-collector:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">).</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01</span><span class="p">).</span><span class="w"> </span><span class="c1">// 1% sampling</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nx">WithBatchOptions</span><span class="p">(</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">        </span><span class="mi">2</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">   </span><span class="c1">// batch timeout</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="mi">30</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">  </span><span class="c1">// export timeout</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="mi">1024</span><span class="p">,</span><span class="w">           </span><span class="c1">// max batch size</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="mi">4096</span><span class="p">,</span><span class="w">           </span><span class="c1">// max queue size</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="p">)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="custom-resource-attributes">Custom Resource Attributes<a class="headerlink" href="#custom-resource-attributes" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="s">&quot;go.opentelemetry.io/otel/sdk/resource&quot;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nx">semconv</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/semconv/v1.21.0&quot;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resource</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nx">resource</span><span class="p">.</span><span class="nx">WithAttributes</span><span class="p">(</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">ServiceName</span><span class="p">(</span><span class="s">&quot;payment-service&quot;</span><span class="p">),</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">ServiceVersion</span><span class="p">(</span><span class="s">&quot;v2.1.0&quot;</span><span class="p">),</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">DeploymentEnvironment</span><span class="p">(</span><span class="s">&quot;production&quot;</span><span class="p">),</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">HostName</span><span class="p">(</span><span class="s">&quot;payment-01&quot;</span><span class="p">),</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">ServiceInstanceID</span><span class="p">(</span><span class="s">&quot;instance-123&quot;</span><span class="p">),</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;cloud.provider&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;aws&quot;</span><span class="p">),</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;cloud.region&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;us-west-2&quot;</span><span class="p">),</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;k8s.cluster.name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;production-cluster&quot;</span><span class="p">),</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="p">),</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">)</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;payment-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v2.1.0&quot;</span><span class="p">).</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="nx">WithResource</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="sampling-strategies">Sampling Strategies<a class="headerlink" href="#sampling-strategies" title="Permanent link">&para;</a></h2>
+<h3 id="probabilistic-sampling">Probabilistic Sampling<a class="headerlink" href="#probabilistic-sampling" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// 1% sampling for production</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="always-on-development">Always On (Development)<a class="headerlink" href="#always-on-development" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// 100% sampling for development</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;always_on&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="always-off-testing">Always Off (Testing)<a class="headerlink" href="#always-off-testing" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// Disable tracing for tests</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;always_off&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="batch-processing-configuration">Batch Processing Configuration<a class="headerlink" href="#batch-processing-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="low-latency">Low Latency<a class="headerlink" href="#low-latency" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nx">config</span><span class="p">.</span><span class="nx">WithBatchOptions</span><span class="p">(</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="mi">500</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">,</span><span class="w"> </span><span class="c1">// Fast batching</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="mi">10</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">       </span><span class="c1">// Quick export timeout</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="mi">256</span><span class="p">,</span><span class="w">                  </span><span class="c1">// Small batches</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="mi">1024</span><span class="p">,</span><span class="w">                 </span><span class="c1">// Limited queue</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="high-throughput">High Throughput<a class="headerlink" href="#high-throughput" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nx">config</span><span class="p">.</span><span class="nx">WithBatchOptions</span><span class="p">(</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="mi">10</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">       </span><span class="c1">// Longer batching</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="mi">60</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">       </span><span class="c1">// Longer export timeout</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="mi">2048</span><span class="p">,</span><span class="w">                 </span><span class="c1">// Large batches</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="mi">8192</span><span class="p">,</span><span class="w">                 </span><span class="c1">// Large queue</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="error-handling-and-recovery">Error Handling and Recovery<a class="headerlink" href="#error-handling-and-recovery" title="Permanent link">&para;</a></h2>
+<h3 id="graceful-degradation">Graceful Degradation<a class="headerlink" href="#graceful-degradation" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">initTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">TracerProvider</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">)</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Failed to initialize tracing: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">        </span><span class="c1">// Return noop provider for graceful degradation</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">NewTracerProvider</span><span class="p">()</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">provider</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="health-checks">Health Checks<a class="headerlink" href="#health-checks" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">tracingHealthCheck</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="c1">// Create a test span to verify tracing is working</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nx">tracer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;health-check&quot;</span><span class="p">)</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;health-check&quot;</span><span class="p">)</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">span</span><span class="p">.</span><span class="nx">End</span><span class="p">()</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="c1">// Add health check attributes</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="nx">span</span><span class="p">.</span><span class="nx">SetAttributes</span><span class="p">(</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;check.type&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tracing&quot;</span><span class="p">),</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">Bool</span><span class="p">(</span><span class="s">&quot;check.passed&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">),</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="p">)</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="performance-monitoring">Performance Monitoring<a class="headerlink" href="#performance-monitoring" title="Permanent link">&para;</a></h2>
+<h3 id="memory-usage">Memory Usage<a class="headerlink" href="#memory-usage" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">// Monitor span queue size</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nx">config</span><span class="p">.</span><span class="nx">WithBatchOptions</span><span class="p">(</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="mi">5</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="mi">30</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="mi">512</span><span class="p">,</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="mi">2048</span><span class="p">,</span><span class="w"> </span><span class="c1">// Monitor this value</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="export-metrics">Export Metrics<a class="headerlink" href="#export-metrics" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">// Add custom metrics for tracing</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/metric&quot;</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="nx">meter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">global</span><span class="p">.</span><span class="nx">Meter</span><span class="p">(</span><span class="s">&quot;otelkit&quot;</span><span class="p">)</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="nx">spanCounter</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">meter</span><span class="p">.</span><span class="nx">Int64Counter</span><span class="p">(</span><span class="s">&quot;spans_exported&quot;</span><span class="p">)</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="nx">errorCounter</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">meter</span><span class="p">.</span><span class="nx">Int64Counter</span><span class="p">(</span><span class="s">&quot;export_errors&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
+<h3 id="tls-configuration">TLS Configuration<a class="headerlink" href="#tls-configuration" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">).</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;collector.example.com:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="c1">// TLS enabled</span>
+</span></code></pre></div>
+<h3 id="header-authentication">Header Authentication<a class="headerlink" href="#header-authentication" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">// For custom authentication headers</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp&quot;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nx">exporter</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otlptracehttp</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="nx">otlptracehttp</span><span class="p">.</span><span class="nx">WithEndpoint</span><span class="p">(</span><span class="s">&quot;collector.example.com&quot;</span><span class="p">),</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="nx">otlptracehttp</span><span class="p">.</span><span class="nx">WithHeaders</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">        </span><span class="s">&quot;Authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Bearer &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">token</span><span class="p">,</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="p">}),</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="multi-service-setup">Multi-Service Setup<a class="headerlink" href="#multi-service-setup" title="Permanent link">&para;</a></h2>
+<h3 id="service-mesh-integration">Service Mesh Integration<a class="headerlink" href="#service-mesh-integration" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// Configure for service mesh environments</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">).</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;otel-collector.mesh.local:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">).</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="kubernetes-configuration">Kubernetes Configuration<a class="headerlink" href="#kubernetes-configuration" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Deployment configuration</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-service</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OTEL_SERVICE_NAME</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OTEL_SERVICE_VERSION</span>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="w">            </span><span class="nt">fieldRef</span><span class="p">:</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="w">              </span><span class="nt">fieldPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">metadata.labels[&#39;version&#39;]</span>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OTEL_RESOURCE_ATTRIBUTES</span>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;k8s.namespace.name=$(NAMESPACE),k8s.pod.name=$(POD_NAME)&quot;</span>
+</span></code></pre></div>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h3>
+<h4 id="1-no-traces-appearing">1. No Traces Appearing<a class="headerlink" href="#1-no-traces-appearing" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Check collector endpoint connectivity</li>
 <li>Verify sampling configuration</li>
 <li>Check for dropped spans (queue full)</li>
 </ul>
-<h4 id="2-high-memory-usage">2. High Memory Usage</h4>
+<h4 id="2-high-memory-usage">2. High Memory Usage<a class="headerlink" href="#2-high-memory-usage" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Reduce batch size and queue size</li>
 <li>Increase sampling ratio</li>
 <li>Monitor span creation rate</li>
 </ul>
-<h4 id="3-performance-impact">3. Performance Impact</h4>
+<h4 id="3-performance-impact">3. Performance Impact<a class="headerlink" href="#3-performance-impact" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Use probabilistic sampling</li>
 <li>Tune batch processing parameters</li>
 <li>Consider async span creation</li>
 </ul>
-<h3 id="debug-configuration">Debug Configuration</h3>
+<h3 id="debug-configuration">Debug Configuration<a class="headerlink" href="#debug-configuration" title="Permanent link">&para;</a></h3>
 <p>```go
 // Enable debug logging
 import "go.opentelemetry.io/otel/sdk/trace"</p>
@@ -1188,7 +1188,7 @@ import "go.opentelemetry.io/otel/sdk/trace"</p>
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>

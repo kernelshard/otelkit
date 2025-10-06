@@ -1077,251 +1077,251 @@
   
 
 
-<h1 id="troubleshooting-guide">Troubleshooting Guide</h1>
+<h1 id="troubleshooting-guide">Troubleshooting Guide<a class="headerlink" href="#troubleshooting-guide" title="Permanent link">&para;</a></h1>
 <p>This guide helps you resolve common issues when using OtelKit.</p>
-<h2 id="common-issues-and-solutions">Common Issues and Solutions</h2>
-<h3 id="1-no-traces-appearing">1. No Traces Appearing</h3>
+<h2 id="common-issues-and-solutions">Common Issues and Solutions<a class="headerlink" href="#common-issues-and-solutions" title="Permanent link">&para;</a></h2>
+<h3 id="1-no-traces-appearing">1. No Traces Appearing<a class="headerlink" href="#1-no-traces-appearing" title="Permanent link">&para;</a></h3>
 <p><strong>Symptoms:</strong>
 - No traces visible in your collector UI
 - Empty trace list in Jaeger/Zipkin</p>
 <p><strong>Solutions:</strong></p>
-<h4 id="check-collector-connectivity">Check Collector Connectivity</h4>
-<div class="highlight"><pre><span></span><code><span class="c1"># Test connectivity to collector</span>
-curl<span class="w"> </span>-v<span class="w"> </span>http://localhost:4318/v1/traces
-<span class="c1"># or for gRPC</span>
-grpcurl<span class="w"> </span>-plaintext<span class="w"> </span>localhost:4317<span class="w"> </span>list
-</code></pre></div>
-<h4 id="verify-configuration">Verify Configuration</h4>
-<div class="highlight"><pre><span></span><code><span class="c1">// Add debug logging</span>
-<span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">)</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Config: %+v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">)</span>
-</code></pre></div>
-<h4 id="check-sampling">Check Sampling</h4>
-<div class="highlight"><pre><span></span><code><span class="c1">// Ensure sampling is enabled</span>
-<span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;always_on&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span><span class="w"> </span><span class="c1">// For debugging</span>
-</code></pre></div>
-<h3 id="2-high-memory-usage">2. High Memory Usage</h3>
+<h4 id="check-collector-connectivity">Check Collector Connectivity<a class="headerlink" href="#check-collector-connectivity" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Test connectivity to collector</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>curl<span class="w"> </span>-v<span class="w"> </span>http://localhost:4318/v1/traces
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># or for gRPC</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>grpcurl<span class="w"> </span>-plaintext<span class="w"> </span>localhost:4317<span class="w"> </span>list
+</span></code></pre></div>
+<h4 id="verify-configuration">Verify Configuration<a class="headerlink" href="#verify-configuration" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// Add debug logging</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">)</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Config: %+v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">)</span>
+</span></code></pre></div>
+<h4 id="check-sampling">Check Sampling<a class="headerlink" href="#check-sampling" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// Ensure sampling is enabled</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;always_on&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span><span class="w"> </span><span class="c1">// For debugging</span>
+</span></code></pre></div>
+<h3 id="2-high-memory-usage">2. High Memory Usage<a class="headerlink" href="#2-high-memory-usage" title="Permanent link">&para;</a></h3>
 <p><strong>Symptoms:</strong>
 - Application memory usage increases over time
 - Out of memory errors</p>
 <p><strong>Solutions:</strong></p>
-<h4 id="reduce-batch-sizes">Reduce Batch Sizes</h4>
-<div class="highlight"><pre><span></span><code><span class="nx">config</span><span class="p">.</span><span class="nx">WithBatchOptions</span><span class="p">(</span>
-<span class="w">    </span><span class="mi">5</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
-<span class="w">    </span><span class="mi">30</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
-<span class="w">    </span><span class="mi">256</span><span class="p">,</span><span class="w">  </span><span class="c1">// Reduced batch size</span>
-<span class="w">    </span><span class="mi">1024</span><span class="p">,</span><span class="w"> </span><span class="c1">// Reduced queue size</span>
-<span class="p">)</span>
-</code></pre></div>
-<h4 id="increase-sampling">Increase Sampling</h4>
-<div class="highlight"><pre><span></span><code><span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">)</span><span class="w"> </span><span class="c1">// Increase sampling ratio</span>
-</code></pre></div>
-<h4 id="monitor-span-creation">Monitor Span Creation</h4>
-<div class="highlight"><pre><span></span><code><span class="c1">// Add span count monitoring</span>
-<span class="nx">spanCounter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
-<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Spans created: %d\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">spanCounter</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}()</span>
-</code></pre></div>
-<h3 id="3-performance-issues">3. Performance Issues</h3>
+<h4 id="reduce-batch-sizes">Reduce Batch Sizes<a class="headerlink" href="#reduce-batch-sizes" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nx">config</span><span class="p">.</span><span class="nx">WithBatchOptions</span><span class="p">(</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="mi">5</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="mi">30</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="mi">256</span><span class="p">,</span><span class="w">  </span><span class="c1">// Reduced batch size</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="mi">1024</span><span class="p">,</span><span class="w"> </span><span class="c1">// Reduced queue size</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<h4 id="increase-sampling">Increase Sampling<a class="headerlink" href="#increase-sampling" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">)</span><span class="w"> </span><span class="c1">// Increase sampling ratio</span>
+</span></code></pre></div>
+<h4 id="monitor-span-creation">Monitor Span Creation<a class="headerlink" href="#monitor-span-creation" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Add span count monitoring</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nx">spanCounter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">        </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Spans created: %d\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">spanCounter</span><span class="p">)</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">}()</span>
+</span></code></pre></div>
+<h3 id="3-performance-issues">3. Performance Issues<a class="headerlink" href="#3-performance-issues" title="Permanent link">&para;</a></h3>
 <p><strong>Symptoms:</strong>
 - High CPU usage
 - Slow request processing</p>
 <p><strong>Solutions:</strong></p>
-<h4 id="tune-batch-processing">Tune Batch Processing</h4>
-<div class="highlight"><pre><span></span><code><span class="nx">config</span><span class="p">.</span><span class="nx">WithBatchOptions</span><span class="p">(</span>
-<span class="w">    </span><span class="mi">10</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">  </span><span class="c1">// Longer batch timeout</span>
-<span class="w">    </span><span class="mi">60</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">  </span><span class="c1">// Longer export timeout</span>
-<span class="w">    </span><span class="mi">1024</span><span class="p">,</span><span class="w">           </span><span class="c1">// Larger batch size</span>
-<span class="w">    </span><span class="mi">4096</span><span class="p">,</span><span class="w">           </span><span class="c1">// Larger queue size</span>
-<span class="p">)</span>
-</code></pre></div>
-<h4 id="use-probabilistic-sampling">Use Probabilistic Sampling</h4>
-<div class="highlight"><pre><span></span><code><span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01</span><span class="p">)</span><span class="w"> </span><span class="c1">// 1% sampling</span>
-</code></pre></div>
-<h4 id="async-span-creation">Async Span Creation</h4>
-<div class="highlight"><pre><span></span><code><span class="c1">// Use goroutines for expensive operations</span>
-<span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;background-work&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">span</span><span class="p">.</span><span class="nx">End</span><span class="p">()</span>
-<span class="w">    </span><span class="c1">// Your background work</span>
-<span class="p">}()</span>
-</code></pre></div>
-<h3 id="4-configuration-errors">4. Configuration Errors</h3>
+<h4 id="tune-batch-processing">Tune Batch Processing<a class="headerlink" href="#tune-batch-processing" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nx">config</span><span class="p">.</span><span class="nx">WithBatchOptions</span><span class="p">(</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="mi">10</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">  </span><span class="c1">// Longer batch timeout</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="mi">60</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">  </span><span class="c1">// Longer export timeout</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="mi">1024</span><span class="p">,</span><span class="w">           </span><span class="c1">// Larger batch size</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="mi">4096</span><span class="p">,</span><span class="w">           </span><span class="c1">// Larger queue size</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<h4 id="use-probabilistic-sampling">Use Probabilistic Sampling<a class="headerlink" href="#use-probabilistic-sampling" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01</span><span class="p">)</span><span class="w"> </span><span class="c1">// 1% sampling</span>
+</span></code></pre></div>
+<h4 id="async-span-creation">Async Span Creation<a class="headerlink" href="#async-span-creation" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">// Use goroutines for expensive operations</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;background-work&quot;</span><span class="p">)</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">span</span><span class="p">.</span><span class="nx">End</span><span class="p">()</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="c1">// Your background work</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="p">}()</span>
+</span></code></pre></div>
+<h3 id="4-configuration-errors">4. Configuration Errors<a class="headerlink" href="#4-configuration-errors" title="Permanent link">&para;</a></h3>
 <p><strong>Symptoms:</strong>
 - Application fails to start
 - Configuration validation errors</p>
 <p><strong>Solutions:</strong></p>
-<h4 id="validate-configuration">Validate Configuration</h4>
-<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">Validate</span><span class="p">();</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Configuration error: %v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
-<span class="w">    </span><span class="c1">// Handle error appropriately</span>
-<span class="p">}</span>
-</code></pre></div>
-<h4 id="check-environment-variables">Check Environment Variables</h4>
-<div class="highlight"><pre><span></span><code><span class="c1"># Print all OTEL environment variables</span>
-env<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>OTEL
-</code></pre></div>
-<h4 id="debug-configuration-loading">Debug Configuration Loading</h4>
-<div class="highlight"><pre><span></span><code><span class="nx">cfg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewConfigFromEnv</span><span class="p">()</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Loaded config: %+v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="5-collector-connection-issues">5. Collector Connection Issues</h3>
+<h4 id="validate-configuration">Validate Configuration<a class="headerlink" href="#validate-configuration" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">Validate</span><span class="p">();</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Configuration error: %v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="c1">// Handle error appropriately</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="check-environment-variables">Check Environment Variables<a class="headerlink" href="#check-environment-variables" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Print all OTEL environment variables</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>env<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>OTEL
+</span></code></pre></div>
+<h4 id="debug-configuration-loading">Debug Configuration Loading<a class="headerlink" href="#debug-configuration-loading" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nx">cfg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewConfigFromEnv</span><span class="p">()</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Loaded config: %+v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="5-collector-connection-issues">5. Collector Connection Issues<a class="headerlink" href="#5-collector-connection-issues" title="Permanent link">&para;</a></h3>
 <p><strong>Symptoms:</strong>
 - Connection refused errors
 - TLS certificate issues</p>
 <p><strong>Solutions:</strong></p>
-<h4 id="test-connectivity">Test Connectivity</h4>
-<div class="highlight"><pre><span></span><code><span class="c1"># Test HTTP endpoint</span>
-curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:4318/v1/traces<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;resourceSpans&quot;:[]}&#39;</span>
-</code></pre></div>
-<h4 id="check-tls-configuration">Check TLS Configuration</h4>
-<div class="highlight"><pre><span></span><code><span class="c1">// For insecure connections (development)</span>
-<span class="nx">config</span><span class="p">.</span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;localhost:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
-
-<span class="c1">// For secure connections (production)</span>
-<span class="nx">config</span><span class="p">.</span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;collector.example.com:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="6-context-propagation-issues">6. Context Propagation Issues</h3>
+<h4 id="test-connectivity">Test Connectivity<a class="headerlink" href="#test-connectivity" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Test HTTP endpoint</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:4318/v1/traces<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;resourceSpans&quot;:[]}&#39;</span>
+</span></code></pre></div>
+<h4 id="check-tls-configuration">Check TLS Configuration<a class="headerlink" href="#check-tls-configuration" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// For insecure connections (development)</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nx">config</span><span class="p">.</span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;localhost:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1">// For secure connections (production)</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="nx">config</span><span class="p">.</span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;collector.example.com:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="6-context-propagation-issues">6. Context Propagation Issues<a class="headerlink" href="#6-context-propagation-issues" title="Permanent link">&para;</a></h3>
 <p><strong>Symptoms:</strong>
 - Broken trace chains
 - Missing parent spans</p>
 <p><strong>Solutions:</strong></p>
-<h4 id="verify-context-usage">Verify Context Usage</h4>
-<div class="highlight"><pre><span></span><code><span class="c1">// Always pass context</span>
-<span class="kd">func</span><span class="w"> </span><span class="nx">processRequest</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;process-request&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">span</span><span class="p">.</span><span class="nx">End</span><span class="p">()</span>
-
-<span class="w">    </span><span class="c1">// Pass context to downstream calls</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">downstreamService</span><span class="p">.</span><span class="nx">Process</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div>
-<h4 id="check-middleware-order">Check Middleware Order</h4>
-<div class="highlight"><pre><span></span><code><span class="c1">// Ensure middleware is applied correctly</span>
-<span class="nx">r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">chi</span><span class="p">.</span><span class="nx">NewRouter</span><span class="p">()</span>
-<span class="nx">r</span><span class="p">.</span><span class="nx">Use</span><span class="p">(</span><span class="nx">otelkitMiddleware</span><span class="p">)</span><span class="w"> </span><span class="c1">// Applied before routes</span>
-<span class="nx">r</span><span class="p">.</span><span class="nx">Get</span><span class="p">(</span><span class="s">&quot;/api&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="debugging-tools">Debugging Tools</h2>
-<h3 id="1-enable-debug-logging">1. Enable Debug Logging</h3>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/sdk/trace&quot;</span>
-
-<span class="c1">// Enable debug logging</span>
-<span class="nx">logger</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">log</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;OTEL: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">log</span><span class="p">.</span><span class="nx">LstdFlags</span><span class="p">)</span>
-<span class="nx">tp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">NewTracerProvider</span><span class="p">(</span>
-<span class="w">    </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">WithSyncer</span><span class="p">(</span><span class="nx">exporter</span><span class="p">),</span>
-<span class="w">    </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">WithResource</span><span class="p">(</span><span class="nx">res</span><span class="p">),</span>
-<span class="p">)</span>
-</code></pre></div>
-<h3 id="2-in-memory-testing">2. In-Memory Testing</h3>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/sdk/trace/tracetest&quot;</span>
-
-<span class="c1">// Use in-memory exporter for testing</span>
-<span class="nx">exporter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracetest</span><span class="p">.</span><span class="nx">NewInMemoryExporter</span><span class="p">()</span>
-<span class="nx">provider</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">NewTracerProvider</span><span class="p">(</span>
-<span class="w">    </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">WithSyncer</span><span class="p">(</span><span class="nx">exporter</span><span class="p">),</span>
-<span class="p">)</span>
-
-<span class="c1">// After operations</span>
-<span class="nx">spans</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">exporter</span><span class="p">.</span><span class="nx">GetSpans</span><span class="p">()</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Captured %d spans\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">spans</span><span class="p">))</span>
-</code></pre></div>
-<h3 id="3-health-check-endpoint">3. Health Check Endpoint</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">healthCheck</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">r</span><span class="p">.</span><span class="nx">Context</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;health-check&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">span</span><span class="p">.</span><span class="nx">End</span><span class="p">()</span>
-
-<span class="w">    </span><span class="c1">// Perform health check</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">checkCollectorHealth</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">span</span><span class="p">.</span><span class="nx">SetStatus</span><span class="p">(</span><span class="nx">codes</span><span class="p">.</span><span class="nx">Error</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
-<span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Unhealthy&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusServiceUnavailable</span><span class="p">)</span>
-<span class="w">        </span><span class="k">return</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">WriteHeader</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusOK</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;OK&quot;</span><span class="p">))</span>
-<span class="p">}</span>
-</code></pre></div>
-<h2 id="environment-specific-issues">Environment-Specific Issues</h2>
-<h3 id="docker-issues">Docker Issues</h3>
-<div class="highlight"><pre><span></span><code><span class="c"># Ensure proper networking</span>
-<span class="k">FROM</span><span class="w"> </span><span class="s">golang:1.22-alpine</span>
-<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
-<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>.
-<span class="k">RUN</span><span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>app<span class="w"> </span>.
-
-<span class="c"># Use host network for local development</span>
-docker<span class="w"> </span>run<span class="w"> </span>--network<span class="w"> </span>host<span class="w"> </span>my-app
-</code></pre></div>
-<h3 id="kubernetes-issues">Kubernetes Issues</h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># Ensure proper service discovery</span>
-<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">otel-collector</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">otel-collector</span>
-<span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4317</span>
-<span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4317</span>
-</code></pre></div>
-<h3 id="cloud-provider-issues">Cloud Provider Issues</h3>
-<div class="highlight"><pre><span></span><code><span class="c1">// AWS ECS</span>
-<span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">).</span>
-<span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;otel-collector.local:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
-
-<span class="c1">// GCP Cloud Run</span>
-<span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">).</span>
-<span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;otel-collector:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="performance-monitoring">Performance Monitoring</h2>
-<h3 id="memory-profiling">Memory Profiling</h3>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="s">&quot;runtime&quot;</span>
-
-<span class="c1">// Monitor memory usage</span>
-<span class="kd">var</span><span class="w"> </span><span class="nx">m</span><span class="w"> </span><span class="nx">runtime</span><span class="p">.</span><span class="nx">MemStats</span>
-<span class="nx">runtime</span><span class="p">.</span><span class="nx">ReadMemStats</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">m</span><span class="p">)</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Memory usage: %d MB\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">.</span><span class="nx">Alloc</span><span class="o">/</span><span class="mi">1024</span><span class="o">/</span><span class="mi">1024</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="span-count-monitoring">Span Count Monitoring</h3>
-<div class="highlight"><pre><span></span><code><span class="c1">// Monitor span creation rate</span>
-<span class="nx">spanCounter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
-<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Spans per second: %d\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">spanCounter</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span>
-<span class="w">        </span><span class="nx">spanCounter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}()</span>
-</code></pre></div>
-<h2 id="common-error-messages">Common Error Messages</h2>
-<h3 id="connection-refused">"connection refused"</h3>
+<h4 id="verify-context-usage">Verify Context Usage<a class="headerlink" href="#verify-context-usage" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1">// Always pass context</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">processRequest</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;process-request&quot;</span><span class="p">)</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">span</span><span class="p">.</span><span class="nx">End</span><span class="p">()</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="c1">// Pass context to downstream calls</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">downstreamService</span><span class="p">.</span><span class="nx">Process</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="check-middleware-order">Check Middleware Order<a class="headerlink" href="#check-middleware-order" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1">// Ensure middleware is applied correctly</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nx">r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">chi</span><span class="p">.</span><span class="nx">NewRouter</span><span class="p">()</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nx">r</span><span class="p">.</span><span class="nx">Use</span><span class="p">(</span><span class="nx">otelkitMiddleware</span><span class="p">)</span><span class="w"> </span><span class="c1">// Applied before routes</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="nx">r</span><span class="p">.</span><span class="nx">Get</span><span class="p">(</span><span class="s">&quot;/api&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="debugging-tools">Debugging Tools<a class="headerlink" href="#debugging-tools" title="Permanent link">&para;</a></h2>
+<h3 id="1-enable-debug-logging">1. Enable Debug Logging<a class="headerlink" href="#1-enable-debug-logging" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/sdk/trace&quot;</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="c1">// Enable debug logging</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nx">logger</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">log</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;OTEL: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">log</span><span class="p">.</span><span class="nx">LstdFlags</span><span class="p">)</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="nx">tp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">NewTracerProvider</span><span class="p">(</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">WithSyncer</span><span class="p">(</span><span class="nx">exporter</span><span class="p">),</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">WithResource</span><span class="p">(</span><span class="nx">res</span><span class="p">),</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="2-in-memory-testing">2. In-Memory Testing<a class="headerlink" href="#2-in-memory-testing" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/sdk/trace/tracetest&quot;</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="c1">// Use in-memory exporter for testing</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="nx">exporter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracetest</span><span class="p">.</span><span class="nx">NewInMemoryExporter</span><span class="p">()</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="nx">provider</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">NewTracerProvider</span><span class="p">(</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">    </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">WithSyncer</span><span class="p">(</span><span class="nx">exporter</span><span class="p">),</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="p">)</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="c1">// After operations</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="nx">spans</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">exporter</span><span class="p">.</span><span class="nx">GetSpans</span><span class="p">()</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Captured %d spans\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">spans</span><span class="p">))</span>
+</span></code></pre></div>
+<h3 id="3-health-check-endpoint">3. Health Check Endpoint<a class="headerlink" href="#3-health-check-endpoint" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">healthCheck</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">r</span><span class="p">.</span><span class="nx">Context</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;health-check&quot;</span><span class="p">)</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">span</span><span class="p">.</span><span class="nx">End</span><span class="p">()</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">    </span><span class="c1">// Perform health check</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">checkCollectorHealth</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">        </span><span class="nx">span</span><span class="p">.</span><span class="nx">SetStatus</span><span class="p">(</span><span class="nx">codes</span><span class="p">.</span><span class="nx">Error</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Unhealthy&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusServiceUnavailable</span><span class="p">)</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">        </span><span class="k">return</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">WriteHeader</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusOK</span><span class="p">)</span>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;OK&quot;</span><span class="p">))</span>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="environment-specific-issues">Environment-Specific Issues<a class="headerlink" href="#environment-specific-issues" title="Permanent link">&para;</a></h2>
+<h3 id="docker-issues">Docker Issues<a class="headerlink" href="#docker-issues" title="Permanent link">&para;</a></h3>
+<div class="language-dockerfile highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c"># Ensure proper networking</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="k">FROM</span><span class="w"> </span><span class="s">golang:1.22-alpine</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>.
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="k">RUN</span><span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>app<span class="w"> </span>.
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="c"># Use host network for local development</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>docker<span class="w"> </span>run<span class="w"> </span>--network<span class="w"> </span>host<span class="w"> </span>my-app
+</span></code></pre></div>
+<h3 id="kubernetes-issues">Kubernetes Issues<a class="headerlink" href="#kubernetes-issues" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Ensure proper service discovery</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">otel-collector</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">otel-collector</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4317</span>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4317</span>
+</span></code></pre></div>
+<h3 id="cloud-provider-issues">Cloud Provider Issues<a class="headerlink" href="#cloud-provider-issues" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1">// AWS ECS</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">).</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;otel-collector.local:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="c1">// GCP Cloud Run</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">).</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;otel-collector:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="performance-monitoring">Performance Monitoring<a class="headerlink" href="#performance-monitoring" title="Permanent link">&para;</a></h2>
+<h3 id="memory-profiling">Memory Profiling<a class="headerlink" href="#memory-profiling" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;runtime&quot;</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c1">// Monitor memory usage</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="kd">var</span><span class="w"> </span><span class="nx">m</span><span class="w"> </span><span class="nx">runtime</span><span class="p">.</span><span class="nx">MemStats</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="nx">runtime</span><span class="p">.</span><span class="nx">ReadMemStats</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">m</span><span class="p">)</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Memory usage: %d MB\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">.</span><span class="nx">Alloc</span><span class="o">/</span><span class="mi">1024</span><span class="o">/</span><span class="mi">1024</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="span-count-monitoring">Span Count Monitoring<a class="headerlink" href="#span-count-monitoring" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1">// Monitor span creation rate</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="nx">spanCounter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">        </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Spans per second: %d\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">spanCounter</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="w">        </span><span class="nx">spanCounter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="p">}()</span>
+</span></code></pre></div>
+<h2 id="common-error-messages">Common Error Messages<a class="headerlink" href="#common-error-messages" title="Permanent link">&para;</a></h2>
+<h3 id="connection-refused">"connection refused"<a class="headerlink" href="#connection-refused" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Check if collector is running</li>
 <li>Verify endpoint configuration</li>
 <li>Check firewall settings</li>
 </ul>
-<h3 id="certificate-verify-failed">"certificate verify failed"</h3>
+<h3 id="certificate-verify-failed">"certificate verify failed"<a class="headerlink" href="#certificate-verify-failed" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Use insecure mode for development</li>
 <li>Install proper certificates for production</li>
 <li>Check certificate validity</li>
 </ul>
-<h3 id="context-deadline-exceeded">"context deadline exceeded"</h3>
+<h3 id="context-deadline-exceeded">"context deadline exceeded"<a class="headerlink" href="#context-deadline-exceeded" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Increase timeout values</li>
 <li>Check network connectivity</li>
 <li>Verify collector availability</li>
 </ul>
-<h2 id="getting-help">Getting Help</h2>
-<h3 id="debug-information-to-collect">Debug Information to Collect</h3>
+<h2 id="getting-help">Getting Help<a class="headerlink" href="#getting-help" title="Permanent link">&para;</a></h2>
+<h3 id="debug-information-to-collect">Debug Information to Collect<a class="headerlink" href="#debug-information-to-collect" title="Permanent link">&para;</a></h3>
 <ol>
 <li>Configuration values (sanitized)</li>
 <li>Environment variables</li>
@@ -1329,16 +1329,16 @@ docker<span class="w"> </span>run<span class="w"> </span>--network<span class="w
 <li>Application logs</li>
 <li>Network connectivity tests</li>
 </ol>
-<h3 id="support-channels">Support Channels</h3>
+<h3 id="support-channels">Support Channels<a class="headerlink" href="#support-channels" title="Permanent link">&para;</a></h3>
 <ol>
 <li>Check GitHub issues</li>
 <li>Review documentation</li>
 <li>Test with minimal reproduction</li>
 <li>Provide debug information</li>
 </ol>
-<h3 id="example-debug-script">Example Debug Script</h3>
+<h3 id="example-debug-script">Example Debug Script<a class="headerlink" href="#example-debug-script" title="Permanent link">&para;</a></h3>
 <p>```bash</p>
-<h1 id="binbash">!/bin/bash</h1>
+<h1 id="binbash">!/bin/bash<a class="headerlink" href="#binbash" title="Permanent link">&para;</a></h1>
 <p>echo "=== OtelKit Debug Information ==="
 echo "Go version: $(go version)"
 echo "OtelKit version: $(go list -m github.com/samims/otelkit)"
@@ -1412,7 +1412,7 @@ curl -v http://localhost:4318/v1/traces || echo "Collector not accessible"</p>
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>

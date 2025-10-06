@@ -914,46 +914,46 @@
   
 
 
-<h1 id="integration-testing-guide">Integration Testing Guide</h1>
+<h1 id="integration-testing-guide">Integration Testing Guide<a class="headerlink" href="#integration-testing-guide" title="Permanent link">&para;</a></h1>
 <p>This guide explains how to set up and run integration tests for OtelKit with real OpenTelemetry collectors.</p>
-<h2 id="overview">Overview</h2>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>Integration tests verify that OtelKit works correctly with actual OpenTelemetry collectors (OTLP exporters). These tests require Docker and Docker Compose to run the collector infrastructure.</p>
-<h2 id="prerequisites">Prerequisites</h2>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Docker and Docker Compose installed</li>
 <li>Go 1.24+ (for integration test build tags)</li>
 </ul>
-<h2 id="running-integration-tests">Running Integration Tests</h2>
-<h3 id="option-1-run-all-tests-including-integration-tests">Option 1: Run All Tests (Including Integration Tests)</h3>
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>test-all
-</code></pre></div>
+<h2 id="running-integration-tests">Running Integration Tests<a class="headerlink" href="#running-integration-tests" title="Permanent link">&para;</a></h2>
+<h3 id="option-1-run-all-tests-including-integration-tests">Option 1: Run All Tests (Including Integration Tests)<a class="headerlink" href="#option-1-run-all-tests-including-integration-tests" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>make<span class="w"> </span>test-all
+</span></code></pre></div>
 <p>This runs all tests, including integration tests that require the <code>integration</code> build tag.</p>
-<h3 id="option-2-run-only-integration-tests">Option 2: Run Only Integration Tests</h3>
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>test-integration
-</code></pre></div>
+<h3 id="option-2-run-only-integration-tests">Option 2: Run Only Integration Tests<a class="headerlink" href="#option-2-run-only-integration-tests" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>make<span class="w"> </span>test-integration
+</span></code></pre></div>
 <p>Runs only the integration tests (skips if collector is not available).</p>
-<h3 id="option-3-full-integration-test-with-collector">Option 3: Full Integration Test with Collector</h3>
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>test-integration-with-collector
-</code></pre></div>
+<h3 id="option-3-full-integration-test-with-collector">Option 3: Full Integration Test with Collector<a class="headerlink" href="#option-3-full-integration-test-with-collector" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>make<span class="w"> </span>test-integration-with-collector
+</span></code></pre></div>
 <p>This command:
 1. Starts the OpenTelemetry collector using Docker Compose
 2. Waits for the collector to be ready
 3. Runs all integration tests
 4. Stops the collector when tests complete</p>
-<h3 id="option-4-manual-collector-management">Option 4: Manual Collector Management</h3>
+<h3 id="option-4-manual-collector-management">Option 4: Manual Collector Management<a class="headerlink" href="#option-4-manual-collector-management" title="Permanent link">&para;</a></h3>
 <p>Start the collector:
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>integration-up
-</code></pre></div></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>make<span class="w"> </span>integration-up
+</span></code></pre></div></p>
 <p>Run integration tests:
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>test-integration
-</code></pre></div></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>make<span class="w"> </span>test-integration
+</span></code></pre></div></p>
 <p>View collector logs:
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>integration-logs
-</code></pre></div></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>make<span class="w"> </span>integration-logs
+</span></code></pre></div></p>
 <p>Stop the collector:
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>integration-down
-</code></pre></div></p>
-<h2 id="test-environment">Test Environment</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>make<span class="w"> </span>integration-down
+</span></code></pre></div></p>
+<h2 id="test-environment">Test Environment<a class="headerlink" href="#test-environment" title="Permanent link">&para;</a></h2>
 <p>The integration test environment includes:</p>
 <ul>
 <li><strong>OpenTelemetry Collector</strong>: Listens on ports 4317 (gRPC) and 4318 (HTTP)</li>
@@ -962,47 +962,47 @@
 <li><strong>Prometheus</strong>: Available at http://localhost:9090 for metrics</li>
 <li><strong>Grafana</strong>: Available at http://localhost:3000 for metrics visualization (admin/admin)</li>
 </ul>
-<h2 id="integration-test-types">Integration Test Types</h2>
-<h3 id="1-http-exporter-tests">1. HTTP Exporter Tests</h3>
+<h2 id="integration-test-types">Integration Test Types<a class="headerlink" href="#integration-test-types" title="Permanent link">&para;</a></h2>
+<h3 id="1-http-exporter-tests">1. HTTP Exporter Tests<a class="headerlink" href="#1-http-exporter-tests" title="Permanent link">&para;</a></h3>
 <p>Tests integration with OTLP HTTP exporter (port 4318)</p>
-<h3 id="2-grpc-exporter-tests">2. gRPC Exporter Tests</h3>
+<h3 id="2-grpc-exporter-tests">2. gRPC Exporter Tests<a class="headerlink" href="#2-grpc-exporter-tests" title="Permanent link">&para;</a></h3>
 <p>Tests integration with OTLP gRPC exporter (port 4317)</p>
-<h3 id="3-batch-processing-tests">3. Batch Processing Tests</h3>
+<h3 id="3-batch-processing-tests">3. Batch Processing Tests<a class="headerlink" href="#3-batch-processing-tests" title="Permanent link">&para;</a></h3>
 <p>Tests batch processing behavior with different configurations</p>
-<h3 id="4-sampling-strategy-tests">4. Sampling Strategy Tests</h3>
+<h3 id="4-sampling-strategy-tests">4. Sampling Strategy Tests<a class="headerlink" href="#4-sampling-strategy-tests" title="Permanent link">&para;</a></h3>
 <p>Tests different sampling strategies (always_on, always_off, probabilistic)</p>
-<h3 id="5-resource-attribute-tests">5. Resource Attribute Tests</h3>
+<h3 id="5-resource-attribute-tests">5. Resource Attribute Tests<a class="headerlink" href="#5-resource-attribute-tests" title="Permanent link">&para;</a></h3>
 <p>Tests resource attribute propagation to collectors</p>
-<h3 id="6-multiple-provider-tests">6. Multiple Provider Tests</h3>
+<h3 id="6-multiple-provider-tests">6. Multiple Provider Tests<a class="headerlink" href="#6-multiple-provider-tests" title="Permanent link">&para;</a></h3>
 <p>Tests multiple tracer provider instances</p>
-<h3 id="7-in-memory-exporter-tests">7. In-Memory Exporter Tests</h3>
+<h3 id="7-in-memory-exporter-tests">7. In-Memory Exporter Tests<a class="headerlink" href="#7-in-memory-exporter-tests" title="Permanent link">&para;</a></h3>
 <p>Fallback tests that don't require external collectors</p>
-<h2 id="test-configuration">Test Configuration</h2>
+<h2 id="test-configuration">Test Configuration<a class="headerlink" href="#test-configuration" title="Permanent link">&para;</a></h2>
 <p>Integration tests use the <code>//go:build integration</code> build tag. Tests will automatically skip if:</p>
 <ul>
 <li>The required collector ports (4317, 4318) are not available</li>
 <li>Docker/Docker Compose is not installed</li>
 <li>The integration build tag is not specified</li>
 </ul>
-<h2 id="writing-integration-tests">Writing Integration Tests</h2>
-<h3 id="basic-structure">Basic Structure</h3>
-<div class="highlight"><pre><span></span><code><span class="c1">//go:build integration</span>
-
-<span class="kn">package</span><span class="w"> </span><span class="nx">otelkit</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="s">&quot;testing&quot;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span><span class="w"> </span><span class="nx">TestIntegration_Example</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">isPortOpen</span><span class="p">(</span><span class="s">&quot;localhost:4318&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">t</span><span class="p">.</span><span class="nx">Skip</span><span class="p">(</span><span class="s">&quot;Collector not available&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="c1">// Test logic here</span>
-<span class="p">}</span>
-</code></pre></div>
-<h3 id="best-practices">Best Practices</h3>
+<h2 id="writing-integration-tests">Writing Integration Tests<a class="headerlink" href="#writing-integration-tests" title="Permanent link">&para;</a></h2>
+<h3 id="basic-structure">Basic Structure<a class="headerlink" href="#basic-structure" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">//go:build integration</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">package</span><span class="w"> </span><span class="nx">otelkit</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="s">&quot;testing&quot;</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">)</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="kd">func</span><span class="w"> </span><span class="nx">TestIntegration_Example</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">isPortOpen</span><span class="p">(</span><span class="s">&quot;localhost:4318&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">        </span><span class="nx">t</span><span class="p">.</span><span class="nx">Skip</span><span class="p">(</span><span class="s">&quot;Collector not available&quot;</span><span class="p">)</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="c1">// Test logic here</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h3>
 <ol>
 <li><strong>Always check for collector availability</strong> using <code>isPortOpen()</code></li>
 <li><strong>Use descriptive test names</strong> starting with <code>TestIntegration_</code></li>
@@ -1010,47 +1010,47 @@
 <li><strong>Include logging</strong> to help with debugging</li>
 <li><strong>Test error scenarios</strong> and edge cases</li>
 </ol>
-<h2 id="troubleshooting">Troubleshooting</h2>
-<h3 id="collector-not-starting">Collector Not Starting</h3>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="collector-not-starting">Collector Not Starting<a class="headerlink" href="#collector-not-starting" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Check Docker is running: <code>docker info</code></li>
 <li>Check ports 4317/4318 are not already in use</li>
 <li>View logs: <code>make integration-logs</code></li>
 </ul>
-<h3 id="tests-skipping">Tests Skipping</h3>
+<h3 id="tests-skipping">Tests Skipping<a class="headerlink" href="#tests-skipping" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Ensure collector is running: <code>make integration-up</code></li>
 <li>Wait for collector to be ready (5-10 seconds after startup)</li>
 </ul>
-<h3 id="connection-issues">Connection Issues</h3>
+<h3 id="connection-issues">Connection Issues<a class="headerlink" href="#connection-issues" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Verify firewall settings allow Docker networking</li>
 <li>Check Docker network configuration</li>
 </ul>
-<h3 id="performance-issues">Performance Issues</h3>
+<h3 id="performance-issues">Performance Issues<a class="headerlink" href="#performance-issues" title="Permanent link">&para;</a></h3>
 <p>Integration tests may be slower due to:
 - Docker container startup time
 - Network latency to collector
 - Batch processing timeouts</p>
-<h2 id="cicd-integration">CI/CD Integration</h2>
+<h2 id="cicd-integration">CI/CD Integration<a class="headerlink" href="#cicd-integration" title="Permanent link">&para;</a></h2>
 <p>For CI/CD pipelines, include:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">steps</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run integration tests</span>
-<span class="w">    </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">      </span><span class="no">make integration-up</span>
-<span class="w">      </span><span class="no">sleep 10  # Wait for collector</span>
-<span class="w">      </span><span class="no">make test-integration</span>
-<span class="w">      </span><span class="no">make integration-down</span>
-</code></pre></div>
-<h2 id="manual-testing">Manual Testing</h2>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">steps</span><span class="p">:</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run integration tests</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">      </span><span class="no">make integration-up</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">      </span><span class="no">sleep 10  # Wait for collector</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">      </span><span class="no">make test-integration</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">      </span><span class="no">make integration-down</span>
+</span></code></pre></div>
+<h2 id="manual-testing">Manual Testing<a class="headerlink" href="#manual-testing" title="Permanent link">&para;</a></h2>
 <p>You can also test manually using curl:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Test HTTP endpoint</span>
-curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:4318/health
-
-<span class="c1"># Test gRPC endpoint (requires grpcurl)</span>
-grpcurl<span class="w"> </span>-plaintext<span class="w"> </span>localhost:4317<span class="w"> </span>list
-</code></pre></div>
-<h2 id="monitoring-test-results">Monitoring Test Results</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Test HTTP endpoint</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:4318/health
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Test gRPC endpoint (requires grpcurl)</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>grpcurl<span class="w"> </span>-plaintext<span class="w"> </span>localhost:4317<span class="w"> </span>list
+</span></code></pre></div>
+<h2 id="monitoring-test-results">Monitoring Test Results<a class="headerlink" href="#monitoring-test-results" title="Permanent link">&para;</a></h2>
 <p>After running integration tests, you can view the results in:</p>
 <ul>
 <li><strong>Jaeger UI</strong>: http://localhost:16686</li>
@@ -1063,7 +1063,7 @@ grpcurl<span class="w"> </span>-plaintext<span class="w"> </span>localhost:4317<
 <li><code>sampling.strategy</code>: indicates the sampling type tested</li>
 <li><code>batch.index</code>: for batch processing tests</li>
 </ul>
-<h2 id="next-steps">Next Steps</h2>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Add more comprehensive error scenario testing</li>
 <li>Include performance benchmarking</li>
@@ -1136,7 +1136,7 @@ grpcurl<span class="w"> </span>-plaintext<span class="w"> </span>localhost:4317<
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>

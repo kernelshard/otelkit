@@ -983,7 +983,7 @@
   
 
 
-<h1 id="otelkit-api-reference">otelkit API Reference</h1>
+<h1 id="otelkit-api-reference">otelkit API Reference<a class="headerlink" href="#otelkit-api-reference" title="Permanent link">&para;</a></h1>
 <p>package otelkit // import "github.com/kernelshard/otelkit"</p>
 <p>Package otelkit provides HTTP middleware for automatic request tracing.
 The middleware integrates seamlessly with any HTTP framework that supports
@@ -996,156 +996,156 @@ entire tracing system.</p>
 <p>Package tracer provides span utility functions for OpenTelemetry tracing.
 These utilities offer safe, convenient methods for common span operations with
 built-in nil checks and error handling.</p>
-<h2 id="constants">Constants</h2>
-<h3 id="service-configuration-constants">Service Configuration Constants</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="nx">DefaultServiceName</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;unknown-service&quot;</span>
-<span class="w">    </span><span class="nx">DefaultServiceVersion</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;1.0.0&quot;</span>
-<span class="w">    </span><span class="nx">DefaultEnvironment</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;development&quot;</span>
-<span class="w">    </span><span class="nx">DefaultOTLPExporterEndpoint</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;localhost:4317&quot;</span>
-<span class="w">    </span><span class="nx">DefaultSamplingRatio</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="mf">0.2</span>
-<span class="w">    </span><span class="nx">DefaultSamplingType</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;probabilistic&quot;</span>
-<span class="w">    </span><span class="nx">DefaultOTLPExporterProtocol</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span>
-<span class="w">    </span><span class="nx">DefaultBatchTimeout</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span>
-<span class="w">    </span><span class="nx">DefaultExportTimeout</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span>
-<span class="w">    </span><span class="nx">DefaultMaxExportBatchSize</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="mi">512</span>
-<span class="w">    </span><span class="nx">DefaultMaxQueueSize</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="mi">2048</span>
-<span class="p">)</span>
-</code></pre></div>
-<h3 id="opentelemetry-semantic-convention-constants">OpenTelemetry Semantic Convention Constants</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="nx">AttrHTTPMethod</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;http.method&quot;</span>
-<span class="w">    </span><span class="nx">AttrHTTPURL</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;http.url&quot;</span>
-<span class="w">    </span><span class="nx">AttrHTTPUserAgent</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;http.user_agent&quot;</span>
-<span class="w">    </span><span class="nx">AttrHTTPStatusCode</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;http.status_code&quot;</span>
-<span class="p">)</span>
-</code></pre></div>
-<h3 id="error-message-constants">Error Message Constants</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="nx">ErrServiceNameRequired</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;service name is required&quot;</span>
-<span class="w">    </span><span class="nx">ErrServiceVersionRequired</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;service version is required&quot;</span>
-<span class="w">    </span><span class="nx">ErrInvalidEnvironment</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;invalid environment&quot;</span>
-<span class="w">    </span><span class="nx">ErrInvalidSamplingType</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;invalid sampling type&quot;</span>
-<span class="w">    </span><span class="nx">ErrInvalidSamplingRatio</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;sampling ratio must be between 0 and 1&quot;</span>
-<span class="w">    </span><span class="nx">ErrInvalidExporterProtocol</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;invalid exporter protocol&quot;</span>
-<span class="w">    </span><span class="nx">ErrInvalidExporterEndpoint</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;exporter endpoint is required&quot;</span>
-<span class="p">)</span>
-</code></pre></div>
-<h3 id="environment-variable-constants">Environment Variable Constants</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="nx">EnvServiceName</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_SERVICE_NAME&quot;</span>
-<span class="w">    </span><span class="nx">EnvServiceVersion</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_SERVICE_VERSION&quot;</span>
-<span class="w">    </span><span class="nx">EnvEnvironment</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_ENVIRONMENT&quot;</span>
-<span class="w">    </span><span class="nx">EnvOTLPExporterEndpoint</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_EXPORTER_OTLP_ENDPOINT&quot;</span>
-<span class="w">    </span><span class="nx">EnvOTLPExporterInsecure</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_EXPORTER_OTLP_INSECURE&quot;</span>
-<span class="w">    </span><span class="nx">EnvOTLPExporterProtocol</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_EXPORTER_OTLP_PROTOCOL&quot;</span>
-<span class="w">    </span><span class="nx">EnvBatchTimeout</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_BSP_TIMEOUT&quot;</span>
-<span class="w">    </span><span class="nx">EnvExportTimeout</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_EXPORTER_TIMEOUT&quot;</span>
-<span class="w">    </span><span class="nx">EnvMaxExportBatchSize</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_BSP_MAX_EXPORT_BATCH_SIZE&quot;</span>
-<span class="w">    </span><span class="nx">EnvMaxQueueSize</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_BSP_MAX_QUEUE_SIZE&quot;</span>
-<span class="w">    </span><span class="nx">EnvSamplingType</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_TRACES_SAMPLER&quot;</span>
-<span class="w">    </span><span class="nx">EnvSamplingRatio</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_TRACES_SAMPLER_ARG&quot;</span>
-<span class="w">    </span><span class="nx">EnvInstanceID</span><span class="w">           </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_RESOURCE_ATTRIBUTES_SERVICE_INSTANCE_ID&quot;</span>
-<span class="p">)</span>
-</code></pre></div>
-<h2 id="variables">Variables</h2>
-<h3 id="valid-configuration-options">Valid Configuration Options</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">var</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="nx">ValidEnvironments</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;development&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;staging&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;production&quot;</span><span class="p">}</span>
-<span class="w">    </span><span class="nx">ValidSamplingTypes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;always_on&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;always_off&quot;</span><span class="p">}</span>
-<span class="w">    </span><span class="nx">ValidHTTPMethods</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span>
-<span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodHead</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodPost</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodPut</span><span class="p">,</span>
-<span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodDelete</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodPatch</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodHead</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodOptions</span><span class="p">,</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="nx">ValidOTLPProtocols</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;http&quot;</span><span class="p">}</span>
-<span class="p">)</span>
-</code></pre></div>
-<h2 id="functions">Functions</h2>
-<h3 id="addattributes">AddAttributes</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">AddAttributes</span><span class="p">(</span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">,</span><span class="w"> </span><span class="nx">attrs</span><span class="w"> </span><span class="o">...</span><span class="nx">attribute</span><span class="p">.</span><span class="nx">KeyValue</span><span class="p">)</span>
-</code></pre></div>
+<h2 id="constants">Constants<a class="headerlink" href="#constants" title="Permanent link">&para;</a></h2>
+<h3 id="service-configuration-constants">Service Configuration Constants<a class="headerlink" href="#service-configuration-constants" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nx">DefaultServiceName</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;unknown-service&quot;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nx">DefaultServiceVersion</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;1.0.0&quot;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nx">DefaultEnvironment</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;development&quot;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nx">DefaultOTLPExporterEndpoint</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;localhost:4317&quot;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nx">DefaultSamplingRatio</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="mf">0.2</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nx">DefaultSamplingType</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;probabilistic&quot;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nx">DefaultOTLPExporterProtocol</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="nx">DefaultBatchTimeout</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nx">DefaultExportTimeout</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nx">DefaultMaxExportBatchSize</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="mi">512</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="nx">DefaultMaxQueueSize</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="mi">2048</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="opentelemetry-semantic-convention-constants">OpenTelemetry Semantic Convention Constants<a class="headerlink" href="#opentelemetry-semantic-convention-constants" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nx">AttrHTTPMethod</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;http.method&quot;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nx">AttrHTTPURL</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;http.url&quot;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nx">AttrHTTPUserAgent</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;http.user_agent&quot;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nx">AttrHTTPStatusCode</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;http.status_code&quot;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="error-message-constants">Error Message Constants<a class="headerlink" href="#error-message-constants" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nx">ErrServiceNameRequired</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;service name is required&quot;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nx">ErrServiceVersionRequired</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;service version is required&quot;</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nx">ErrInvalidEnvironment</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;invalid environment&quot;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nx">ErrInvalidSamplingType</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;invalid sampling type&quot;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nx">ErrInvalidSamplingRatio</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;sampling ratio must be between 0 and 1&quot;</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nx">ErrInvalidExporterProtocol</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;invalid exporter protocol&quot;</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nx">ErrInvalidExporterEndpoint</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;exporter endpoint is required&quot;</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="environment-variable-constants">Environment Variable Constants<a class="headerlink" href="#environment-variable-constants" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nx">EnvServiceName</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_SERVICE_NAME&quot;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nx">EnvServiceVersion</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_SERVICE_VERSION&quot;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nx">EnvEnvironment</span><span class="w">          </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_ENVIRONMENT&quot;</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nx">EnvOTLPExporterEndpoint</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_EXPORTER_OTLP_ENDPOINT&quot;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nx">EnvOTLPExporterInsecure</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_EXPORTER_OTLP_INSECURE&quot;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="nx">EnvOTLPExporterProtocol</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_EXPORTER_OTLP_PROTOCOL&quot;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="nx">EnvBatchTimeout</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_BSP_TIMEOUT&quot;</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="nx">EnvExportTimeout</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_EXPORTER_TIMEOUT&quot;</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="nx">EnvMaxExportBatchSize</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_BSP_MAX_EXPORT_BATCH_SIZE&quot;</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="nx">EnvMaxQueueSize</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_BSP_MAX_QUEUE_SIZE&quot;</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="nx">EnvSamplingType</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_TRACES_SAMPLER&quot;</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="nx">EnvSamplingRatio</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_TRACES_SAMPLER_ARG&quot;</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="nx">EnvInstanceID</span><span class="w">           </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;OTEL_RESOURCE_ATTRIBUTES_SERVICE_INSTANCE_ID&quot;</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="variables">Variables<a class="headerlink" href="#variables" title="Permanent link">&para;</a></h2>
+<h3 id="valid-configuration-options">Valid Configuration Options<a class="headerlink" href="#valid-configuration-options" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">var</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="nx">ValidEnvironments</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;development&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;staging&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;production&quot;</span><span class="p">}</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nx">ValidSamplingTypes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;always_on&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;always_off&quot;</span><span class="p">}</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nx">ValidHTTPMethods</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodHead</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodPost</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodPut</span><span class="p">,</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodDelete</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodPatch</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodHead</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodOptions</span><span class="p">,</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="nx">ValidOTLPProtocols</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;http&quot;</span><span class="p">}</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h2>
+<h3 id="addattributes">AddAttributes<a class="headerlink" href="#addattributes" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">AddAttributes</span><span class="p">(</span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">,</span><span class="w"> </span><span class="nx">attrs</span><span class="w"> </span><span class="o">...</span><span class="nx">attribute</span><span class="p">.</span><span class="nx">KeyValue</span><span class="p">)</span>
+</span></code></pre></div>
 <p>AddAttributes safely adds one or more attributes to the given span. If the
 span is nil, this function is a no-op. This is useful for adding contextual
 information to spans such as user IDs, request parameters, or business logic
 details.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nx">AddAttributes</span><span class="p">(</span><span class="nx">span</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;user.id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;12345&quot;</span><span class="p">),</span>
-<span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">Int</span><span class="p">(</span><span class="s">&quot;request.size&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1024</span><span class="p">),</span>
-<span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">Bool</span><span class="p">(</span><span class="s">&quot;cache.hit&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">),</span>
-<span class="p">)</span>
-</code></pre></div>
-<h3 id="addevent">AddEvent</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">AddEvent</span><span class="p">(</span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">attrs</span><span class="w"> </span><span class="o">...</span><span class="nx">attribute</span><span class="p">.</span><span class="nx">KeyValue</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nx">AddAttributes</span><span class="p">(</span><span class="nx">span</span><span class="p">,</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;user.id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;12345&quot;</span><span class="p">),</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">Int</span><span class="p">(</span><span class="s">&quot;request.size&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1024</span><span class="p">),</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">Bool</span><span class="p">(</span><span class="s">&quot;cache.hit&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">),</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="addevent">AddEvent<a class="headerlink" href="#addevent" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">AddEvent</span><span class="p">(</span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">attrs</span><span class="w"> </span><span class="o">...</span><span class="nx">attribute</span><span class="p">.</span><span class="nx">KeyValue</span><span class="p">)</span>
+</span></code></pre></div>
 <p>AddEvent safely adds a named event with optional attributes to the span.
 Events are timestamped markers that can help understand the flow of
 execution. If the span is nil, this function is a no-op.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nx">AddEvent</span><span class="p">(</span><span class="nx">span</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cache.miss&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">cacheKey</span><span class="p">),</span>
-<span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;reason&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;expired&quot;</span><span class="p">),</span>
-<span class="p">)</span>
-</code></pre></div>
-<h3 id="addtimedevent">AddTimedEvent</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">AddTimedEvent</span><span class="p">(</span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">duration</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nx">AddEvent</span><span class="p">(</span><span class="nx">span</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cache.miss&quot;</span><span class="p">,</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">cacheKey</span><span class="p">),</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;reason&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;expired&quot;</span><span class="p">),</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="addtimedevent">AddTimedEvent<a class="headerlink" href="#addtimedevent" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">AddTimedEvent</span><span class="p">(</span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">duration</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">)</span>
+</span></code></pre></div>
 <p>AddTimedEvent adds an event with duration information to the span. This is
 useful for recording the time taken for specific operations within a larger
 span. The duration is added as a string attribute.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nx">start</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">()</span>
-<span class="c1">// ... perform operation</span>
-<span class="nx">AddTimedEvent</span><span class="p">(</span><span class="nx">span</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;database.query&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Since</span><span class="p">(</span><span class="nx">start</span><span class="p">))</span>
-</code></pre></div>
-<h3 id="endspan">EndSpan</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">EndSpan</span><span class="p">(</span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nx">start</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">()</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1">// ... perform operation</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nx">AddTimedEvent</span><span class="p">(</span><span class="nx">span</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;database.query&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Since</span><span class="p">(</span><span class="nx">start</span><span class="p">))</span>
+</span></code></pre></div>
+<h3 id="endspan">EndSpan<a class="headerlink" href="#endspan" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">EndSpan</span><span class="p">(</span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">)</span>
+</span></code></pre></div>
 <p>EndSpan safely ends the given span. If the span is nil, this function is
 a no-op. This provides a safe way to end spans without worrying about nil
 checks.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="k">defer</span><span class="w"> </span><span class="nx">EndSpan</span><span class="p">(</span><span class="nx">span</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="extracttracecontext">ExtractTraceContext</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">ExtractTraceContext</span><span class="p">(</span><span class="nx">req</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span>
-</code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">defer</span><span class="w"> </span><span class="nx">EndSpan</span><span class="p">(</span><span class="nx">span</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="extracttracecontext">ExtractTraceContext<a class="headerlink" href="#extracttracecontext" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">ExtractTraceContext</span><span class="p">(</span><span class="nx">req</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span>
+</span></code></pre></div>
 <p>ExtractTraceContext extracts trace context from HTTP request headers into
 the context.</p>
-<h3 id="injecttracecontext">InjectTraceContext</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">InjectTraceContext</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span>
-</code></pre></div>
+<h3 id="injecttracecontext">InjectTraceContext<a class="headerlink" href="#injecttracecontext" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">InjectTraceContext</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span>
+</span></code></pre></div>
 <p>InjectTraceContext injects the current trace context into the HTTP request
 headers.</p>
-<h3 id="injecttraceidintocontext">InjectTraceIDIntoContext</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">InjectTraceIDIntoContext</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">)</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span>
-</code></pre></div>
+<h3 id="injecttraceidintocontext">InjectTraceIDIntoContext<a class="headerlink" href="#injecttraceidintocontext" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">InjectTraceIDIntoContext</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">)</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span>
+</span></code></pre></div>
 <p>InjectTraceIDIntoContext adds trace ID into the context (as a new value).</p>
-<h3 id="isrecording">IsRecording</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">IsRecording</span><span class="p">(</span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span>
-</code></pre></div>
+<h3 id="isrecording">IsRecording<a class="headerlink" href="#isrecording" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">IsRecording</span><span class="p">(</span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span>
+</span></code></pre></div>
 <p>IsRecording checks if the span is currently recording telemetry data.
 Returns false if the span is nil or if the span context is invalid. This
 can be used to avoid expensive operations when tracing is disabled or when
 working with noop spans.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="nx">IsRecording</span><span class="p">(</span><span class="nx">span</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// Perform expensive attribute computation</span>
-<span class="w">    </span><span class="nx">span</span><span class="p">.</span><span class="nx">SetAttributes</span><span class="p">(</span><span class="nx">expensiveAttributes</span><span class="p">()</span><span class="o">...</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div>
-<h3 id="mustsetuptracing">MustSetupTracing</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">MustSetupTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceName</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceVersion</span><span class="w"> </span><span class="o">...</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
-</code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">if</span><span class="w"> </span><span class="nx">IsRecording</span><span class="p">(</span><span class="nx">span</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="c1">// Perform expensive attribute computation</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">    </span><span class="nx">span</span><span class="p">.</span><span class="nx">SetAttributes</span><span class="p">(</span><span class="nx">expensiveAttributes</span><span class="p">()</span><span class="o">...</span><span class="p">)</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="mustsetuptracing">MustSetupTracing<a class="headerlink" href="#mustsetuptracing" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">MustSetupTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceName</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceVersion</span><span class="w"> </span><span class="o">...</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+</span></code></pre></div>
 <p>MustSetupTracing is like SetupTracing but panics on error. Use this for
 simple programs where you want to fail fast.</p>
-<h3 id="newconfigerror">NewConfigError</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">NewConfigError</span><span class="p">(</span><span class="nx">field</span><span class="p">,</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
-</code></pre></div>
+<h3 id="newconfigerror">NewConfigError<a class="headerlink" href="#newconfigerror" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">NewConfigError</span><span class="p">(</span><span class="nx">field</span><span class="p">,</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+</span></code></pre></div>
 <p>NewConfigError creates a new ConfigError.</p>
-<h3 id="newdefaultprovider">NewDefaultProvider</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">NewDefaultProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceName</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceVersion</span><span class="w"> </span><span class="o">...</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">TracerProvider</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
-</code></pre></div>
+<h3 id="newdefaultprovider">NewDefaultProvider<a class="headerlink" href="#newdefaultprovider" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">NewDefaultProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceName</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceVersion</span><span class="w"> </span><span class="o">...</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">TracerProvider</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+</span></code></pre></div>
 <p>NewDefaultProvider creates a tracer provider with default settings and sets
 it as the global provider. This is a convenience function for quick setup in
 development or simple applications. It creates a provider with opinionated
@@ -1160,46 +1160,46 @@ use NewProvider with NewProviderConfig.</p>
 <p><strong>Note:</strong> This is the function most users will start with. It's designed to
 "just work" for local development and testing scenarios.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">NewDefaultProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">)</span>
-<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-<span class="p">}</span>
-<span class="k">defer</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">Shutdown</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="newinitializationerror">NewInitializationError</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">NewInitializationError</span><span class="p">(</span><span class="nx">component</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">cause</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
-</code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">NewDefaultProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">)</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="p">}</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="k">defer</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">Shutdown</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="newinitializationerror">NewInitializationError<a class="headerlink" href="#newinitializationerror" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">NewInitializationError</span><span class="p">(</span><span class="nx">component</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">cause</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+</span></code></pre></div>
 <p>NewInitializationError creates a new InitializationError.</p>
-<h3 id="newinstrumentedgrpcclientdialoptions">NewInstrumentedGRPCClientDialOptions</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">NewInstrumentedGRPCClientDialOptions</span><span class="p">()</span><span class="w"> </span><span class="p">[]</span><span class="nx">grpc</span><span class="p">.</span><span class="nx">DialOption</span>
-</code></pre></div>
+<h3 id="newinstrumentedgrpcclientdialoptions">NewInstrumentedGRPCClientDialOptions<a class="headerlink" href="#newinstrumentedgrpcclientdialoptions" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">NewInstrumentedGRPCClientDialOptions</span><span class="p">()</span><span class="w"> </span><span class="p">[]</span><span class="nx">grpc</span><span class="p">.</span><span class="nx">DialOption</span>
+</span></code></pre></div>
 <p>NewInstrumentedGRPCClientDialOptions returns grpc.DialOption slice with
 OpenTelemetry instrumentation for client connections. Use this in grpc.Dial
 for instrumented client connections.</p>
-<h3 id="newinstrumentedgrpcserver">NewInstrumentedGRPCServer</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">NewInstrumentedGRPCServer</span><span class="p">(</span><span class="nx">opts</span><span class="w"> </span><span class="o">...</span><span class="nx">grpc</span><span class="p">.</span><span class="nx">ServerOption</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">grpc</span><span class="p">.</span><span class="nx">Server</span>
-</code></pre></div>
+<h3 id="newinstrumentedgrpcserver">NewInstrumentedGRPCServer<a class="headerlink" href="#newinstrumentedgrpcserver" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">NewInstrumentedGRPCServer</span><span class="p">(</span><span class="nx">opts</span><span class="w"> </span><span class="o">...</span><span class="nx">grpc</span><span class="p">.</span><span class="nx">ServerOption</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">grpc</span><span class="p">.</span><span class="nx">Server</span>
+</span></code></pre></div>
 <p>NewInstrumentedGRPCServer creates a new gRPC server with OpenTelemetry unary
 and stream interceptors attached automatically.</p>
-<h3 id="newinstrumentedhttpclient">NewInstrumentedHTTPClient</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">NewInstrumentedHTTPClient</span><span class="p">(</span><span class="nx">baseTransport</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">RoundTripper</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Client</span>
-</code></pre></div>
+<h3 id="newinstrumentedhttpclient">NewInstrumentedHTTPClient<a class="headerlink" href="#newinstrumentedhttpclient" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">NewInstrumentedHTTPClient</span><span class="p">(</span><span class="nx">baseTransport</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">RoundTripper</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Client</span>
+</span></code></pre></div>
 <p>NewInstrumentedHTTPClient returns an *http.Client with OpenTelemetry
 transport for automatic HTTP tracing. You can customize it by passing a base
 transport; if nil, http.DefaultTransport is used.</p>
-<h3 id="newinstrumentedhttphandler">NewInstrumentedHTTPHandler</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">NewInstrumentedHTTPHandler</span><span class="p">(</span><span class="nx">handler</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">Handler</span><span class="p">,</span><span class="w"> </span><span class="nx">operationName</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">Handler</span>
-</code></pre></div>
+<h3 id="newinstrumentedhttphandler">NewInstrumentedHTTPHandler<a class="headerlink" href="#newinstrumentedhttphandler" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">NewInstrumentedHTTPHandler</span><span class="p">(</span><span class="nx">handler</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">Handler</span><span class="p">,</span><span class="w"> </span><span class="nx">operationName</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">Handler</span>
+</span></code></pre></div>
 <p>NewInstrumentedHTTPHandler wraps an http.Handler with OpenTelemetry
 instrumentation and returns the wrapped handler. Usage: http.Handle("/path",
 NewInstrumentedHTTPHandler(yourHandler, "operationName"))</p>
-<h3 id="newpropagationerror">NewPropagationError</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">NewPropagationError</span><span class="p">(</span><span class="nx">operation</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">cause</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
-</code></pre></div>
+<h3 id="newpropagationerror">NewPropagationError<a class="headerlink" href="#newpropagationerror" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">NewPropagationError</span><span class="p">(</span><span class="nx">operation</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">cause</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+</span></code></pre></div>
 <p>NewPropagationError creates a new PropagationError.</p>
-<h3 id="newprovider">NewProvider</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">NewProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="w"> </span><span class="o">*</span><span class="nx">ProviderConfig</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">TracerProvider</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
-</code></pre></div>
+<h3 id="newprovider">NewProvider<a class="headerlink" href="#newprovider" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">NewProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="w"> </span><span class="o">*</span><span class="nx">ProviderConfig</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">TracerProvider</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+</span></code></pre></div>
 <p>NewProvider creates and configures a new TracerProvider using the provided
 configuration, then sets it as the global OpenTelemetry provider (only
 once per application lifecycle). This is the recommended way to initialize
@@ -1208,57 +1208,57 @@ tracing when you need custom configuration.</p>
 called multiple times. This prevents conflicts and ensures consistent
 tracing behavior across the application.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;payment-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.2.3&quot;</span><span class="p">).</span>
-<span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;https://api.honeycomb.io&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;http&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">).</span>
-<span class="w">    </span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.05</span><span class="p">)</span>
-
-<span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">NewProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">)</span>
-<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-<span class="p">}</span>
-<span class="k">defer</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">Shutdown</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="recorderror">RecordError</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">RecordError</span><span class="p">(</span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;payment-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.2.3&quot;</span><span class="p">).</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;https://api.honeycomb.io&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;http&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">).</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="w">    </span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.05</span><span class="p">)</span>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">NewProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">)</span>
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="p">}</span>
+</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a><span class="k">defer</span><span class="w"> </span><span class="nx">provider</span><span class="p">.</span><span class="nx">Shutdown</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="recorderror">RecordError<a class="headerlink" href="#recorderror" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">RecordError</span><span class="p">(</span><span class="nx">span</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+</span></code></pre></div>
 <p>RecordError safely records an error on the span and sets the span status
 to error. This function handles nil checks for both span and error. When
 an error is recorded, the span status is automatically set to codes.Error
 with the error message. This is essential for proper error tracking in
 distributed tracing.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">doSomething</span><span class="p">();</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">RecordError</span><span class="p">(</span><span class="nx">span</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">err</span>
-<span class="p">}</span>
-</code></pre></div>
-<h3 id="setglobaltracerprovider">SetGlobalTracerProvider</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">SetGlobalTracerProvider</span><span class="p">(</span><span class="nx">tp</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">TracerProvider</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">doSomething</span><span class="p">();</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="w">    </span><span class="nx">RecordError</span><span class="p">(</span><span class="nx">span</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">err</span>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="setglobaltracerprovider">SetGlobalTracerProvider<a class="headerlink" href="#setglobaltracerprovider" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">SetGlobalTracerProvider</span><span class="p">(</span><span class="nx">tp</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">TracerProvider</span><span class="p">)</span>
+</span></code></pre></div>
 <p>SetGlobalTracerProvider sets the global OpenTelemetry tracer provider.
 This should typically be called once during application initialization.
 All subsequent tracer instances will use this provider.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nx">provider</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">setupTracerProvider</span><span class="p">()</span>
-<span class="nx">tracer</span><span class="p">.</span><span class="nx">SetGlobalTracerProvider</span><span class="p">(</span><span class="nx">provider</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="setupcustomtracing">SetupCustomTracing</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">SetupCustomTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="w"> </span><span class="o">*</span><span class="nx">ProviderConfig</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">TracerProvider</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="nx">provider</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">setupTracerProvider</span><span class="p">()</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="nx">tracer</span><span class="p">.</span><span class="nx">SetGlobalTracerProvider</span><span class="p">(</span><span class="nx">provider</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="setupcustomtracing">SetupCustomTracing<a class="headerlink" href="#setupcustomtracing" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">SetupCustomTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="w"> </span><span class="o">*</span><span class="nx">ProviderConfig</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">TracerProvider</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+</span></code></pre></div>
 <p>SetupCustomTracing provides full control over the tracing setup. Use this
 when you need custom configuration that goes beyond environment variables.</p>
-<h3 id="setuptracing">SetupTracing</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">SetupTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceName</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceVersion</span><span class="w"> </span><span class="o">...</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
-</code></pre></div>
+<h3 id="setuptracing">SetupTracing<a class="headerlink" href="#setuptracing" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">SetupTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceName</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceVersion</span><span class="w"> </span><span class="o">...</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+</span></code></pre></div>
 <p>SetupTracing initializes OpenTelemetry tracing with sensible defaults.
 This is the simplest way to get started with tracing.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nx">shutdown</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">SetupTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span><span class="p">)</span>
-<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-<span class="p">}</span>
-<span class="k">defer</span><span class="w"> </span><span class="nx">shutdown</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="nx">shutdown</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">SetupTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span><span class="p">)</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="p">}</span>
+</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="k">defer</span><span class="w"> </span><span class="nx">shutdown</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></code></pre></div>
 <p>The function reads configuration from environment variables and sets up:
 - OTLP exporter (HTTP by default, localhost:4318)
 - Probabilistic sampling (20% by default)
@@ -1268,7 +1268,7 @@ This is the simplest way to get started with tracing.</p>
 <p>func SetupTracingWithDefaults(ctx context.Context, serviceName, serviceVersion string) (func(context.Context) error, error)
     SetupTracingWithDefaults initializes tracing with hardcoded defaults.
     This is useful for quick setup without environment variables.</p>
-<div class="highlight"><pre><span></span><code>It uses: - HTTP OTLP exporter to localhost:4318 (insecure) - Probabilistic
+<div class="language-text highlight"><pre><span></span><code>It uses: - HTTP OTLP exporter to localhost:4318 (insecure) - Probabilistic
 sampling at 20% - Standard batch processing settings
 </code></pre></div>
 <p>func ShutdownTracerProvider(ctx context.Context, tp *sdktrace.TracerProvider) error
@@ -1276,7 +1276,7 @@ sampling at 20% - Standard batch processing settings
     ensuring all pending spans are exported before the application terminates.
     This function should be called during application shutdown, typically with a
     context that has a reasonable timeout.</p>
-<div class="highlight"><pre><span></span><code>The shutdown process:
+<div class="language-text highlight"><pre><span></span><code>The shutdown process:
  1. Stops accepting new spans
  2. Exports all remaining spans in the queue
  3. Closes the exporter connection
@@ -1291,50 +1291,50 @@ Example:
         log.Printf(&quot;Error during tracer shutdown: %v&quot;, err)
     }
 </code></pre></div>
-<h3 id="traceidfromcontext">TraceIDFromContext</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">TraceIDFromContext</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span>
-</code></pre></div>
+<h3 id="traceidfromcontext">TraceIDFromContext<a class="headerlink" href="#traceidfromcontext" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">TraceIDFromContext</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span>
+</span></code></pre></div>
 <p>TraceIDFromContext tries to retrieve trace ID from context.</p>
-<h2 id="types">Types</h2>
-<h3 id="config">Config</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">type</span><span class="w"> </span><span class="nx">Config</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// Service identification metadata</span>
-<span class="w">    </span><span class="nx">ServiceName</span><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Name of the service (required)</span>
-<span class="w">    </span><span class="nx">ServiceVersion</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Version of the service (required)</span>
-<span class="w">    </span><span class="nx">Environment</span><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Deployment environment (development/staging/production)</span>
-
-<span class="w">    </span><span class="c1">// OTLP exporter settings</span>
-<span class="w">    </span><span class="nx">OTLPExporterEndpoint</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Collector endpoint (host:port)</span>
-<span class="w">    </span><span class="nx">OTLPExporterInsecure</span><span class="w"> </span><span class="kt">bool</span><span class="w">   </span><span class="c1">// Disable TLS verification</span>
-<span class="w">    </span><span class="nx">OTLPExporterProtocol</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Protocol for OTLP exporter (default: grpc)</span>
-
-<span class="w">    </span><span class="c1">// Batch processing configuration</span>
-<span class="w">    </span><span class="nx">BatchTimeout</span><span class="w">       </span><span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="w"> </span><span class="c1">// Timeout for batch processing (default: 5s)</span>
-<span class="w">    </span><span class="nx">ExportTimeout</span><span class="w">      </span><span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="w"> </span><span class="c1">// Timeout for export requests (default: 30s)</span>
-<span class="w">    </span><span class="nx">MaxExportBatchSize</span><span class="w"> </span><span class="kt">int</span><span class="w">           </span><span class="c1">// Maximum batch size for exports (default: 512)</span>
-<span class="w">    </span><span class="nx">MaxQueueSize</span><span class="w">       </span><span class="kt">int</span><span class="w">           </span><span class="c1">// Maximum queue size for spans (default: 2048)</span>
-
-<span class="w">    </span><span class="c1">// Sampling configuration</span>
-<span class="w">    </span><span class="nx">SamplingRatio</span><span class="w"> </span><span class="kt">float64</span><span class="w"> </span><span class="c1">// Ratio of traces to sample (0.0 - 1.0)</span>
-<span class="w">    </span><span class="nx">SamplingType</span><span class="w">  </span><span class="kt">string</span><span class="w">  </span><span class="c1">// Sampling strategy</span>
-
-<span class="w">    </span><span class="c1">// Resource attributes</span>
-<span class="w">    </span><span class="nx">InstanceID</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Unique instance identifier</span>
-<span class="w">    </span><span class="nx">Hostname</span><span class="w">   </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Host machine name</span>
-<span class="p">}</span>
-</code></pre></div>
+<h2 id="types">Types<a class="headerlink" href="#types" title="Permanent link">&para;</a></h2>
+<h3 id="config">Config<a class="headerlink" href="#config" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="kd">type</span><span class="w"> </span><span class="nx">Config</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="w">    </span><span class="c1">// Service identification metadata</span>
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="w">    </span><span class="nx">ServiceName</span><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Name of the service (required)</span>
+</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="w">    </span><span class="nx">ServiceVersion</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Version of the service (required)</span>
+</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="w">    </span><span class="nx">Environment</span><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Deployment environment (development/staging/production)</span>
+</span><span id="__span-38-6"><a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>
+</span><span id="__span-38-7"><a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a><span class="w">    </span><span class="c1">// OTLP exporter settings</span>
+</span><span id="__span-38-8"><a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a><span class="w">    </span><span class="nx">OTLPExporterEndpoint</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Collector endpoint (host:port)</span>
+</span><span id="__span-38-9"><a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a><span class="w">    </span><span class="nx">OTLPExporterInsecure</span><span class="w"> </span><span class="kt">bool</span><span class="w">   </span><span class="c1">// Disable TLS verification</span>
+</span><span id="__span-38-10"><a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a><span class="w">    </span><span class="nx">OTLPExporterProtocol</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Protocol for OTLP exporter (default: grpc)</span>
+</span><span id="__span-38-11"><a id="__codelineno-38-11" name="__codelineno-38-11" href="#__codelineno-38-11"></a>
+</span><span id="__span-38-12"><a id="__codelineno-38-12" name="__codelineno-38-12" href="#__codelineno-38-12"></a><span class="w">    </span><span class="c1">// Batch processing configuration</span>
+</span><span id="__span-38-13"><a id="__codelineno-38-13" name="__codelineno-38-13" href="#__codelineno-38-13"></a><span class="w">    </span><span class="nx">BatchTimeout</span><span class="w">       </span><span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="w"> </span><span class="c1">// Timeout for batch processing (default: 5s)</span>
+</span><span id="__span-38-14"><a id="__codelineno-38-14" name="__codelineno-38-14" href="#__codelineno-38-14"></a><span class="w">    </span><span class="nx">ExportTimeout</span><span class="w">      </span><span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="w"> </span><span class="c1">// Timeout for export requests (default: 30s)</span>
+</span><span id="__span-38-15"><a id="__codelineno-38-15" name="__codelineno-38-15" href="#__codelineno-38-15"></a><span class="w">    </span><span class="nx">MaxExportBatchSize</span><span class="w"> </span><span class="kt">int</span><span class="w">           </span><span class="c1">// Maximum batch size for exports (default: 512)</span>
+</span><span id="__span-38-16"><a id="__codelineno-38-16" name="__codelineno-38-16" href="#__codelineno-38-16"></a><span class="w">    </span><span class="nx">MaxQueueSize</span><span class="w">       </span><span class="kt">int</span><span class="w">           </span><span class="c1">// Maximum queue size for spans (default: 2048)</span>
+</span><span id="__span-38-17"><a id="__codelineno-38-17" name="__codelineno-38-17" href="#__codelineno-38-17"></a>
+</span><span id="__span-38-18"><a id="__codelineno-38-18" name="__codelineno-38-18" href="#__codelineno-38-18"></a><span class="w">    </span><span class="c1">// Sampling configuration</span>
+</span><span id="__span-38-19"><a id="__codelineno-38-19" name="__codelineno-38-19" href="#__codelineno-38-19"></a><span class="w">    </span><span class="nx">SamplingRatio</span><span class="w"> </span><span class="kt">float64</span><span class="w"> </span><span class="c1">// Ratio of traces to sample (0.0 - 1.0)</span>
+</span><span id="__span-38-20"><a id="__codelineno-38-20" name="__codelineno-38-20" href="#__codelineno-38-20"></a><span class="w">    </span><span class="nx">SamplingType</span><span class="w">  </span><span class="kt">string</span><span class="w">  </span><span class="c1">// Sampling strategy</span>
+</span><span id="__span-38-21"><a id="__codelineno-38-21" name="__codelineno-38-21" href="#__codelineno-38-21"></a>
+</span><span id="__span-38-22"><a id="__codelineno-38-22" name="__codelineno-38-22" href="#__codelineno-38-22"></a><span class="w">    </span><span class="c1">// Resource attributes</span>
+</span><span id="__span-38-23"><a id="__codelineno-38-23" name="__codelineno-38-23" href="#__codelineno-38-23"></a><span class="w">    </span><span class="nx">InstanceID</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Unique instance identifier</span>
+</span><span id="__span-38-24"><a id="__codelineno-38-24" name="__codelineno-38-24" href="#__codelineno-38-24"></a><span class="w">    </span><span class="nx">Hostname</span><span class="w">   </span><span class="kt">string</span><span class="w"> </span><span class="c1">// Host machine name</span>
+</span><span id="__span-38-25"><a id="__codelineno-38-25" name="__codelineno-38-25" href="#__codelineno-38-25"></a><span class="p">}</span>
+</span></code></pre></div>
 <p>Config defines tracing configuration parameters</p>
-<h4 id="newconfig">NewConfig</h4>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">NewConfig</span><span class="p">(</span><span class="nx">serviceName</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceVersion</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">Config</span>
-</code></pre></div>
+<h4 id="newconfig">NewConfig<a class="headerlink" href="#newconfig" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">NewConfig</span><span class="p">(</span><span class="nx">serviceName</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceVersion</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">Config</span>
+</span></code></pre></div>
 <p>NewConfig creates a configuration with sensible defaults</p>
-<h4 id="newconfigfromenv">NewConfigFromEnv</h4>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">NewConfigFromEnv</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="nx">Config</span>
-</code></pre></div>
+<h4 id="newconfigfromenv">NewConfigFromEnv<a class="headerlink" href="#newconfigfromenv" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">NewConfigFromEnv</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="nx">Config</span>
+</span></code></pre></div>
 <p>NewConfigFromEnv creates configuration from environment variables</p>
-<h4 id="validate">Validate</h4>
-<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Config</span><span class="p">)</span><span class="w"> </span><span class="nx">Validate</span><span class="p">()</span><span class="w"> </span><span class="kt">error</span>
-</code></pre></div>
+<h4 id="validate">Validate<a class="headerlink" href="#validate" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Config</span><span class="p">)</span><span class="w"> </span><span class="nx">Validate</span><span class="p">()</span><span class="w"> </span><span class="kt">error</span>
+</span></code></pre></div>
 <p>Validate ensures configuration parameters are correct
     Validate ensures configuration parameters are correct</p>
 <p>func (c <em>Config) WithEnvironment(env string) </em>Config
@@ -1359,14 +1359,14 @@ Example:
     and automatically records HTTP-specific attributes like method, URL, status
     code, and user agent. The middleware handles trace context propagation
     according to W3C Trace Context and B3 propagation standards.</p>
-<div class="highlight"><pre><span></span><code>The middleware is compatible with any HTTP framework that uses the standard
+<div class="language-text highlight"><pre><span></span><code>The middleware is compatible with any HTTP framework that uses the standard
 http.Handler interface.
 </code></pre></div>
 <p>func NewHttpMiddleware(tracer <em>Tracer) </em>HTTPMiddleware
     NewHttpMiddleware creates a new HTTPMiddleware instance using the provided
     Tracer. The tracer will be used to create spans for all incoming HTTP
     requests.</p>
-<div class="highlight"><pre><span></span><code>Example:
+<div class="language-text highlight"><pre><span></span><code>Example:
 
     tracer := otelkit.New(&quot;http-service&quot;)
     middleware := tracer.NewHttpMiddleware(tracer)
@@ -1386,7 +1386,7 @@ http.Handler interface.
 <p>func (m *HTTPMiddleware) Middleware(next http.Handler) http.Handler
     Middleware returns an HTTP handler middleware function that automatically
     traces incoming requests.</p>
-<div class="highlight"><pre><span></span><code>The middleware performs the following operations:
+<div class="language-text highlight"><pre><span></span><code>The middleware performs the following operations:
  1. Extracts trace context from incoming request headers (supports W3C Trace
     Context and B3)
  2. Creates a new server span with operation name &quot;METHOD /path&quot;
@@ -1428,7 +1428,7 @@ Example usage:
     // Config contains the core tracing configuration including service identification,
     // exporter settings, and sampling strategy.
     Config *Config</p>
-<div class="highlight"><pre><span></span><code>// Resource provides custom resource attributes for service identification.
+<div class="language-text highlight"><pre><span></span><code>// Resource provides custom resource attributes for service identification.
 // If nil, a default resource will be created using service name, version,
 // environment, hostname, and instance ID from Config.
 Resource *sdkresource.Resource
@@ -1455,7 +1455,7 @@ MaxQueueSize int
     TracerProvider. It combines basic tracing configuration with advanced
     options for batch processing, resource identification, and performance
     tuning. This allows fine-grained control over the tracing pipeline behavior.</p>
-<div class="highlight"><pre><span></span><code>The configuration supports fluent method chaining for ease of use:
+<div class="language-text highlight"><pre><span></span><code>The configuration supports fluent method chaining for ease of use:
 
     config := tracer.NewProviderConfig(&quot;my-service&quot;, &quot;v1.0.0&quot;).
         WithOTLPExporter(&quot;localhost:4317&quot;, &quot;grpc&quot;, true).
@@ -1468,7 +1468,7 @@ MaxQueueSize int
     processing settings and creates a base Config using the provided service
     name and version. The returned config supports fluent method chaining for
     customization.</p>
-<div class="highlight"><pre><span></span><code>Default settings:
+<div class="language-text highlight"><pre><span></span><code>Default settings:
   - BatchTimeout: 5 seconds
   - ExportTimeout: 30 seconds
   - MaxExportBatchSize: 512 spans
@@ -1486,7 +1486,7 @@ Example:
     optimization. These settings control how spans are batched and exported,
     affecting both performance and resource usage. Tune these values based on
     your application's traffic patterns and latency requirements.</p>
-<div class="highlight"><pre><span></span><code>Parameters:
+<div class="language-text highlight"><pre><span></span><code>Parameters:
   - batchTimeout: Maximum time to wait before exporting (lower = less
     latency, higher = better throughput)
   - exportTimeout: Maximum time allowed for export operations (prevents
@@ -1508,7 +1508,7 @@ Example:
     WithOTLPExporter configures the OTLP exporter settings for trace export.
     This method allows you to specify the endpoint, protocol, and security
     settings for sending traces to an OTLP-compatible backend.</p>
-<div class="highlight"><pre><span></span><code>Parameters:
+<div class="language-text highlight"><pre><span></span><code>Parameters:
   - endpoint: The URL or address of the OTLP collector (e.g.,
     &quot;localhost:4317&quot;, &quot;https://api.honeycomb.io&quot;)
   - protocol: Either &quot;grpc&quot; for gRPC transport or &quot;http&quot; for HTTP transport
@@ -1526,7 +1526,7 @@ Example:
     version, environment, and other metadata. If not provided, a default
     resource will be created automatically using the service name, version,
     and other attributes from the Config.</p>
-<div class="highlight"><pre><span></span><code>Example:
+<div class="language-text highlight"><pre><span></span><code>Example:
 
     resource, _ := resource.New(ctx,
         resource.WithAttributes(
@@ -1543,7 +1543,7 @@ Example:
     collection. Sampling controls what percentage of traces are collected
     and exported, which is crucial for managing overhead in high-traffic
     applications.</p>
-<div class="highlight"><pre><span></span><code>Parameters:
+<div class="language-text highlight"><pre><span></span><code>Parameters:
   - samplingType: &quot;probabilistic&quot; (ratio-based), &quot;always_on&quot; (100%),
     or &quot;always_off&quot; (0%)
   - ratio: For probabilistic sampling, the ratio of traces to sample (0.0 to
@@ -1562,7 +1562,7 @@ Example:
     tracing operations. It provides a simplified interface for creating spans,
     adding attributes, and managing trace context while maintaining full
     compatibility with OpenTelemetry standards.</p>
-<div class="highlight"><pre><span></span><code>Example usage:
+<div class="language-text highlight"><pre><span></span><code>Example usage:
 
     tracer := otelkit.New(&quot;my-service&quot;)
     ctx, span := tracer.Start(ctx, &quot;operation-name&quot;)
@@ -1573,7 +1573,7 @@ Example:
     New creates a new Tracer instance with the specified name. The name is used
     to identify the tracer and appears in telemetry data. It's recommended to
     use your service or component name.</p>
-<div class="highlight"><pre><span></span><code>Example:
+<div class="language-text highlight"><pre><span></span><code>Example:
 
     tracer := otelkit.New(&quot;user-service&quot;)
     tracer := otelkit.New(&quot;payment-processor&quot;)
@@ -1582,7 +1582,7 @@ Example:
     GetTraceID extracts and returns the trace ID from the current span context.
     Returns an empty string if no valid span is found in the context. This is
     useful for correlation logging and debugging.</p>
-<div class="highlight"><pre><span></span><code>Example:
+<div class="language-text highlight"><pre><span></span><code>Example:
 
     traceID := tracer.GetTraceID(ctx)
     log.WithField(&quot;trace_id&quot;, traceID).Info(&quot;Processing request&quot;)
@@ -1591,7 +1591,7 @@ Example:
     OtelTracer returns the underlying OpenTelemetry tracer instance. This is
     useful when you need direct access to OpenTelemetry APIs or when integrating
     with other OpenTelemetry-compatible libraries.</p>
-<div class="highlight"><pre><span></span><code>Example:
+<div class="language-text highlight"><pre><span></span><code>Example:
 
     otelTracer := tracer.OtelTracer()
     // Use with other OpenTelemetry libraries
@@ -1600,7 +1600,7 @@ Example:
     Start creates a new span with the given name and options. Returns a new
     context containing the span and the span itself. The span must be ended by
     calling span.End() when the operation completes.</p>
-<div class="highlight"><pre><span></span><code>Example:
+<div class="language-text highlight"><pre><span></span><code>Example:
 
     ctx, span := tracer.Start(ctx, &quot;database-query&quot;)
     defer span.End()
@@ -1612,7 +1612,7 @@ Example:
     kind to SpanKindClient and adds the provided attributes. Use this for HTTP
     client requests, gRPC client calls, database queries, external API calls,
     etc.</p>
-<div class="highlight"><pre><span></span><code>Example:
+<div class="language-text highlight"><pre><span></span><code>Example:
 
     ctx, span := tracer.StartClientSpan(ctx, &quot;call-payment-api&quot;,
         attribute.String(&quot;http.method&quot;, &quot;POST&quot;),
@@ -1625,7 +1625,7 @@ Example:
     operations. This is a convenience method that automatically sets the span
     kind to SpanKindServer and adds the provided attributes. Use this for HTTP
     handlers, gRPC server methods, message queue consumers, etc.</p>
-<div class="highlight"><pre><span></span><code>Example:
+<div class="language-text highlight"><pre><span></span><code>Example:
 
     ctx, span := tracer.StartServerSpan(ctx, &quot;handle-user-request&quot;,
         attribute.String(&quot;user.id&quot;, userID),
@@ -1703,7 +1703,7 @@ Example:
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
