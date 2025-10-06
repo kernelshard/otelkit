@@ -1,0 +1,71 @@
+/* Custom styles for otelkit docs */
+
+:root {
+  --md-primary-fg-color: #3f51b5;
+  --md-accent-fg-color: #ff4081;
+}
+
+.md-header__title {
+  font-weight: 600;
+}
+
+.md-nav__link--active {
+  font-weight: 500;
+}
+
+.codehilite .hll {
+  background-color: #f8f8f8;
+}
+
+pre {
+  border-radius: 8px;
+}
+
+.md-button {
+  border-radius: 6px;
+}
+
+/* Hero section styling */
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  margin: -1.5rem -1.5rem 2rem -1.5rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* Feature cards */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.feature-card {
+  padding: 2rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.feature-card .twemoji {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}

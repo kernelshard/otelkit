@@ -6,7 +6,13 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="HTTP middleware for automatic request tracing with OpenTelemetry">
       
+      
+        <meta name="author" content="kernelshard">
+      
+      
+        <link rel="canonical" href="https://kernelshard.github.io/otelkit/ADVANCED_USAGE/">
       
       
         <link rel="prev" href="../API_REFERENCE/">
@@ -25,6 +31,9 @@
     
     
       <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -53,7 +62,12 @@
   </head>
   
   
-    <body dir="ltr">
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -74,9 +88,7 @@
     
       
 
-  
-
-<header class="md-header md-header--shadow" data-md-component="header">
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="otelkit" class="md-header__button md-logo" aria-label="otelkit" data-md-component="logo">
       
@@ -105,8 +117,8 @@
       </div>
     </div>
     
+      
     
-      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
     
@@ -135,6 +147,8 @@
         </button>
       </nav>
       
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
@@ -151,6 +165,18 @@
       
     
     
+      <div class="md-header__source">
+        <a href="https://github.com/kernelshard/otelkit" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    kernelshard/otelkit
+  </div>
+</a>
+      </div>
+    
   </nav>
   
 </header>
@@ -159,6 +185,169 @@
       
       
         
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../GETTING_STARTED/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../API_REFERENCE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Advanced Usage
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../INTEGRATION_GUIDES/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Integration Guides
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../INTEGRATION_TESTING/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Integration Testing
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../MIGRATION_GUIDE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Migration Guide
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../TROUBLESHOOTING/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Troubleshooting
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
           
         
       
@@ -173,8 +362,12 @@
                     
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="otelkit" class="md-nav__button md-logo" aria-label="otelkit" data-md-component="logo">
       
@@ -184,6 +377,18 @@
     </a>
     otelkit
   </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/kernelshard/otelkit" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    kernelshard/otelkit
+  </div>
+</a>
+    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -718,338 +923,6 @@
               </div>
             
             
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#production-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Production Configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Production Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#high-performance-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      High-Performance Setup
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-resource-attributes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Custom Resource Attributes
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sampling-strategies" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sampling Strategies
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Sampling Strategies">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#probabilistic-sampling" class="md-nav__link">
-    <span class="md-ellipsis">
-      Probabilistic Sampling
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#always-on-development" class="md-nav__link">
-    <span class="md-ellipsis">
-      Always On (Development)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#always-off-testing" class="md-nav__link">
-    <span class="md-ellipsis">
-      Always Off (Testing)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#batch-processing-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Batch Processing Configuration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Batch Processing Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#low-latency" class="md-nav__link">
-    <span class="md-ellipsis">
-      Low Latency
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#high-throughput" class="md-nav__link">
-    <span class="md-ellipsis">
-      High Throughput
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#error-handling-and-recovery" class="md-nav__link">
-    <span class="md-ellipsis">
-      Error Handling and Recovery
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Error Handling and Recovery">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#graceful-degradation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Graceful Degradation
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#health-checks" class="md-nav__link">
-    <span class="md-ellipsis">
-      Health Checks
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#performance-monitoring" class="md-nav__link">
-    <span class="md-ellipsis">
-      Performance Monitoring
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Performance Monitoring">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#memory-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      Memory Usage
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#export-metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      Export Metrics
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#security-considerations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Security Considerations
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Security Considerations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tls-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      TLS Configuration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#header-authentication" class="md-nav__link">
-    <span class="md-ellipsis">
-      Header Authentication
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#multi-service-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      Multi-Service Setup
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Multi-Service Setup">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#service-mesh-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Service Mesh Integration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#kubernetes-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Kubernetes Configuration
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Troubleshooting
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#common-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      Common Issues
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Common Issues">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-no-traces-appearing" class="md-nav__link">
-    <span class="md-ellipsis">
-      1. No Traces Appearing
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-high-memory-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. High Memory Usage
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-performance-impact" class="md-nav__link">
-    <span class="md-ellipsis">
-      3. Performance Impact
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#debug-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Debug Configuration
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           
             <div class="md-content" data-md-component="content">
@@ -1058,166 +931,169 @@
                   
 
 
+  
+  
+
 
 <h1 id="advanced-usage-guide">Advanced Usage Guide</h1>
 <p>This guide covers advanced configuration and production-ready usage patterns.</p>
 <h2 id="production-configuration">Production Configuration</h2>
 <h3 id="high-performance-setup">High-Performance Setup</h3>
-<pre><code class="language-go">config := otelkit.NewProviderConfig(&quot;payment-service&quot;, &quot;v2.1.0&quot;).
-    WithEnvironment(&quot;production&quot;).
-    WithOTLPExporter(&quot;otel-collector:4317&quot;, &quot;grpc&quot;, false).
-    WithSampling(&quot;probabilistic&quot;, 0.01). // 1% sampling
-    WithBatchOptions(
-        2*time.Second,   // batch timeout
-        30*time.Second,  // export timeout
-        1024,           // max batch size
-        4096,           // max queue size
-    )
+<div class="highlight"><pre><span></span><code><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;payment-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v2.1.0&quot;</span><span class="p">).</span>
+<span class="w">    </span><span class="nx">WithEnvironment</span><span class="p">(</span><span class="s">&quot;production&quot;</span><span class="p">).</span>
+<span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;otel-collector:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">).</span>
+<span class="w">    </span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01</span><span class="p">).</span><span class="w"> </span><span class="c1">// 1% sampling</span>
+<span class="w">    </span><span class="nx">WithBatchOptions</span><span class="p">(</span>
+<span class="w">        </span><span class="mi">2</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">   </span><span class="c1">// batch timeout</span>
+<span class="w">        </span><span class="mi">30</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">  </span><span class="c1">// export timeout</span>
+<span class="w">        </span><span class="mi">1024</span><span class="p">,</span><span class="w">           </span><span class="c1">// max batch size</span>
+<span class="w">        </span><span class="mi">4096</span><span class="p">,</span><span class="w">           </span><span class="c1">// max queue size</span>
+<span class="w">    </span><span class="p">)</span>
 
-provider, err := otelkit.NewProvider(ctx, config)
-</code></pre>
+<span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">)</span>
+</code></pre></div>
 <h3 id="custom-resource-attributes">Custom Resource Attributes</h3>
-<pre><code class="language-go">import (
-    &quot;go.opentelemetry.io/otel/sdk/resource&quot;
-    semconv &quot;go.opentelemetry.io/otel/semconv/v1.21.0&quot;
-)
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;go.opentelemetry.io/otel/sdk/resource&quot;</span>
+<span class="w">    </span><span class="nx">semconv</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/semconv/v1.21.0&quot;</span>
+<span class="p">)</span>
 
-res, err := resource.New(ctx,
-    resource.WithAttributes(
-        semconv.ServiceName(&quot;payment-service&quot;),
-        semconv.ServiceVersion(&quot;v2.1.0&quot;),
-        semconv.DeploymentEnvironment(&quot;production&quot;),
-        semconv.HostName(&quot;payment-01&quot;),
-        semconv.ServiceInstanceID(&quot;instance-123&quot;),
-        attribute.String(&quot;cloud.provider&quot;, &quot;aws&quot;),
-        attribute.String(&quot;cloud.region&quot;, &quot;us-west-2&quot;),
-        attribute.String(&quot;k8s.cluster.name&quot;, &quot;production-cluster&quot;),
-    ),
-)
+<span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resource</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">resource</span><span class="p">.</span><span class="nx">WithAttributes</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">ServiceName</span><span class="p">(</span><span class="s">&quot;payment-service&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">ServiceVersion</span><span class="p">(</span><span class="s">&quot;v2.1.0&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">DeploymentEnvironment</span><span class="p">(</span><span class="s">&quot;production&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">HostName</span><span class="p">(</span><span class="s">&quot;payment-01&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">ServiceInstanceID</span><span class="p">(</span><span class="s">&quot;instance-123&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;cloud.provider&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;aws&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;cloud.region&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;us-west-2&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;k8s.cluster.name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;production-cluster&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="p">)</span>
 
-config := otelkit.NewProviderConfig(&quot;payment-service&quot;, &quot;v2.1.0&quot;).
-    WithResource(res)
-</code></pre>
+<span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;payment-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v2.1.0&quot;</span><span class="p">).</span>
+<span class="w">    </span><span class="nx">WithResource</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
+</code></pre></div>
 <h2 id="sampling-strategies">Sampling Strategies</h2>
 <h3 id="probabilistic-sampling">Probabilistic Sampling</h3>
-<pre><code class="language-go">// 1% sampling for production
-config.WithSampling(&quot;probabilistic&quot;, 0.01)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1">// 1% sampling for production</span>
+<span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01</span><span class="p">)</span>
+</code></pre></div>
 <h3 id="always-on-development">Always On (Development)</h3>
-<pre><code class="language-go">// 100% sampling for development
-config.WithSampling(&quot;always_on&quot;, 0)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1">// 100% sampling for development</span>
+<span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;always_on&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
 <h3 id="always-off-testing">Always Off (Testing)</h3>
-<pre><code class="language-go">// Disable tracing for tests
-config.WithSampling(&quot;always_off&quot;, 0)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1">// Disable tracing for tests</span>
+<span class="nx">config</span><span class="p">.</span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;always_off&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
 <h2 id="batch-processing-configuration">Batch Processing Configuration</h2>
 <h3 id="low-latency">Low Latency</h3>
-<pre><code class="language-go">config.WithBatchOptions(
-    500*time.Millisecond, // Fast batching
-    10*time.Second,       // Quick export timeout
-    256,                  // Small batches
-    1024,                 // Limited queue
-)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nx">config</span><span class="p">.</span><span class="nx">WithBatchOptions</span><span class="p">(</span>
+<span class="w">    </span><span class="mi">500</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">,</span><span class="w"> </span><span class="c1">// Fast batching</span>
+<span class="w">    </span><span class="mi">10</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">       </span><span class="c1">// Quick export timeout</span>
+<span class="w">    </span><span class="mi">256</span><span class="p">,</span><span class="w">                  </span><span class="c1">// Small batches</span>
+<span class="w">    </span><span class="mi">1024</span><span class="p">,</span><span class="w">                 </span><span class="c1">// Limited queue</span>
+<span class="p">)</span>
+</code></pre></div>
 <h3 id="high-throughput">High Throughput</h3>
-<pre><code class="language-go">config.WithBatchOptions(
-    10*time.Second,       // Longer batching
-    60*time.Second,       // Longer export timeout
-    2048,                 // Large batches
-    8192,                 // Large queue
-)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nx">config</span><span class="p">.</span><span class="nx">WithBatchOptions</span><span class="p">(</span>
+<span class="w">    </span><span class="mi">10</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">       </span><span class="c1">// Longer batching</span>
+<span class="w">    </span><span class="mi">60</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span><span class="w">       </span><span class="c1">// Longer export timeout</span>
+<span class="w">    </span><span class="mi">2048</span><span class="p">,</span><span class="w">                 </span><span class="c1">// Large batches</span>
+<span class="w">    </span><span class="mi">8192</span><span class="p">,</span><span class="w">                 </span><span class="c1">// Large queue</span>
+<span class="p">)</span>
+</code></pre></div>
 <h2 id="error-handling-and-recovery">Error Handling and Recovery</h2>
 <h3 id="graceful-degradation">Graceful Degradation</h3>
-<pre><code class="language-go">func initTracing(ctx context.Context) *sdktrace.TracerProvider {
-    provider, err := otelkit.NewProvider(ctx, config)
-    if err != nil {
-        log.Printf(&quot;Failed to initialize tracing: %v&quot;, err)
-        // Return noop provider for graceful degradation
-        return sdktrace.NewTracerProvider()
-    }
-    return provider
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">initTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">TracerProvider</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Failed to initialize tracing: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="c1">// Return noop provider for graceful degradation</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">NewTracerProvider</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">provider</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="health-checks">Health Checks</h3>
-<pre><code class="language-go">func tracingHealthCheck(ctx context.Context) error {
-    // Create a test span to verify tracing is working
-    tracer := otelkit.New(&quot;health-check&quot;)
-    _, span := tracer.Start(ctx, &quot;health-check&quot;)
-    defer span.End()
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">tracingHealthCheck</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Create a test span to verify tracing is working</span>
+<span class="w">    </span><span class="nx">tracer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;health-check&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;health-check&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">span</span><span class="p">.</span><span class="nx">End</span><span class="p">()</span>
 
-    // Add health check attributes
-    span.SetAttributes(
-        attribute.String(&quot;check.type&quot;, &quot;tracing&quot;),
-        attribute.Bool(&quot;check.passed&quot;, true),
-    )
+<span class="w">    </span><span class="c1">// Add health check attributes</span>
+<span class="w">    </span><span class="nx">span</span><span class="p">.</span><span class="nx">SetAttributes</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;check.type&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tracing&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">Bool</span><span class="p">(</span><span class="s">&quot;check.passed&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">),</span>
+<span class="w">    </span><span class="p">)</span>
 
-    return nil
-}
-</code></pre>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="performance-monitoring">Performance Monitoring</h2>
 <h3 id="memory-usage">Memory Usage</h3>
-<pre><code class="language-go">// Monitor span queue size
-config.WithBatchOptions(
-    5*time.Second,
-    30*time.Second,
-    512,
-    2048, // Monitor this value
-)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1">// Monitor span queue size</span>
+<span class="nx">config</span><span class="p">.</span><span class="nx">WithBatchOptions</span><span class="p">(</span>
+<span class="w">    </span><span class="mi">5</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">30</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">512</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">2048</span><span class="p">,</span><span class="w"> </span><span class="c1">// Monitor this value</span>
+<span class="p">)</span>
+</code></pre></div>
 <h3 id="export-metrics">Export Metrics</h3>
-<pre><code class="language-go">// Add custom metrics for tracing
-import &quot;go.opentelemetry.io/otel/metric&quot;
+<div class="highlight"><pre><span></span><code><span class="c1">// Add custom metrics for tracing</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/metric&quot;</span>
 
-meter := global.Meter(&quot;otelkit&quot;)
-spanCounter, _ := meter.Int64Counter(&quot;spans_exported&quot;)
-errorCounter, _ := meter.Int64Counter(&quot;export_errors&quot;)
-</code></pre>
+<span class="nx">meter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">global</span><span class="p">.</span><span class="nx">Meter</span><span class="p">(</span><span class="s">&quot;otelkit&quot;</span><span class="p">)</span>
+<span class="nx">spanCounter</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">meter</span><span class="p">.</span><span class="nx">Int64Counter</span><span class="p">(</span><span class="s">&quot;spans_exported&quot;</span><span class="p">)</span>
+<span class="nx">errorCounter</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">meter</span><span class="p">.</span><span class="nx">Int64Counter</span><span class="p">(</span><span class="s">&quot;export_errors&quot;</span><span class="p">)</span>
+</code></pre></div>
 <h2 id="security-considerations">Security Considerations</h2>
 <h3 id="tls-configuration">TLS Configuration</h3>
-<pre><code class="language-go">config := otelkit.NewProviderConfig(&quot;service&quot;, &quot;v1.0.0&quot;).
-    WithOTLPExporter(&quot;collector.example.com:4317&quot;, &quot;grpc&quot;, false) // TLS enabled
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">).</span>
+<span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;collector.example.com:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="c1">// TLS enabled</span>
+</code></pre></div>
 <h3 id="header-authentication">Header Authentication</h3>
-<pre><code class="language-go">// For custom authentication headers
-import &quot;go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp&quot;
+<div class="highlight"><pre><span></span><code><span class="c1">// For custom authentication headers</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp&quot;</span>
 
-exporter, err := otlptracehttp.New(ctx,
-    otlptracehttp.WithEndpoint(&quot;collector.example.com&quot;),
-    otlptracehttp.WithHeaders(map[string]string{
-        &quot;Authorization&quot;: &quot;Bearer &quot; + token,
-    }),
-)
-</code></pre>
+<span class="nx">exporter</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otlptracehttp</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">otlptracehttp</span><span class="p">.</span><span class="nx">WithEndpoint</span><span class="p">(</span><span class="s">&quot;collector.example.com&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">otlptracehttp</span><span class="p">.</span><span class="nx">WithHeaders</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
+<span class="w">        </span><span class="s">&quot;Authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Bearer &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">token</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}),</span>
+<span class="p">)</span>
+</code></pre></div>
 <h2 id="multi-service-setup">Multi-Service Setup</h2>
 <h3 id="service-mesh-integration">Service Mesh Integration</h3>
-<pre><code class="language-go">// Configure for service mesh environments
-config := otelkit.NewProviderConfig(&quot;service&quot;, &quot;v1.0.0&quot;).
-    WithOTLPExporter(&quot;otel-collector.mesh.local:4317&quot;, &quot;grpc&quot;, false).
-    WithSampling(&quot;probabilistic&quot;, 0.1)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1">// Configure for service mesh environments</span>
+<span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v1.0.0&quot;</span><span class="p">).</span>
+<span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;otel-collector.mesh.local:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">).</span>
+<span class="w">    </span><span class="nx">WithSampling</span><span class="p">(</span><span class="s">&quot;probabilistic&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">)</span>
+</code></pre></div>
 <h3 id="kubernetes-configuration">Kubernetes Configuration</h3>
-<pre><code class="language-yaml"># Deployment configuration
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: my-service
-spec:
-  template:
-    spec:
-      containers:
-      - name: app
-        env:
-        - name: OTEL_SERVICE_NAME
-          value: &quot;my-service&quot;
-        - name: OTEL_SERVICE_VERSION
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.labels['version']
-        - name: OTEL_RESOURCE_ATTRIBUTES
-          value: &quot;k8s.namespace.name=$(NAMESPACE),k8s.pod.name=$(POD_NAME)&quot;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1"># Deployment configuration</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-service</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OTEL_SERVICE_NAME</span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OTEL_SERVICE_VERSION</span>
+<span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">fieldRef</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">fieldPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">metadata.labels[&#39;version&#39;]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OTEL_RESOURCE_ATTRIBUTES</span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;k8s.namespace.name=$(NAMESPACE),k8s.pod.name=$(POD_NAME)&quot;</span>
+</code></pre></div>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <h3 id="common-issues">Common Issues</h3>
 <h4 id="1-no-traces-appearing">1. No Traces Appearing</h4>
@@ -1263,6 +1139,8 @@ import "go.opentelemetry.io/otel/sdk/trace"</p>
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -1282,6 +1160,22 @@ import "go.opentelemetry.io/otel/sdk/trace"</p>
   
 </div>
       
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/kernelshard/otelkit" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
     </div>
   </div>
 </footer>
@@ -1294,7 +1188,7 @@ import "go.opentelemetry.io/otel/sdk/trace"</p>
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>

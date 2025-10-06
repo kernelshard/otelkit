@@ -6,7 +6,13 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="HTTP middleware for automatic request tracing with OpenTelemetry">
       
+      
+        <meta name="author" content="kernelshard">
+      
+      
+        <link rel="canonical" href="https://kernelshard.github.io/otelkit/MIGRATION_GUIDE/">
       
       
         <link rel="prev" href="../INTEGRATION_TESTING/">
@@ -25,6 +31,9 @@
     
     
       <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -53,7 +62,12 @@
   </head>
   
   
-    <body dir="ltr">
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -74,9 +88,7 @@
     
       
 
-  
-
-<header class="md-header md-header--shadow" data-md-component="header">
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="otelkit" class="md-header__button md-logo" aria-label="otelkit" data-md-component="logo">
       
@@ -105,8 +117,8 @@
       </div>
     </div>
     
+      
     
-      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
     
@@ -135,6 +147,8 @@
         </button>
       </nav>
       
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
@@ -151,6 +165,18 @@
       
     
     
+      <div class="md-header__source">
+        <a href="https://github.com/kernelshard/otelkit" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    kernelshard/otelkit
+  </div>
+</a>
+      </div>
+    
   </nav>
   
 </header>
@@ -159,6 +185,169 @@
       
       
         
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../GETTING_STARTED/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../API_REFERENCE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ADVANCED_USAGE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Advanced Usage
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../INTEGRATION_GUIDES/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Integration Guides
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../INTEGRATION_TESTING/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Integration Testing
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Migration Guide
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../TROUBLESHOOTING/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Troubleshooting
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
           
         
       
@@ -173,8 +362,12 @@
                     
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="otelkit" class="md-nav__button md-logo" aria-label="otelkit" data-md-component="logo">
       
@@ -184,6 +377,18 @@
     </a>
     otelkit
   </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/kernelshard/otelkit" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    kernelshard/otelkit
+  </div>
+</a>
+    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -778,398 +983,6 @@
               </div>
             
             
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#migrating-from-opentelemetry-sdk" class="md-nav__link">
-    <span class="md-ellipsis">
-      Migrating from OpenTelemetry SDK
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Migrating from OpenTelemetry SDK">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#before-opentelemetry-sdk" class="md-nav__link">
-    <span class="md-ellipsis">
-      Before (OpenTelemetry SDK)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#after-otelkit" class="md-nav__link">
-    <span class="md-ellipsis">
-      After (OtelKit)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#migrating-from-opentracing" class="md-nav__link">
-    <span class="md-ellipsis">
-      Migrating from OpenTracing
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Migrating from OpenTracing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#before-opentracing" class="md-nav__link">
-    <span class="md-ellipsis">
-      Before (OpenTracing)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#after-otelkit_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      After (OtelKit)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#migrating-from-go-kit-tracing" class="md-nav__link">
-    <span class="md-ellipsis">
-      Migrating from Go-Kit Tracing
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Migrating from Go-Kit Tracing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#before-go-kit" class="md-nav__link">
-    <span class="md-ellipsis">
-      Before (Go-Kit)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#after-otelkit_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      After (OtelKit)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#version-upgrades" class="md-nav__link">
-    <span class="md-ellipsis">
-      Version Upgrades
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Version Upgrades">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#upgrading-from-otelkit-v0x-to-v1x" class="md-nav__link">
-    <span class="md-ellipsis">
-      Upgrading from OtelKit v0.x to v1.x
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Upgrading from OtelKit v0.x to v1.x">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#breaking-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Breaking Changes
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#migration-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      Migration Steps
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#upgrading-from-otelkit-v10-to-v11" class="md-nav__link">
-    <span class="md-ellipsis">
-      Upgrading from OtelKit v1.0 to v1.1
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Upgrading from OtelKit v1.0 to v1.1">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#new-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      New Features
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#migration-steps_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Migration Steps
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#common-migration-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      Common Migration Patterns
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Common Migration Patterns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#span-attributes-migration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Span Attributes Migration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Span Attributes Migration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#opentelemetry-sdk" class="md-nav__link">
-    <span class="md-ellipsis">
-      OpenTelemetry SDK
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#error-handling-migration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Error Handling Migration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Error Handling Migration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#opentelemetry-sdk_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      OpenTelemetry SDK
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#context-propagation-migration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Context Propagation Migration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Context Propagation Migration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#opentracing" class="md-nav__link">
-    <span class="md-ellipsis">
-      OpenTracing
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#testing-migration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Testing Migration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Testing Migration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#before-opentelemetry-sdk_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Before (OpenTelemetry SDK)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#after-otelkit_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      After (OtelKit)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#performance-considerations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Performance Considerations
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Performance Considerations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#memory-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      Memory Usage
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cpu-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      CPU Usage
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rollback-strategy" class="md-nav__link">
-    <span class="md-ellipsis">
-      Rollback Strategy
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Rollback Strategy">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example-rollback-implementation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example Rollback Implementation
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#support" class="md-nav__link">
-    <span class="md-ellipsis">
-      Support
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           
             <div class="md-content" data-md-component="content">
@@ -1178,170 +991,173 @@
                   
 
 
+  
+  
+
 
 <h1 id="migration-guide">Migration Guide</h1>
 <p>This guide helps you migrate to OtelKit from other OpenTelemetry solutions or upgrade between OtelKit versions.</p>
 <h2 id="migrating-from-opentelemetry-sdk">Migrating from OpenTelemetry SDK</h2>
 <h3 id="before-opentelemetry-sdk">Before (OpenTelemetry SDK)</h3>
-<pre><code class="language-go">package main
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 
-import (
-    &quot;context&quot;
-    &quot;go.opentelemetry.io/otel&quot;
-    &quot;go.opentelemetry.io/otel/attribute&quot;
-    &quot;go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc&quot;
-    &quot;go.opentelemetry.io/otel/sdk/resource&quot;
-    sdktrace &quot;go.opentelemetry.io/otel/sdk/trace&quot;
-    semconv &quot;go.opentelemetry.io/otel/semconv/v1.21.0&quot;
-    &quot;go.opentelemetry.io/otel/trace&quot;
-)
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;context&quot;</span>
+<span class="w">    </span><span class="s">&quot;go.opentelemetry.io/otel&quot;</span>
+<span class="w">    </span><span class="s">&quot;go.opentelemetry.io/otel/attribute&quot;</span>
+<span class="w">    </span><span class="s">&quot;go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc&quot;</span>
+<span class="w">    </span><span class="s">&quot;go.opentelemetry.io/otel/sdk/resource&quot;</span>
+<span class="w">    </span><span class="nx">sdktrace</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/sdk/trace&quot;</span>
+<span class="w">    </span><span class="nx">semconv</span><span class="w"> </span><span class="s">&quot;go.opentelemetry.io/otel/semconv/v1.21.0&quot;</span>
+<span class="w">    </span><span class="s">&quot;go.opentelemetry.io/otel/trace&quot;</span>
+<span class="p">)</span>
 
-func setupTracing(ctx context.Context) (*sdktrace.TracerProvider, error) {
-    // Create exporter
-    exporter, err := otlptracegrpc.New(ctx)
-    if err != nil {
-        return nil, err
-    }
+<span class="kd">func</span><span class="w"> </span><span class="nx">setupTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">TracerProvider</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Create exporter</span>
+<span class="w">    </span><span class="nx">exporter</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otlptracegrpc</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
 
-    // Create resource
-    res, err := resource.New(ctx,
-        resource.WithAttributes(
-            semconv.ServiceName(&quot;my-service&quot;),
-            semconv.ServiceVersion(&quot;1.0.0&quot;),
-        ),
-    )
-    if err != nil {
-        return nil, err
-    }
+<span class="w">    </span><span class="c1">// Create resource</span>
+<span class="w">    </span><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resource</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">resource</span><span class="p">.</span><span class="nx">WithAttributes</span><span class="p">(</span>
+<span class="w">            </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">ServiceName</span><span class="p">(</span><span class="s">&quot;my-service&quot;</span><span class="p">),</span>
+<span class="w">            </span><span class="nx">semconv</span><span class="p">.</span><span class="nx">ServiceVersion</span><span class="p">(</span><span class="s">&quot;1.0.0&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="p">),</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
 
-    // Create tracer provider
-    tp := sdktrace.NewTracerProvider(
-        sdktrace.WithBatcher(exporter),
-        sdktrace.WithResource(res),
-        sdktrace.WithSampler(sdktrace.AlwaysSample()),
-    )
+<span class="w">    </span><span class="c1">// Create tracer provider</span>
+<span class="w">    </span><span class="nx">tp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">NewTracerProvider</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">WithBatcher</span><span class="p">(</span><span class="nx">exporter</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">WithResource</span><span class="p">(</span><span class="nx">res</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">WithSampler</span><span class="p">(</span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">AlwaysSample</span><span class="p">()),</span>
+<span class="w">    </span><span class="p">)</span>
 
-    // Set global tracer provider
-    otel.SetTracerProvider(tp)
+<span class="w">    </span><span class="c1">// Set global tracer provider</span>
+<span class="w">    </span><span class="nx">otel</span><span class="p">.</span><span class="nx">SetTracerProvider</span><span class="p">(</span><span class="nx">tp</span><span class="p">)</span>
 
-    return tp, nil
-}
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">tp</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
 
-func createSpan(ctx context.Context, name string) (context.Context, trace.Span) {
-    tracer := otel.Tracer(&quot;my-service&quot;)
-    return tracer.Start(ctx, name)
-}
-</code></pre>
+<span class="kd">func</span><span class="w"> </span><span class="nx">createSpan</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">tracer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otel</span><span class="p">.</span><span class="nx">Tracer</span><span class="p">(</span><span class="s">&quot;my-service&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="after-otelkit">After (OtelKit)</h3>
-<pre><code class="language-go">package main
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 
-import (
-    &quot;context&quot;
-    &quot;github.com/samims/otelkit&quot;
-)
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;context&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/samims/otelkit&quot;</span>
+<span class="p">)</span>
 
-func setupTracing(ctx context.Context) (*sdktrace.TracerProvider, error) {
-    // Simple one-line setup
-    return otelkit.NewDefaultProvider(ctx, &quot;my-service&quot;, &quot;1.0.0&quot;)
-}
+<span class="kd">func</span><span class="w"> </span><span class="nx">setupTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">TracerProvider</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Simple one-line setup</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewDefaultProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1.0.0&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 
-func createSpan(ctx context.Context, name string) (context.Context, trace.Span) {
-    tracer := otelkit.New(&quot;my-service&quot;)
-    return tracer.Start(ctx, name)
-}
-</code></pre>
+<span class="kd">func</span><span class="w"> </span><span class="nx">createSpan</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">tracer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;my-service&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="migrating-from-opentracing">Migrating from OpenTracing</h2>
 <h3 id="before-opentracing">Before (OpenTracing)</h3>
-<pre><code class="language-go">package main
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 
-import (
-    &quot;github.com/opentracing/opentracing-go&quot;
-    &quot;github.com/opentracing/opentracing-go/ext&quot;
-    &quot;github.com/uber/jaeger-client-go&quot;
-    jaegercfg &quot;github.com/uber/jaeger-client-go/config&quot;
-)
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;github.com/opentracing/opentracing-go&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/opentracing/opentracing-go/ext&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/uber/jaeger-client-go&quot;</span>
+<span class="w">    </span><span class="nx">jaegercfg</span><span class="w"> </span><span class="s">&quot;github.com/uber/jaeger-client-go/config&quot;</span>
+<span class="p">)</span>
 
-func setupTracing() {
-    cfg := jaegercfg.Configuration{
-        ServiceName: &quot;my-service&quot;,
-        Sampler: &amp;jaegercfg.SamplerConfig{
-            Type:  jaeger.SamplerTypeConst,
-            Param: 1,
-        },
-        Reporter: &amp;jaegercfg.ReporterConfig{
-            LogSpans: true,
-        },
-    }
+<span class="kd">func</span><span class="w"> </span><span class="nx">setupTracing</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">cfg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">jaegercfg</span><span class="p">.</span><span class="nx">Configuration</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">ServiceName</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">Sampler</span><span class="p">:</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">jaegercfg</span><span class="p">.</span><span class="nx">SamplerConfig</span><span class="p">{</span>
+<span class="w">            </span><span class="nx">Type</span><span class="p">:</span><span class="w">  </span><span class="nx">jaeger</span><span class="p">.</span><span class="nx">SamplerTypeConst</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">Param</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">Reporter</span><span class="p">:</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">jaegercfg</span><span class="p">.</span><span class="nx">ReporterConfig</span><span class="p">{</span>
+<span class="w">            </span><span class="nx">LogSpans</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="p">}</span>
 
-    tracer, _, _ := cfg.NewTracer()
-    opentracing.SetGlobalTracer(tracer)
-}
+<span class="w">    </span><span class="nx">tracer</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">cfg</span><span class="p">.</span><span class="nx">NewTracer</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">opentracing</span><span class="p">.</span><span class="nx">SetGlobalTracer</span><span class="p">(</span><span class="nx">tracer</span><span class="p">)</span>
+<span class="p">}</span>
 
-func createSpan(operation string) opentracing.Span {
-    return opentracing.StartSpan(operation)
-}
-</code></pre>
+<span class="kd">func</span><span class="w"> </span><span class="nx">createSpan</span><span class="p">(</span><span class="nx">operation</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="nx">opentracing</span><span class="p">.</span><span class="nx">Span</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">opentracing</span><span class="p">.</span><span class="nx">StartSpan</span><span class="p">(</span><span class="nx">operation</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="after-otelkit_1">After (OtelKit)</h3>
-<pre><code class="language-go">package main
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 
-import (
-    &quot;context&quot;
-    &quot;github.com/samims/otelkit&quot;
-)
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;context&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/samims/otelkit&quot;</span>
+<span class="p">)</span>
 
-func setupTracing(ctx context.Context) {
-    provider, _ := otelkit.NewDefaultProvider(ctx, &quot;my-service&quot;, &quot;1.0.0&quot;)
-    // OtelKit handles global setup automatically
-}
+<span class="kd">func</span><span class="w"> </span><span class="nx">setupTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewDefaultProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1.0.0&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// OtelKit handles global setup automatically</span>
+<span class="p">}</span>
 
-func createSpan(ctx context.Context, operation string) (context.Context, trace.Span) {
-    tracer := otelkit.New(&quot;my-service&quot;)
-    return tracer.Start(ctx, operation)
-}
-</code></pre>
+<span class="kd">func</span><span class="w"> </span><span class="nx">createSpan</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">operation</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">trace</span><span class="p">.</span><span class="nx">Span</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">tracer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;my-service&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">operation</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="migrating-from-go-kit-tracing">Migrating from Go-Kit Tracing</h2>
 <h3 id="before-go-kit">Before (Go-Kit)</h3>
-<pre><code class="language-go">package main
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 
-import (
-    &quot;github.com/go-kit/kit/tracing/opentracing&quot;
-    &quot;github.com/opentracing/opentracing-go&quot;
-)
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;github.com/go-kit/kit/tracing/opentracing&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/opentracing/opentracing-go&quot;</span>
+<span class="p">)</span>
 
-func setupTracing() {
-    // Complex OpenTracing setup
-}
+<span class="kd">func</span><span class="w"> </span><span class="nx">setupTracing</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Complex OpenTracing setup</span>
+<span class="p">}</span>
 
-func createEndpoint() endpoint.Endpoint {
-    return opentracing.TraceEndpoint(tracer, &quot;operation-name&quot;, func(ctx context.Context, request interface{}) (interface{}, error) {
-        // Your endpoint logic
-        return nil, nil
-    })
-}
-</code></pre>
+<span class="kd">func</span><span class="w"> </span><span class="nx">createEndpoint</span><span class="p">()</span><span class="w"> </span><span class="nx">endpoint</span><span class="p">.</span><span class="nx">Endpoint</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">opentracing</span><span class="p">.</span><span class="nx">TraceEndpoint</span><span class="p">(</span><span class="nx">tracer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;operation-name&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="w"> </span><span class="kd">interface</span><span class="p">{})</span><span class="w"> </span><span class="p">(</span><span class="kd">interface</span><span class="p">{},</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Your endpoint logic</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="after-otelkit_2">After (OtelKit)</h3>
-<pre><code class="language-go">package main
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 
-import (
-    &quot;context&quot;
-    &quot;github.com/samims/otelkit&quot;
-)
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;context&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/samims/otelkit&quot;</span>
+<span class="p">)</span>
 
-func setupTracing(ctx context.Context) {
-    provider, _ := otelkit.NewDefaultProvider(ctx, &quot;my-service&quot;, &quot;1.0.0&quot;)
-}
+<span class="kd">func</span><span class="w"> </span><span class="nx">setupTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">provider</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewDefaultProvider</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1.0.0&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 
-func createHandler() http.HandlerFunc {
-    tracer := otelkit.New(&quot;my-service&quot;)
-    middleware := otelkit.NewHttpMiddleware(tracer)
+<span class="kd">func</span><span class="w"> </span><span class="nx">createHandler</span><span class="p">()</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">HandlerFunc</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">tracer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;my-service&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">middleware</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewHttpMiddleware</span><span class="p">(</span><span class="nx">tracer</span><span class="p">)</span>
 
-    handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-        // Your handler logic
-    })
+<span class="w">    </span><span class="nx">handler</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">HandlerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Your handler logic</span>
+<span class="w">    </span><span class="p">})</span>
 
-    return middleware.Middleware(handler).ServeHTTP
-}
-</code></pre>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">middleware</span><span class="p">.</span><span class="nx">Middleware</span><span class="p">(</span><span class="nx">handler</span><span class="p">).</span><span class="nx">ServeHTTP</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="version-upgrades">Version Upgrades</h2>
 <h3 id="upgrading-from-otelkit-v0x-to-v1x">Upgrading from OtelKit v0.x to v1.x</h3>
 <h4 id="breaking-changes">Breaking Changes</h4>
@@ -1352,40 +1168,42 @@ func createHandler() http.HandlerFunc {
 </ul>
 <h4 id="migration-steps">Migration Steps</h4>
 <ol>
-<li><strong>Update Configuration</strong></li>
-</ol>
-<pre><code class="language-go">// Old (v0.x)
-config := otelkit.Config{
-    ServiceName: &quot;my-service&quot;,
-    CollectorEndpoint: &quot;localhost:4317&quot;,
-}
+<li>
+<p><strong>Update Configuration</strong>
+<div class="highlight"><pre><span></span><code><span class="c1">// Old (v0.x)</span>
+<span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">ServiceName</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">CollectorEndpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;localhost:4317&quot;</span><span class="p">,</span>
+<span class="p">}</span>
 
-// New (v1.x)
-config := otelkit.NewProviderConfig(&quot;my-service&quot;, &quot;1.0.0&quot;).
-    WithOTLPExporter(&quot;localhost:4317&quot;, &quot;grpc&quot;, true)
-</code></pre>
-<ol>
-<li><strong>Update Middleware Usage</strong></li>
-</ol>
-<pre><code class="language-go">// Old (v0.x)
-middleware := otelkit.NewMiddleware(tracer)
-handler := middleware(handler)
+<span class="c1">// New (v1.x)</span>
+<span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;my-service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1.0.0&quot;</span><span class="p">).</span>
+<span class="w">    </span><span class="nx">WithOTLPExporter</span><span class="p">(</span><span class="s">&quot;localhost:4317&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grpc&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Update Middleware Usage</strong>
+<div class="highlight"><pre><span></span><code><span class="c1">// Old (v0.x)</span>
+<span class="nx">middleware</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewMiddleware</span><span class="p">(</span><span class="nx">tracer</span><span class="p">)</span>
+<span class="nx">handler</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">middleware</span><span class="p">(</span><span class="nx">handler</span><span class="p">)</span>
 
-// New (v1.x)
-middleware := otelkit.NewHttpMiddleware(tracer)
-handler := middleware.Middleware(handler)
-</code></pre>
-<ol>
-<li><strong>Update Environment Variables</strong></li>
-</ol>
-<pre><code class="language-bash"># Old (v0.x)
-export OTEL_COLLECTOR_ENDPOINT=localhost:4317
-export OTEL_SERVICE_NAME=my-service
+<span class="c1">// New (v1.x)</span>
+<span class="nx">middleware</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewHttpMiddleware</span><span class="p">(</span><span class="nx">tracer</span><span class="p">)</span>
+<span class="nx">handler</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">middleware</span><span class="p">.</span><span class="nx">Middleware</span><span class="p">(</span><span class="nx">handler</span><span class="p">)</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Update Environment Variables</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Old (v0.x)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_COLLECTOR_ENDPOINT</span><span class="o">=</span>localhost:4317
+<span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_SERVICE_NAME</span><span class="o">=</span>my-service
 
-# New (v1.x)
-export OTEL_EXPORTER_OTLP_ENDPOINT=localhost:4317
-export OTEL_SERVICE_NAME=my-service
-</code></pre>
+<span class="c1"># New (v1.x)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_EXPORTER_OTLP_ENDPOINT</span><span class="o">=</span>localhost:4317
+<span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_SERVICE_NAME</span><span class="o">=</span>my-service
+</code></pre></div></p>
+</li>
+</ol>
 <h3 id="upgrading-from-otelkit-v10-to-v11">Upgrading from OtelKit v1.0 to v1.1</h3>
 <h4 id="new-features">New Features</h4>
 <ul>
@@ -1394,74 +1212,74 @@ export OTEL_SERVICE_NAME=my-service
 <li>Enhanced error handling</li>
 </ul>
 <h4 id="migration-steps_1">Migration Steps</h4>
-<p>No breaking changes. Simply update your import:</p>
-<pre><code class="language-bash">go get github.com/samims/otelkit@latest
-</code></pre>
+<p>No breaking changes. Simply update your import:
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>get<span class="w"> </span>github.com/samims/otelkit@latest
+</code></pre></div></p>
 <h2 id="common-migration-patterns">Common Migration Patterns</h2>
 <h3 id="span-attributes-migration">Span Attributes Migration</h3>
 <h4 id="opentelemetry-sdk">OpenTelemetry SDK</h4>
-<pre><code class="language-go">// Before
-span.SetAttributes(
-    attribute.String(&quot;http.method&quot;, &quot;GET&quot;),
-    attribute.Int(&quot;http.status_code&quot;, 200),
-)
+<div class="highlight"><pre><span></span><code><span class="c1">// Before</span>
+<span class="nx">span</span><span class="p">.</span><span class="nx">SetAttributes</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;http.method&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;GET&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">Int</span><span class="p">(</span><span class="s">&quot;http.status_code&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">),</span>
+<span class="p">)</span>
 
-// After
-otelkit.AddAttributes(span,
-    attribute.String(&quot;http.method&quot;, &quot;GET&quot;),
-    attribute.Int(&quot;http.status_code&quot;, 200),
-)
-</code></pre>
+<span class="c1">// After</span>
+<span class="nx">otelkit</span><span class="p">.</span><span class="nx">AddAttributes</span><span class="p">(</span><span class="nx">span</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;http.method&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;GET&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">Int</span><span class="p">(</span><span class="s">&quot;http.status_code&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div>
 <h3 id="error-handling-migration">Error Handling Migration</h3>
 <h4 id="opentelemetry-sdk_1">OpenTelemetry SDK</h4>
-<pre><code class="language-go">// Before
-span.RecordError(err)
-span.SetStatus(codes.Error, err.Error())
+<div class="highlight"><pre><span></span><code><span class="c1">// Before</span>
+<span class="nx">span</span><span class="p">.</span><span class="nx">RecordError</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="nx">span</span><span class="p">.</span><span class="nx">SetStatus</span><span class="p">(</span><span class="nx">codes</span><span class="p">.</span><span class="nx">Error</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
 
-// After
-otelkit.RecordError(span, err)
-</code></pre>
+<span class="c1">// After</span>
+<span class="nx">otelkit</span><span class="p">.</span><span class="nx">RecordError</span><span class="p">(</span><span class="nx">span</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+</code></pre></div>
 <h3 id="context-propagation-migration">Context Propagation Migration</h3>
 <h4 id="opentracing">OpenTracing</h4>
-<pre><code class="language-go">// Before
-span := opentracing.StartSpan(&quot;operation&quot;)
-ctx := opentracing.ContextWithSpan(context.Background(), span)
+<div class="highlight"><pre><span></span><code><span class="c1">// Before</span>
+<span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">opentracing</span><span class="p">.</span><span class="nx">StartSpan</span><span class="p">(</span><span class="s">&quot;operation&quot;</span><span class="p">)</span>
+<span class="nx">ctx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">opentracing</span><span class="p">.</span><span class="nx">ContextWithSpan</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">(),</span><span class="w"> </span><span class="nx">span</span><span class="p">)</span>
 
-// After
-ctx, span := tracer.Start(context.Background(), &quot;operation&quot;)
-</code></pre>
+<span class="c1">// After</span>
+<span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;operation&quot;</span><span class="p">)</span>
+</code></pre></div>
 <h2 id="testing-migration">Testing Migration</h2>
 <h3 id="before-opentelemetry-sdk_1">Before (OpenTelemetry SDK)</h3>
-<pre><code class="language-go">func TestTracing(t *testing.T) {
-    exporter := tracetest.NewInMemoryExporter()
-    tp := sdktrace.NewTracerProvider(
-        sdktrace.WithSyncer(exporter),
-    )
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">TestTracing</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">exporter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracetest</span><span class="p">.</span><span class="nx">NewInMemoryExporter</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">tp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">NewTracerProvider</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">sdktrace</span><span class="p">.</span><span class="nx">WithSyncer</span><span class="p">(</span><span class="nx">exporter</span><span class="p">),</span>
+<span class="w">    </span><span class="p">)</span>
 
-    tracer := tp.Tracer(&quot;test&quot;)
-    _, span := tracer.Start(context.Background(), &quot;test-span&quot;)
-    span.End()
+<span class="w">    </span><span class="nx">tracer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tp</span><span class="p">.</span><span class="nx">Tracer</span><span class="p">(</span><span class="s">&quot;test&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;test-span&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">span</span><span class="p">.</span><span class="nx">End</span><span class="p">()</span>
 
-    spans := exporter.GetSpans()
-    assert.Len(t, spans, 1)
-}
-</code></pre>
+<span class="w">    </span><span class="nx">spans</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">exporter</span><span class="p">.</span><span class="nx">GetSpans</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">assert</span><span class="p">.</span><span class="nx">Len</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">spans</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="after-otelkit_3">After (OtelKit)</h3>
-<pre><code class="language-go">func TestTracing(t *testing.T) {
-    exporter := tracetest.NewInMemoryExporter()
-    config := otelkit.NewProviderConfig(&quot;test&quot;, &quot;1.0.0&quot;)
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">TestTracing</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">exporter</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracetest</span><span class="p">.</span><span class="nx">NewInMemoryExporter</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">config</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProviderConfig</span><span class="p">(</span><span class="s">&quot;test&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1.0.0&quot;</span><span class="p">)</span>
 
-    tp, err := otelkit.NewProvider(context.Background(), config)
-    require.NoError(t, err)
+<span class="w">    </span><span class="nx">tp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewProvider</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">(),</span><span class="w"> </span><span class="nx">config</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">require</span><span class="p">.</span><span class="nx">NoError</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
 
-    tracer := otelkit.New(&quot;test&quot;)
-    _, span := tracer.Start(context.Background(), &quot;test-span&quot;)
-    span.End()
+<span class="w">    </span><span class="nx">tracer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;test&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">span</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">tracer</span><span class="p">.</span><span class="nx">Start</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;test-span&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">span</span><span class="p">.</span><span class="nx">End</span><span class="p">()</span>
 
-    spans := exporter.GetSpans()
-    assert.Len(t, spans, 1)
-}
-</code></pre>
+<span class="w">    </span><span class="nx">spans</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">exporter</span><span class="p">.</span><span class="nx">GetSpans</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">assert</span><span class="p">.</span><span class="nx">Len</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">spans</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="performance-considerations">Performance Considerations</h2>
 <h3 id="memory-usage">Memory Usage</h3>
 <ul>
@@ -1484,15 +1302,15 @@ ctx, span := tracer.Start(context.Background(), &quot;operation&quot;)
 <li><strong>Monitor key metrics</strong> during migration</li>
 </ol>
 <h3 id="example-rollback-implementation">Example Rollback Implementation</h3>
-<pre><code class="language-go">var useOtelKit = os.Getenv(&quot;USE_OTELKIT&quot;) == &quot;true&quot;
+<div class="highlight"><pre><span></span><code><span class="kd">var</span><span class="w"> </span><span class="nx">useOtelKit</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;USE_OTELKIT&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
 
-func setupTracing(ctx context.Context) error {
-    if useOtelKit {
-        return setupOtelKit(ctx)
-    }
-    return setupLegacy(ctx)
-}
-</code></pre>
+<span class="kd">func</span><span class="w"> </span><span class="nx">setupTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">useOtelKit</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">setupOtelKit</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">setupLegacy</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="support">Support</h2>
 <p>For migration assistance:
 1. Check the <a href="../TROUBLESHOOTING/">troubleshooting guide</a>
@@ -1516,6 +1334,8 @@ func setupTracing(ctx context.Context) error {
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -1535,6 +1355,22 @@ func setupTracing(ctx context.Context) error {
   
 </div>
       
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/kernelshard/otelkit" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
     </div>
   </div>
 </footer>
@@ -1547,7 +1383,7 @@ func setupTracing(ctx context.Context) error {
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
