@@ -1,0 +1,82 @@
+/* Custom styles for compact, skimmable docs */
+
+:root {
+  --md-primary-fg-color: #1976d2;
+  --md-accent-fg-color: #ff4081;
+}
+
+/* Make content more compact */
+.md-content {
+  line-height: 1.4;
+}
+
+.md-content p, .md-content li {
+  margin-bottom: 0.8rem;
+}
+
+/* Improve code blocks */
+.codehilite .hll {
+  background-color: rgba(255, 255, 0, 0.1);
+}
+
+pre {
+  border-radius: 6px;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  padding: 1rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+code {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* Make headings more skimmable */
+.md-content h1, .md-content h2, .md-content h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.md-content h1 {
+  border-bottom: 2px solid var(--md-primary-fg-color);
+  padding-bottom: 0.5rem;
+}
+
+.md-content h2 {
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  padding-bottom: 0.3rem;
+}
+
+/* Compact navigation */
+.md-nav__link {
+  padding: 0.3rem 0.8rem;
+}
+
+/* Better spacing for API reference */
+.api-function {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 6px;
+  background: var(--md-code-bg-color);
+}
+
+.api-function h3 {
+  margin-top: 0;
+  color: var(--md-primary-fg-color);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .md-content {
+    padding: 1rem;
+  }
+
+  pre {
+    font-size: 0.8em;
+  }
+}
