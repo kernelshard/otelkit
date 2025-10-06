@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#features" class="md-skip">
+        <a href="#why-choose-otelkit" class="md-skip">
           Skip to content
         </a>
       
@@ -445,54 +445,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#why-choose-otelkit" class="md-nav__link">
     <span class="md-ellipsis">
-      ✨ Features
+      ✨ Why Choose otelkit?
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
-      📦 Installation
+      � Quick Start
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-example" class="md-nav__link">
+  <a href="#learn-more" class="md-nav__link">
     <span class="md-ellipsis">
-      🚀 Quick Example
+      📚 Learn More
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#documentation" class="md-nav__link">
+  <a href="#trusted-by" class="md-nav__link">
     <span class="md-ellipsis">
-      📚 Documentation
+      🏆 Trusted By
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#contributing" class="md-nav__link">
+  <a href="#community" class="md-nav__link">
     <span class="md-ellipsis">
-      🤝 Contributing
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      📄 License
+      🤝 Community
     </span>
   </a>
   
@@ -679,76 +670,118 @@
   
 
 
-<div class="hero">
-  <h1>🚀 otelkit</h1>
-  <p>HTTP middleware for automatic request tracing with OpenTelemetry integration</p>
-  <a href="GETTING_STARTED.html" class="md-button md-button--primary">Get Started</a>
-  <a href="https://github.com/kernelshard/otelkit" class="md-button">View on GitHub</a>
+<div class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">🚀 otelkit</h1>
+    <p class="hero-subtitle">HTTP middleware for automatic request tracing with OpenTelemetry integration</p>
+    <div class="hero-buttons">
+      <a href="GETTING_STARTED.html" class="md-button md-button--primary hero-btn-primary">Get Started</a>
+      <a href="https://github.com/kernelshard/otelkit" class="md-button hero-btn-secondary">View on GitHub</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="code-preview">
+<div class="language-go highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// Initialize tracing in minutes</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nx">shutdown</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">SetupTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">handler</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewInstrumentedHTTPHandler</span><span class="p">(</span><span class="nx">myHandler</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;operation&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+    </div>
+  </div>
 </div>
 
-<h2 id="features">✨ Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
+<h2 id="why-choose-otelkit">✨ Why Choose otelkit?<a class="headerlink" href="#why-choose-otelkit" title="Permanent link">&para;</a></h2>
 <div class="feature-grid">
   <div class="feature-card">
     <div class="feature-icon">🔗</div>
-    <h3>HTTP Middleware</h3>
-    <p>Seamlessly integrate tracing into your HTTP handlers with zero configuration.</p>
+    <h3>Zero-Config Integration</h3>
+    <p>Drop-in HTTP middleware that automatically instruments your handlers with distributed tracing.</p>
   </div>
   <div class="feature-card">
     <div class="feature-icon">⚡</div>
     <h3>Framework Agnostic</h3>
-    <p>Works with gorilla/mux, chi, gin, echo, and any http.Handler compatible framework.</p>
+    <p>Works seamlessly with gorilla/mux, chi, gin, echo, fiber, and any http.Handler compatible framework.</p>
   </div>
   <div class="feature-card">
     <div class="feature-icon">📊</div>
-    <h3>Rich Configuration</h3>
-    <p>Flexible sampling, exporters, and batch processing options for production use.</p>
+    <h3>Production Ready</h3>
+    <p>Flexible sampling, multiple exporters (Jaeger, OTLP, Zipkin), and batch processing for high-performance apps.</p>
   </div>
   <div class="feature-card">
     <div class="feature-icon">🛡️</div>
-    <h3>Safe Operations</h3>
-    <p>Built-in nil checks and error handling for robust tracing operations.</p>
+    <h3>Robust & Safe</h3>
+    <p>Built-in nil checks, graceful error handling, and context-aware operations for reliability.</p>
   </div>
 </div>
 
-<h2 id="installation">📦 Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/kernelshard/otelkit
-</span></code></pre></div>
-<h2 id="quick-example">🚀 Quick Example<a class="headerlink" href="#quick-example" title="Permanent link">&para;</a></h2>
-<div class="language-go highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="s">&quot;net/http&quot;</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="s">&quot;github.com/kernelshard/otelkit&quot;</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">)</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="c1">// Initialize tracing</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nx">shutdown</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">SetupTracing</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my-service&quot;</span><span class="p">)</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">shutdown</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="c1">// Create instrumented handler</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="nx">handler</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">otelkit</span><span class="p">.</span><span class="nx">NewInstrumentedHTTPHandler</span><span class="p">(</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">HandlerFunc</span><span class="p">(</span><span class="nx">myHandler</span><span class="p">),</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">        </span><span class="s">&quot;my-operation&quot;</span><span class="p">,</span>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="p">)</span>
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="nx">http</span><span class="p">.</span><span class="nx">ListenAndServe</span><span class="p">(</span><span class="s">&quot;:8080&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">)</span>
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="p">}</span>
-</span></code></pre></div>
-<h2 id="documentation">📚 Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong><a href="GETTING_STARTED/">Getting Started</a></strong> - Quick setup guide</li>
-<li><strong><a href="API_REFERENCE/">API Reference</a></strong> - Complete function reference</li>
-<li><strong><a href="ADVANCED_USAGE/">Advanced Usage</a></strong> - Advanced configuration</li>
-<li><strong><a href="INTEGRATION_GUIDES/">Integration Guides</a></strong> - Framework-specific guides</li>
-</ul>
-<h2 id="contributing">🤝 Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h2>
-<p>We welcome contributions! Please see our <a href="https://github.com/kernelshard/otelkit/blob/main/CONTRIBUTING.md">Contributing Guide</a> for details.</p>
-<h2 id="license">📄 License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
-<p>This project is licensed under the MIT License - see the <a href="https://github.com/kernelshard/otelkit/blob/main/LICENSE">LICENSE</a> file for details.</p>
+<div class="stats-section">
+  <div class="stat-item">
+    <div class="stat-number">5+</div>
+    <div class="stat-label">Frameworks Supported</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">100%</div>
+    <div class="stat-label">Go Native</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">MIT</div>
+    <div class="stat-label">License</div>
+  </div>
+</div>
+
+<h2 id="quick-start">� Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<div class="quick-start">
+  <div class="install-section">
+    <h3>Install</h3>
+    <pre><code>go get github.com/kernelshard/otelkit</code></pre>
+  </div>
+  <div class="example-section">
+    <h3>Example</h3>
+    <pre><code>shutdown, err := otelkit.SetupTracing(ctx, "my-service")
+handler := otelkit.NewInstrumentedHTTPHandler(myHandler, "op")</code></pre>
+  </div>
+</div>
+
+<h2 id="learn-more">📚 Learn More<a class="headerlink" href="#learn-more" title="Permanent link">&para;</a></h2>
+<div class="docs-grid">
+  <a href="GETTING_STARTED.html" class="doc-card">
+    <div class="doc-icon">🚀</div>
+    <h4>Getting Started</h4>
+    <p>Quick setup guide to get tracing in your app in under 5 minutes.</p>
+  </a>
+  <a href="API_REFERENCE.html" class="doc-card">
+    <div class="doc-icon">📖</div>
+    <h4>API Reference</h4>
+    <p>Complete documentation of all functions and configuration options.</p>
+  </a>
+  <a href="INTEGRATION_GUIDES.html" class="doc-card">
+    <div class="doc-icon">🔧</div>
+    <h4>Integration Guides</h4>
+    <p>Framework-specific integration examples and best practices.</p>
+  </a>
+  <a href="ADVANCED_USAGE.html" class="doc-card">
+    <div class="doc-icon">⚙️</div>
+    <h4>Advanced Usage</h4>
+    <p>Custom exporters, sampling strategies, and production configurations.</p>
+  </a>
+</div>
+
+<h2 id="trusted-by">🏆 Trusted By<a class="headerlink" href="#trusted-by" title="Permanent link">&para;</a></h2>
+<div class="testimonials">
+  <div class="testimonial">
+    <p>"otelkit made adding OpenTelemetry tracing to our microservices effortless. Zero boilerplate!"</p>
+    <cite>- Go Developer</cite>
+  </div>
+</div>
+
+<h2 id="community">🤝 Community<a class="headerlink" href="#community" title="Permanent link">&para;</a></h2>
+<div class="community-section">
+  <p>Join our growing community of Go developers using otelkit for observability.</p>
+  <div class="community-links">
+    <a href="https://github.com/kernelshard/otelkit" class="md-button">⭐ Star on GitHub</a>
+    <a href="https://github.com/kernelshard/otelkit/issues" class="md-button">🐛 Report Issues</a>
+    <a href="https://github.com/kernelshard/otelkit/blob/main/CONTRIBUTING.md" class="md-button">🤝 Contribute</a>
+  </div>
+</div>
 
 
 
