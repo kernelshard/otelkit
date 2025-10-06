@@ -83,13 +83,13 @@
 }
 
 .code-preview {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   padding: 2rem;
   font-family: 'Roboto Mono', monospace;
   font-size: 0.9rem;
-  color: #e0e7ff;
+  color: #ffffff;
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   max-width: 400px;
@@ -99,6 +99,7 @@
   background: none;
   color: inherit;
   padding: 0;
+  font-size: inherit;
 }
 
 /* Stats Section */
@@ -150,16 +151,18 @@
 
 .quick-start pre {
   margin: 1rem 0 0 0;
-  background: var(--md-code-bg-color);
-  border: none;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--md-default-fg-color--lightest);
   padding: 1rem;
   border-radius: 8px;
+  overflow-x: auto;
 }
 
 .quick-start code {
   background: none;
   color: inherit;
   font-size: 0.9rem;
+  word-break: break-word;
 }
 
 /* Docs Grid */
@@ -235,8 +238,9 @@
   text-align: center;
   margin: 3rem 0;
   padding: 2rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   border-radius: 12px;
+  border: 1px solid var(--md-default-fg-color--lightest);
 }
 
 .community-section p {
@@ -288,6 +292,10 @@ pre {
   padding: 1rem;
   margin: 1rem 0;
   overflow-x: auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
 }
 
 code {
@@ -295,6 +303,19 @@ code {
   padding: 0.2em 0.4em;
   border-radius: 3px;
   font-size: 0.9em;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Ensure all code blocks in various contexts have proper overflow */
+.md-content pre,
+.quick-start pre,
+.code-preview pre {
+  overflow-x: auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
 }
 
 /* Make headings more skimmable */
@@ -336,13 +357,13 @@ code {
 /* Feature cards */
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
   margin: 2rem 0;
 }
 
 .feature-card {
-  padding: 2rem 1.5rem;
+  padding: 1.5rem 1rem;
   border: 1px solid var(--md-default-fg-color--lightest);
   border-radius: 12px;
   text-align: center;
@@ -358,7 +379,7 @@ code {
 }
 
 .feature-icon {
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin-bottom: 1rem;
   display: block;
 }
@@ -366,13 +387,14 @@ code {
 .feature-card h3 {
   margin: 0 0 0.5rem 0;
   color: var(--md-primary-fg-color);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .feature-card p {
   margin: 0;
   color: var(--md-default-fg-color--light);
   line-height: 1.5;
+  font-size: 0.9rem;
 }
 
 /* Responsive design */
@@ -386,6 +408,7 @@ code {
     text-align: center;
     padding: 2rem 1rem;
     margin: -1rem -1rem 2rem -1rem;
+    min-height: auto;
   }
 
   .hero-title {
@@ -402,6 +425,7 @@ code {
 
   .quick-start {
     grid-template-columns: 1fr;
+    padding: 1.5rem;
   }
 
   .docs-grid {
@@ -410,6 +434,11 @@ code {
 
   .feature-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .feature-card {
+    padding: 1rem;
   }
 
   .community-links {
@@ -419,5 +448,13 @@ code {
 
   pre {
     font-size: 0.8em;
+    overflow-x: auto;
+    word-break: break-word;
+  }
+
+  .code-preview {
+    max-width: 100%;
+    padding: 1.5rem;
+    font-size: 0.8rem;
   }
 }
