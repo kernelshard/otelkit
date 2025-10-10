@@ -67,3 +67,8 @@ env/
 venv/
 ENV/
 .venv
+
+# Coverage files
+coverage.html
+coverage.out
+examples/basic/basic

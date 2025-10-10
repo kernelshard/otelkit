@@ -103,19 +103,40 @@ func main() {
 		}
 	})
 
-	// Error handler demonstrating error recording
+	// Error handler demonstrating enhanced error recording
 	mux.HandleFunc("/error", func(w http.ResponseWriter, r *http.Request) {
 		_, span := tracer.Start(r.Context(), "handle-error")
 		defer span.End()
 
-		// Simulate an error
-		err := fmt.Errorf("something went wrong")
-		otelkit.RecordError(span, err)
-		span.SetAttributes(attribute.Bool("error", true))
+		// Simulate different types of errors to demonstrate classification
+		errorType := r.URL.Query().Get("type")
+		var err error
+
+		switch errorType {
+		case "network":
+			err = fmt.Errorf("connection timeout: failed to connect to external service")
+		case "validation":
+			err = fmt.Errorf("validation failed: invalid email format")
+		case "database":
+			err = fmt.Errorf("database error: connection refused")
+		default:
+			err = fmt.Errorf("something went wrong")
+		}
+
+		// Use enhanced error recording with automatic classification
+		otelkit.RecordErrorEnhanced(span, err,
+			otelkit.WithStackTrace(true),
+			otelkit.WithErrorCode("EXAMPLE_ERROR"),
+			otelkit.WithErrorAttributes(
+				attribute.String("error.source", "example-handler"),
+				attribute.Bool("error.simulated", true),
+			),
+		)
 
 		w.WriteHeader(http.StatusInternalServerError)
 		if err := json.NewEncoder(w).Encode(map[string]string{
 			"error": err.Error(),
+			"note":  "Check traces for enhanced error classification and stack traces",
 		}); err != nil {
 			log.Printf("Error encoding JSON response: %v", err)
 		}

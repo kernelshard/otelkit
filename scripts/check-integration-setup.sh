@@ -61,8 +61,8 @@ done
 # Check if integration test files exist
 echo "Checking integration test files..."
 FILES=(
-    "integration_test.go"
-    "docker-compose.integration.yml" 
+    "integration/integration_test.go"
+    "docker/docker-compose.integration.yml"
     "testdata/otel-collector-config.yaml"
 )
 
@@ -77,10 +77,10 @@ done
 
 # Check build tags
 echo "Checking build tags..."
-if grep -q "//go:build integration" integration_test.go; then
+if grep -q "//go:build integration" integration/integration_test.go; then
     echo "✅ Integration build tag found"
 else
-    echo "❌ Integration build tag missing from integration_test.go"
+    echo "❌ Integration build tag missing from integration/integration_test.go"
     exit 1
 fi
 

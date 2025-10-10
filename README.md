@@ -244,6 +244,7 @@ config.WithBatchOptions(
 - **`AddAttributes(span, ...attrs)`** - Safely add attributes to span
 - **`AddEvent(span, name, ...attrs)`** - Add timestamped event to span
 - **`RecordError(span, err)`** - Record error and set span status
+- **`RecordErrorEnhanced(span, err, ...opts)`** - Enhanced error recording with classification and options
 - **`EndSpan(span)`** - Safely end span
 
 ### Deprecated Functions (Avoid for new code)

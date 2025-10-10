@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.5-alpha] - 2025-10-06
+
+### Added
+- **Enhanced Error Handling**: Comprehensive error recording with explicit classification
+  - `RecordErrorEnhanced()` function with configurable error types (Network, Database, Validation, System, Custom)
+  - Optional stack trace capture for debugging
+  - Custom error codes and attributes support
+  - Zero-boilerplate API with functional options pattern
+- **Error Classification Types**: Type-safe error categorization for better observability
+- **Integration Test Suite**: Complete end-to-end testing for enhanced error handling
+- **Repository Reorganization**: Cleaner project structure with proper directory organization
+
+### Changed
+- **API Design**: Simplified error handling to explicit user-controlled classification
+- **Project Structure**: Moved files to appropriate directories (docker/, docs/release/, integration/)
+
+### Technical Details
+- Enhanced error spans include: `error.type`, `error.code`, `error.stack_trace` attributes
+- Nil-safe implementation with proper error handling
+- Performance optimized with minimal overhead
+- Full backward compatibility maintained
+
 ## [0.4.0] - 2025-10-06
 
 ### Added

@@ -273,3 +273,61 @@ func RecordErrorWithCode(span trace.Span, err error, code string, message string
 
 // ErrorCodeExternalService is a constant for external service errors.
 const ErrorCodeExternalService = tracer.ErrorCodeExternalService
+
+// ErrorType represents the classification of an error for better observability.
+type ErrorType = tracer.ErrorType
+
+const (
+	// ErrorTypeNetwork represents network-related errors
+	ErrorTypeNetwork = tracer.ErrorTypeNetwork
+	// ErrorTypeDatabase represents database-related errors
+	ErrorTypeDatabase = tracer.ErrorTypeDatabase
+	// ErrorTypeValidation represents validation errors
+	ErrorTypeValidation = tracer.ErrorTypeValidation
+	// ErrorTypeSystem represents system-level errors
+	ErrorTypeSystem = tracer.ErrorTypeSystem
+	// ErrorTypeCustom represents application-specific custom errors
+	ErrorTypeCustom = tracer.ErrorTypeCustom
+)
+
+// ErrorOption represents a configuration option for error recording.
+type ErrorOption = tracer.ErrorOption
+
+// WithErrorType sets the error type for classification.
+func WithErrorType(errorType ErrorType) ErrorOption {
+	return tracer.WithErrorType(errorType)
+}
+
+// WithStackTrace enables or disables stack trace capture.
+func WithStackTrace(enabled bool) ErrorOption {
+	return tracer.WithStackTrace(enabled)
+}
+
+// WithErrorCode sets a custom error code for the error.
+func WithErrorCode(code string) ErrorOption {
+	return tracer.WithErrorCode(code)
+}
+
+// WithErrorAttributes adds custom attributes to the error span.
+func WithErrorAttributes(attrs ...attribute.KeyValue) ErrorOption {
+	return tracer.WithErrorAttributes(attrs...)
+}
+
+// RecordErrorEnhanced records an error on the span with enhanced classification and options.
+// This function provides smart error recording with automatic classification, optional stack traces,
+// and flexible configuration through options.
+//
+// Example:
+//
+//	// Basic usage with automatic classification
+//	otelkit.RecordErrorEnhanced(span, err)
+//
+//	// With custom options
+//	otelkit.RecordErrorEnhanced(span, err,
+//	    otelkit.WithErrorType(otelkit.ErrorTypeValidation),
+//	    otelkit.WithStackTrace(true),
+//	    otelkit.WithErrorCode("VALIDATION_FAILED"),
+//	)
+func RecordErrorEnhanced(span trace.Span, err error, opts ...ErrorOption) {
+	tracer.RecordErrorEnhanced(span, err, opts...)
+}
