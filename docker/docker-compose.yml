@@ -1,0 +1,38 @@
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector:0.96.0
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ../testdata/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+      - "13133:13133"
+    depends_on:
+      - jaeger
+    networks:
+      - otelkit-net
+    
+  
+  jaeger:
+    image: jaegertracing/all-in-one:1.53
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+      - "14250:14250"
+      - "4317"
+    networks:
+      - otelkit-net
+  
+  prometheus:
+    image: prom/prometheus:v2.50.1
+    ports:
+      - "9090:9090"
+    networks:
+      - otelkit-net
+
+networks:
+  otelkit-net:
+    driver: bridge
