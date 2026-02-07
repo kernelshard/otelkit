@@ -26,6 +26,10 @@ exporters:
   # Debug exporter for development
   logging:
     loglevel: debug
+  otlp/jaeger:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
 
 extensions:
   # Health check extension
@@ -47,7 +51,7 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch, memory_limiter]
-      exporters: [logging]
+      exporters: [logging, otlp/jaeger]
 
     # Metrics pipeline (simplified)
     metrics:
