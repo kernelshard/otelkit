@@ -39,6 +39,7 @@ func main() {
 
 	// Initialize tracer provider
 	provider, err := otelkit.NewProvider(ctx, config)
+	otelkit.SetGlobalTracerProvider(provider)
 	if err != nil {
 		log.Fatalf("Failed to create tracer provider: %v", err)
 	}
